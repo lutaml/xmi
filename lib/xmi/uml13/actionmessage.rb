@@ -1,0 +1,3 @@
+
+# --- actionmessage.rb ---
+require 'shale'

@@ -1,0 +1,3 @@
+
+# --- package.rb ---
+require 'shale'

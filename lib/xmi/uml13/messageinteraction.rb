@@ -1,0 +1,3 @@
+
+# --- messageinteraction.rb ---
+require 'shale'

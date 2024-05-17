@@ -1,0 +1,3 @@
+
+# --- diagramowner.rb ---
+require 'shale'

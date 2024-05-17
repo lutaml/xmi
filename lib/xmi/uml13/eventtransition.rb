@@ -1,0 +1,3 @@
+
+# --- eventtransition.rb ---
+require 'shale'

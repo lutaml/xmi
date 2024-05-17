@@ -1,0 +1,3 @@
+
+# --- stateentry.rb ---
+require 'shale'

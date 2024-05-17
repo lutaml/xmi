@@ -1,0 +1,3 @@
+
+# --- structure.rb ---
+require 'shale'

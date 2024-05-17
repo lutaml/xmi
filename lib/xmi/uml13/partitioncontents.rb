@@ -1,0 +1,3 @@
+
+# --- partitioncontents.rb ---
+require 'shale'

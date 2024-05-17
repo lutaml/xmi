@@ -1,0 +1,3 @@
+
+# --- dependencyclient.rb ---
+require 'shale'

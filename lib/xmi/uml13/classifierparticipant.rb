@@ -1,0 +1,3 @@
+
+# --- classifierparticipant.rb ---
+require 'shale'

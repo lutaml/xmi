@@ -1,0 +1,3 @@
+
+# --- dependency.rb ---
+require 'shale'

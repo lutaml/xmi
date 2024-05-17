@@ -1,0 +1,3 @@
+
+# --- interactioncontext.rb ---
+require 'shale'

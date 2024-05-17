@@ -1,0 +1,3 @@
+
+# --- refinement.rb ---
+require 'shale'

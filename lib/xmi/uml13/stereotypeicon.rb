@@ -1,0 +1,3 @@
+
+# --- stereotypeicon.rb ---
+require 'shale'

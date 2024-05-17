@@ -1,0 +1,3 @@
+
+# --- guardexpression.rb ---
+require 'shale'

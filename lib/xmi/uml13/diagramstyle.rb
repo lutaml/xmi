@@ -1,0 +1,3 @@
+
+# --- diagramstyle.rb ---
+require 'shale'

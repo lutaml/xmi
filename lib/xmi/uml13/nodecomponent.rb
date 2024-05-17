@@ -1,0 +1,3 @@
+
+# --- nodecomponent.rb ---
+require 'shale'

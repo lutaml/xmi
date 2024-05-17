@@ -1,0 +1,3 @@
+
+# --- stereotype.rb ---
+require 'shale'

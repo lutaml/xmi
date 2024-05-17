@@ -1,0 +1,3 @@
+
+# --- abstraction.rb ---
+require 'shale'

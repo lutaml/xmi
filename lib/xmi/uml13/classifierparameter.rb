@@ -1,0 +1,3 @@
+
+# --- classifierparameter.rb ---
+require 'shale'

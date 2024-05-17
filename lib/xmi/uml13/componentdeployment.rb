@@ -1,0 +1,3 @@
+
+# --- componentdeployment.rb ---
+require 'shale'

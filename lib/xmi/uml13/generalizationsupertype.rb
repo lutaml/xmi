@@ -1,0 +1,3 @@
+
+# --- generalizationsupertype.rb ---
+require 'shale'

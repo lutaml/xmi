@@ -1,0 +1,3 @@
+
+# --- attribute.rb ---
+require 'shale'

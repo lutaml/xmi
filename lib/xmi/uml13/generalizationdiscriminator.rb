@@ -1,0 +1,3 @@
+
+# --- generalizationdiscriminator.rb ---
+require 'shale'

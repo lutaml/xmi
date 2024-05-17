@@ -1,0 +1,3 @@
+
+# --- presentationgeometry.rb ---
+require 'shale'

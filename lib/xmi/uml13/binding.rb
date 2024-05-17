@@ -1,0 +1,3 @@
+
+# --- binding.rb ---
+require 'shale'

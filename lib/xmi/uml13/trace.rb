@@ -1,0 +1,3 @@
+
+# --- trace.rb ---
+require 'shale'

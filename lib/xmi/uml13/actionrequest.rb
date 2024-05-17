@@ -1,0 +1,3 @@
+
+# --- actionrequest.rb ---
+require 'shale'

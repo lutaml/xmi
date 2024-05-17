@@ -1,0 +1,3 @@
+
+# --- expressionbody.rb ---
+require 'shale'

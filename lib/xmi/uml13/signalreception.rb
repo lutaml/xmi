@@ -1,0 +1,3 @@
+
+# --- signalreception.rb ---
+require 'shale'

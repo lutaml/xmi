@@ -1,0 +1,3 @@
+
+# --- constraint.rb ---
+require 'shale'

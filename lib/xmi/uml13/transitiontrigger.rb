@@ -1,0 +1,3 @@
+
+# --- transitiontrigger.rb ---
+require 'shale'

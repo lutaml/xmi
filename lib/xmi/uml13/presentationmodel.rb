@@ -1,0 +1,3 @@
+
+# --- presentationmodel.rb ---
+require 'shale'

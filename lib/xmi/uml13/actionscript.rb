@@ -1,0 +1,3 @@
+
+# --- actionscript.rb ---
+require 'shale'

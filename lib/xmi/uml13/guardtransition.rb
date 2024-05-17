@@ -1,0 +1,3 @@
+
+# --- guardtransition.rb ---
+require 'shale'

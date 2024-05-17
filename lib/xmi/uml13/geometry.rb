@@ -1,0 +1,3 @@
+
+# --- geometry.rb ---
+require 'shale'

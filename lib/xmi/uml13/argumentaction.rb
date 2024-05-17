@@ -1,0 +1,3 @@
+
+# --- argumentaction.rb ---
+require 'shale'

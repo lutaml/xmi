@@ -1,0 +1,3 @@
+
+# --- exceptioncontext.rb ---
+require 'shale'

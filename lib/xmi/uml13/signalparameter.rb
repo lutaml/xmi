@@ -1,0 +1,3 @@
+
+# --- signalparameter.rb ---
+require 'shale'

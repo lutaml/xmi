@@ -1,0 +1,3 @@
+
+# --- operationspecification.rb ---
+require 'shale'

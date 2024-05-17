@@ -1,0 +1,3 @@
+
+# --- mapping.rb ---
+require 'shale'

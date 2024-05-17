@@ -1,0 +1,3 @@
+
+# --- linkassociation.rb ---
+require 'shale'

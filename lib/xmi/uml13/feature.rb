@@ -1,0 +1,3 @@
+
+# --- feature.rb ---
+require 'shale'

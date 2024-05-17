@@ -1,0 +1,3 @@
+
+# --- request.rb ---
+require 'shale'

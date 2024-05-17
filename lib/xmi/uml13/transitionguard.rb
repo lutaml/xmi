@@ -1,0 +1,3 @@
+
+# --- transitionguard.rb ---
+require 'shale'

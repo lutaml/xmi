@@ -1,0 +1,3 @@
+
+# --- operationoccurrence.rb ---
+require 'shale'

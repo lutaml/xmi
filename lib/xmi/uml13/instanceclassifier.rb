@@ -1,0 +1,3 @@
+
+# --- instanceclassifier.rb ---
+require 'shale'

@@ -1,0 +1,3 @@
+
+# --- operationconcurrency.rb ---
+require 'shale'

@@ -1,0 +1,3 @@
+
+# --- parametersignal.rb ---
+require 'shale'

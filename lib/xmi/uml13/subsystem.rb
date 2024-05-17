@@ -1,0 +1,3 @@
+
+# --- subsystem.rb ---
+require 'shale'

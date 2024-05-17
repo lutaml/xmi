@@ -1,0 +1,3 @@
+
+# --- componentimplements.rb ---
+require 'shale'

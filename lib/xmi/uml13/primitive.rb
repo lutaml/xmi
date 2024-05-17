@@ -1,0 +1,3 @@
+
+# --- primitive.rb ---
+require 'shale'

@@ -1,0 +1,3 @@
+
+# --- core.rb ---
+require 'shale'

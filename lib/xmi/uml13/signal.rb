@@ -1,0 +1,3 @@
+
+# --- signal.rb ---
+require 'shale'

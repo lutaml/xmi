@@ -1,0 +1,3 @@
+
+# --- event.rb ---
+require 'shale'

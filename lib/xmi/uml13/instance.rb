@@ -1,0 +1,3 @@
+
+# --- instance.rb ---
+require 'shale'

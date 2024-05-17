@@ -1,0 +1,3 @@
+
+# --- signaloccurrence.rb ---
+require 'shale'

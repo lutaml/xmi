@@ -1,0 +1,3 @@
+
+# --- receptionspecification.rb ---
+require 'shale'

@@ -1,0 +1,3 @@
+
+# --- model.rb ---
+require 'shale'

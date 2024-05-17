@@ -1,0 +1,3 @@
+
+# --- messagereceiver.rb ---
+require 'shale'

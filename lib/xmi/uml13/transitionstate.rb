@@ -1,0 +1,3 @@
+
+# --- transitionstate.rb ---
+require 'shale'

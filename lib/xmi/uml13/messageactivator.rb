@@ -1,0 +1,3 @@
+
+# --- messageactivator.rb ---
+require 'shale'

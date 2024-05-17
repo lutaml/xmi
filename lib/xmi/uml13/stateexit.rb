@@ -1,0 +1,3 @@
+
+# --- stateexit.rb ---
+require 'shale'

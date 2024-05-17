@@ -1,0 +1,3 @@
+
+# --- classifiercollaboration.rb ---
+require 'shale'

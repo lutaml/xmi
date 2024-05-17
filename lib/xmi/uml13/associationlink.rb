@@ -1,0 +1,3 @@
+
+# --- associationlink.rb ---
+require 'shale'

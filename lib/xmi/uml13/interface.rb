@@ -1,0 +1,3 @@
+
+# --- interface.rb ---
+require 'shale'

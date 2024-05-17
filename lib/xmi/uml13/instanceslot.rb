@@ -1,0 +1,3 @@
+
+# --- instanceslot.rb ---
+require 'shale'

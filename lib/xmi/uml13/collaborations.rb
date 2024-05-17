@@ -1,0 +1,3 @@
+
+# --- collaborations.rb ---
+require 'shale'

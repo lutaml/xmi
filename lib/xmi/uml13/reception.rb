@@ -1,0 +1,3 @@
+
+# --- reception.rb ---
+require 'shale'

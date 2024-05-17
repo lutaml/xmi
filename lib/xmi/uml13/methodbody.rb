@@ -1,0 +1,3 @@
+
+# --- methodbody.rb ---
+require 'shale'

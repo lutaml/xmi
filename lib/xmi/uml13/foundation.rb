@@ -1,0 +1,3 @@
+
+# --- foundation.rb ---
+require 'shale'

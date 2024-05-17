@@ -1,0 +1,3 @@
+
+# --- presentation.rb ---
+require 'shale'

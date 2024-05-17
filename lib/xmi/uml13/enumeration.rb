@@ -1,0 +1,3 @@
+
+# --- enumeration.rb ---
+require 'shale'

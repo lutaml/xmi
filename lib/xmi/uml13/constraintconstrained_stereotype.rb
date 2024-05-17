@@ -1,3 +1,14 @@
-
-# --- constraintconstrained_stereotype.rb ---
 require 'shale'
+
+require_relative 'stereotype'
+
+class ConstraintconstrainedStereotype < Shale::Mapper
+  attribute :stereotype, Stereotype, collection: true
+
+  xml do
+    root 'Constraint.constrainedStereotype'
+    namespace 'omg.org/UML1.3', 'UML'
+
+    map_element 'Stereotype', to: :stereotype
+  end
+end

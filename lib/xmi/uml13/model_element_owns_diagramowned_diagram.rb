@@ -1,3 +1,14 @@
-
-# --- model_element_owns_diagramowned_diagram.rb ---
 require 'shale'
+
+require_relative 'diagram'
+
+class ModelElementOwnsDiagramownedDiagram < Shale::Mapper
+  attribute :diagram, Diagram, collection: true
+
+  xml do
+    root 'ModelElementOwnsDiagram.ownedDiagram'
+    namespace 'omg.org/UML1.3', 'UML'
+
+    map_element 'Diagram', to: :diagram
+  end
+end

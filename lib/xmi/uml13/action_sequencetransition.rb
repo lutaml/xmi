@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'transition'
+require "shale"
 
-class ActionSequencetransition < Shale::Mapper
-  attribute :transition, Transition, collection: true
+require_relative "transition"
 
-  xml do
-    root 'ActionSequence.transition'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ActionSequencetransition < Shale::Mapper
+      attribute :transition, Transition, collection: true
 
-    map_element 'Transition', to: :transition
+      xml do
+        root "ActionSequence.transition"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Transition", to: :transition
+      end
+    end
   end
 end

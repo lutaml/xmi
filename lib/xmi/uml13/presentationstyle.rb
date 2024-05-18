@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'graphic_marker'
+require "shale"
 
-class Presentationstyle < Shale::Mapper
-  attribute :graphic_marker, GraphicMarker
+require_relative "graphic_marker"
 
-  xml do
-    root 'Presentation.style'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Presentationstyle < Shale::Mapper
+      attribute :graphic_marker, GraphicMarker
 
-    map_element 'GraphicMarker', to: :graphic_marker
+      xml do
+        root "Presentation.style"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "GraphicMarker", to: :graphic_marker
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'message'
+require "shale"
 
-class Actionmessage < Shale::Mapper
-  attribute :message, Message, collection: true
+require_relative "message"
 
-  xml do
-    root 'Action.message'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Actionmessage < Shale::Mapper
+      attribute :message, Message, collection: true
 
-    map_element 'Message', to: :message
+      xml do
+        root "Action.message"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Message", to: :message
+      end
+    end
   end
 end

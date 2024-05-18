@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'state_vertex'
+require "shale"
 
-class Transitiontarget < Shale::Mapper
-  attribute :state_vertex, StateVertex, collection: true
+require_relative "state_vertex"
 
-  xml do
-    root 'Transition.target'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Transitiontarget < Shale::Mapper
+      attribute :state_vertex, StateVertex, collection: true
 
-    map_element 'StateVertex', to: :state_vertex
+      xml do
+        root "Transition.target"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "StateVertex", to: :state_vertex
+      end
+    end
   end
 end

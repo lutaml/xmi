@@ -1,14 +1,23 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'action'
+require "shale"
 
-class Argumentaction < Shale::Mapper
-  attribute :action, Action, collection: true
+require_relative "action"
 
-  xml do
-    root 'Argument.action'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Action < Shale::Mapper
+    end
 
-    map_element 'Action', to: :action
+    class Argumentaction < Shale::Mapper
+      attribute :action, Action, collection: true
+
+      xml do
+        root "Argument.action"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Action", to: :action
+      end
+    end
   end
 end

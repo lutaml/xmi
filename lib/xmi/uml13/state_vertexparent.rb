@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'composite_state'
+require "shale"
 
-class StateVertexparent < Shale::Mapper
-  attribute :composite_state, CompositeState, collection: true
+require_relative "composite_state"
 
-  xml do
-    root 'StateVertex.parent'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class StateVertexparent < Shale::Mapper
+      attribute :composite_state, CompositeState, collection: true
 
-    map_element 'CompositeState', to: :composite_state
+      xml do
+        root "StateVertex.parent"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "CompositeState", to: :composite_state
+      end
+    end
   end
 end

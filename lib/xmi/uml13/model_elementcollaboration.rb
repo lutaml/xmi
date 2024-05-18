@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'collaboration'
+require "shale"
 
-class ModelElementcollaboration < Shale::Mapper
-  attribute :collaboration, Collaboration, collection: true
+module Xmi
+  module Uml13
+    class Collaboration < Shale::Mapper
+    end
 
-  xml do
-    root 'ModelElement.collaboration'
-    namespace 'omg.org/UML1.3', 'UML'
+    class ModelElementcollaboration < Shale::Mapper
+      attribute :collaboration, Collaboration, collection: true
 
-    map_element 'Collaboration', to: :collaboration
+      xml do
+        root "ModelElement.collaboration"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Collaboration", to: :collaboration
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'interaction'
+require "shale"
 
-class Collaborationinteraction < Shale::Mapper
-  attribute :interaction, Interaction, collection: true
+require_relative "interaction"
 
-  xml do
-    root 'Collaboration.interaction'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Collaborationinteraction < Shale::Mapper
+      attribute :interaction, Interaction, collection: true
 
-    map_element 'Interaction', to: :interaction
+      xml do
+        root "Collaboration.interaction"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Interaction", to: :interaction
+      end
+    end
   end
 end

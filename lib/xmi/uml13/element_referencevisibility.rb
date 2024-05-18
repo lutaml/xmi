@@ -1,12 +1,18 @@
-require 'shale'
+# frozen_string_literal: true
 
-class ElementReferencevisibility < Shale::Mapper
-  attribute :xmi_value, Shale::Type::String
+require "shale"
 
-  xml do
-    root 'ElementReference.visibility'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ElementReferencevisibility < Shale::Mapper
+      attribute :xmi_value, Shale::Type::String
 
-    map_attribute 'xmi.value', to: :xmi_value
+      xml do
+        root "ElementReference.visibility"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_attribute "xmi.value", to: :xmi_value
+      end
+    end
   end
 end

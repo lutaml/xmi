@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'guard'
+require "shale"
 
-class Transitionguard < Shale::Mapper
-  attribute :guard, Guard, collection: true
+require_relative "guard"
 
-  xml do
-    root 'Transition.guard'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Transitionguard < Shale::Mapper
+      attribute :guard, Guard, collection: true
 
-    map_element 'Guard', to: :guard
+      xml do
+        root "Transition.guard"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Guard", to: :guard
+      end
+    end
   end
 end

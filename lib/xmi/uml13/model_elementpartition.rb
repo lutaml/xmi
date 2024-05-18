@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'partition'
+require "shale"
 
-class ModelElementpartition < Shale::Mapper
-  attribute :partition, Partition, collection: true
+require_relative "partition"
 
-  xml do
-    root 'ModelElement.partition'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ModelElementpartition < Shale::Mapper
+      attribute :partition, Partition, collection: true
 
-    map_element 'Partition', to: :partition
+      xml do
+        root "ModelElement.partition"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Partition", to: :partition
+      end
+    end
   end
 end

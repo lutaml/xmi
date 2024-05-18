@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'association_role'
+require "shale"
 
-class AssociationassociationEnd < Shale::Mapper
-  attribute :association_role, AssociationRole, collection: true
+require_relative "association_role"
+puts "association_role"
 
-  xml do
-    root 'Association.associationEnd'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class AssociationassociationEnd < Shale::Mapper
+      attribute :association_role, AssociationRole, collection: true
 
-    map_element 'AssociationRole', to: :association_role
+      xml do
+        root "Association.associationEnd"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "AssociationRole", to: :association_role
+      end
+    end
   end
 end

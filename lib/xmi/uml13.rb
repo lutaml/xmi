@@ -1,3 +1,10 @@
+# frozen_string_literal: true
+
+module Xmi
+  module Uml13
+  end
+end
+
 require_relative "uml13/abstraction"
 require_relative "uml13/action"
 require_relative "uml13/action_sequence"

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'classifier'
+require "shale"
 
-class CreateActioninstantiation < Shale::Mapper
-  attribute :classifier, Classifier, collection: true
+require_relative "classifier"
 
-  xml do
-    root 'CreateAction.instantiation'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class CreateActioninstantiation < Shale::Mapper
+      attribute :classifier, Classifier, collection: true
 
-    map_element 'Classifier', to: :classifier
+      xml do
+        root "CreateAction.instantiation"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Classifier", to: :classifier
+      end
+    end
   end
 end

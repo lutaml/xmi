@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'diagramelement'
+require "shale"
 
-class DiagramCompositions < Shale::Mapper
-  attribute :diagram_element, Diagramelement, collection: true
+require_relative "diagramelement"
 
-  xml do
-    root 'DiagramCompositions'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class DiagramCompositions < Shale::Mapper
+      attribute :diagram_element, Diagramelement, collection: true
 
-    map_element 'Diagram.element', to: :diagram_element
+      xml do
+        root "DiagramCompositions"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Diagram.element", to: :diagram_element
+      end
+    end
   end
 end

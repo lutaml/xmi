@@ -1,17 +1,23 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'diagram_elementgeometry'
-require_relative 'diagram_elementstyle'
+require "shale"
 
-class DiagramElementProperties < Shale::Mapper
-  attribute :diagram_element_geometry, DiagramElementgeometry
-  attribute :diagram_element_style, DiagramElementstyle
+require_relative "diagram_elementgeometry"
+require_relative "diagram_elementstyle"
 
-  xml do
-    root 'DiagramElementProperties'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class DiagramElementProperties < Shale::Mapper
+      attribute :diagram_element_geometry, DiagramElementgeometry
+      attribute :diagram_element_style, DiagramElementstyle
 
-    map_element 'DiagramElement.geometry', to: :diagram_element_geometry
-    map_element 'DiagramElement.style', to: :diagram_element_style
+      xml do
+        root "DiagramElementProperties"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "DiagramElement.geometry", to: :diagram_element_geometry
+        map_element "DiagramElement.style", to: :diagram_element_style
+      end
+    end
   end
 end

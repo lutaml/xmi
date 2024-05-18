@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'classifier'
+require "shale"
 
-class AssociationEndspecification < Shale::Mapper
-  attribute :classifier, Classifier, collection: true
+require_relative "classifier"
 
-  xml do
-    root 'AssociationEnd.specification'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class AssociationEndspecification < Shale::Mapper
+      attribute :classifier, Classifier, collection: true
 
-    map_element 'Classifier', to: :classifier
+      xml do
+        root "AssociationEnd.specification"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Classifier", to: :classifier
+      end
+    end
   end
 end

@@ -3,7 +3,6 @@
 require "shale"
 
 module Xmi
-
   # OMG 1.3
   class EaXmiHeaderDocumentation < Shale::Mapper
     attribute :exporter, Shale::Type::String

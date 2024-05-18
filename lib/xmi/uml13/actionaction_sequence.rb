@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'action_sequence'
+require "shale"
 
-class ActionactionSequence < Shale::Mapper
-  attribute :action_sequence, ActionSequence, collection: true
+require_relative "action_sequence"
 
-  xml do
-    root 'Action.actionSequence'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ActionactionSequence < Shale::Mapper
+      attribute :action_sequence, ActionSequence, collection: true
 
-    map_element 'ActionSequence', to: :action_sequence
+      xml do
+        root "Action.actionSequence"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ActionSequence", to: :action_sequence
+      end
+    end
   end
 end

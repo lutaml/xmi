@@ -33,9 +33,9 @@ module Xmi
       map_attribute "href", to: :href
       map_attribute "idref", to: :idref, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
       map_attribute "type", to: :type, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
-      map_attribute 'exporter', to: :exporter
-      map_attribute 'exporterID', to: :exporter_id
-      map_attribute 'exporterVersion', to: :exporter_version
+      map_attribute "exporter", to: :exporter
+      map_attribute "exporterVersion", to: :exporter_version
+      map_attribute "exporterID", to: :exporter_id
 
       map_element "contact", to: :contact, prefix: nil, namespace: nil
       map_element "longDescription", to: :long_description, prefix: nil, namespace: nil

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Xmi::Root do
   # it "does something useful" do
   #   yaml = Xmi::Root.from_xml(File.read("references/ConceptualModels/Possible Excess Model Elements.xml")).to_yaml
@@ -25,10 +27,10 @@ RSpec.describe Xmi::Root do
   it "round-trips OMG UML 2.5.1 XMI file: #{id} with diff", skip: to_skip do
     input = File.read(f).gsub("\t", "  ")
 
-    output = Xmi::Root.from_xml(input).to_xml(
+    output = Xmi::Sparx::SparxRoot.from_xml(input).to_xml(
       pretty: true,
       declaration: true,
-      encoding: "utf-8",
+      encoding: "utf-8"
     )
 
     expect(output).to be_equivalent_to(input)
@@ -37,13 +39,12 @@ RSpec.describe Xmi::Root do
   it "round-trips OMG UML 2.5.1 XMI file: #{id} with compare", skip: to_skip do
     input = File.read(f).gsub("\t", "  ")
 
-    output = Xmi::Root.from_xml(input).to_xml(
+    output = Xmi::Sparx::SparxRoot.from_xml(input).to_xml(
       pretty: true,
       declaration: true,
-      encoding: "utf-8",
+      encoding: "utf-8"
     )
 
     expect(output).to be_analogous_with(input)
   end
-
 end

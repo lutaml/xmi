@@ -3,7 +3,7 @@
 require "shale"
 
 unless Shale.xml_adapter
-  require 'shale/adapter/nokogiri'
+  require "shale/adapter/nokogiri"
   Shale.xml_adapter = Shale::Adapter::Nokogiri
 end
 
@@ -20,5 +20,7 @@ require_relative "xmi/difference"
 require_relative "xmi/documentation"
 require_relative "xmi/extension"
 require_relative "xmi/replace"
+require_relative "xmi/uml"
 require_relative "xmi/root"
-require_relative "xmi/uml13"
+require_relative "xmi/sparx"
+# require_relative "xmi/uml13"

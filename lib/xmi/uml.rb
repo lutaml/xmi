@@ -43,8 +43,8 @@ module Xmi
 
       xml do
         root "ownedEnd"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
@@ -83,8 +83,8 @@ module Xmi
 
       xml do
         root "ownedLiteral"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :value
       end
     end
@@ -100,8 +100,8 @@ module Xmi
 
       xml do
         root "ownedAttribute"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "association", to: :association
         map_attribute "name", to: :name
 
@@ -119,8 +119,8 @@ module Xmi
 
       xml do
         root "ownedComment"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "annotatedElement", to: :annotated_element
 
@@ -136,8 +136,8 @@ module Xmi
       attribute :general, Shale::Type::String
       xml do
         root "generalization"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "general", to: :general
       end
     end
@@ -160,8 +160,9 @@ module Xmi
 
       xml do
         root "packagedElement"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
 
@@ -248,7 +249,7 @@ module Xmi
 
       xml do
         root "Diagram"
-        namespace "http://www.omg.org/spec/UML/20161101/UMLDI", "umldi"
+        namespace "http://www.omg.org/spec/UML/20131001/UMLDI", "umldi"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -293,7 +294,7 @@ module Xmi
 
       xml do
         root "packageImport"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_element "importedPackage", to: :imported_package
       end
 
@@ -309,33 +310,32 @@ module Xmi
 
       xml do
         root "Model"
-        # namespace "http://www.omg.org/spec/UML/20161101", "uml"
+        namespace "http://www.omg.org/spec/UML/20131001", "uml"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
         map_element "packageImport", to: :package_import
         map_element "packagedElement", to: :packaged_element
-        map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20161101/UMLDI",
-                               prefix: "umldi"
+        map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20131001/UMLDI", prefix: "umldi"
         map_element "profileApplication", to: :profile_application
 
       end
     end
 
-    # <uml:Profile xmlns:uml="http://www.omg.org/spec/UML/20161101" xmlns:xmi="http://www.omg.org/spec/XMI/20161101" xmi:id="thecustomprofile" nsPrefix="thecustomprofile" name="thecustomprofile" metamodelReference="mmref01">
+    # <uml:Profile xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmi:id="thecustomprofile" nsPrefix="thecustomprofile" name="thecustomprofile" metamodelReference="mmref01">
     #   <ownedComment xmi:type="uml:Comment" xmi:id="comment01" annotatedElement="thecustomprofile">
     #     <body> Version:1.0</body>
     #   </ownedComment>
     #   <packageImport xmi:id="mmref01">
-    #     <importedPackage href="http://www.omg.org/spec/UML/20161101"/>
+    #     <importedPackage href="http://www.omg.org/spec/UML/20131001"/>
     #   </packageImport>
     #   <packagedElement xmi:type="uml:Stereotype" xmi:id="edition" name="edition">
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="edition-base_Package" name="base_Package" association="Package_edition">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Package"/>
     #     </ownedAttribute>
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="edition-edition" name="edition">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#String"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#String"/>
     #     </ownedAttribute>
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Extension" xmi:id="Package_edition" name="A_Package_edition" memberEnd="extension_edition edition-base_Package">
@@ -343,10 +343,10 @@ module Xmi
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Stereotype" xmi:id="number" name="number">
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="number-base_Package" name="base_Package" association="Package_number">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Package"/>
     #     </ownedAttribute>
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="number-number" name="number">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#String"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#String"/>
     #     </ownedAttribute>
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Extension" xmi:id="Package_number" name="A_Package_number" memberEnd="extension_number number-base_Package">
@@ -354,10 +354,10 @@ module Xmi
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Stereotype" xmi:id="yearVersion" name="yearVersion">
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="yearVersion-base_Package" name="base_Package" association="Package_yearVersion">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Package"/>
     #     </ownedAttribute>
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="yearVersion-yearVersion" name="yearVersion">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#String"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#String"/>
     #     </ownedAttribute>
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Extension" xmi:id="Package_yearVersion" name="A_Package_yearVersion" memberEnd="extension_yearVersion yearVersion-base_Package">
@@ -365,10 +365,10 @@ module Xmi
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Stereotype" xmi:id="publicationDate" name="publicationDate">
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="publicationDate-base_Package" name="base_Package" association="Package_publicationDate">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#Package"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#Package"/>
     #     </ownedAttribute>
     #     <ownedAttribute xmi:type="uml:Property" xmi:id="publicationDate-publicationDate" name="publicationDate">
-    #       <type href="http://www.omg.org/spec/UML/20161101/UML.xmi#String"/>
+    #       <type href="http://www.omg.org/spec/UML/20131001/UML.xmi#String"/>
     #     </ownedAttribute>
     #   </packagedElement>
     #   <packagedElement xmi:type="uml:Extension" xmi:id="Package_publicationDate" name="A_Package_publicationDate" memberEnd="extension_publicationDate publicationDate-base_Package">
@@ -389,9 +389,9 @@ module Xmi
 
       xml do
         root "Profile"
-        # namespace "http://www.omg.org/spec/UML/20161101", "uml"
+        # namespace "http://www.omg.org/spec/UML/20131001", "uml"
 
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix

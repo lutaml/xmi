@@ -515,7 +515,7 @@ module Xmi
       xml do
         root "profiles"
         map_element "Profile", to: :profile,
-          namespace: "http://www.omg.org/spec/UML/20161101",
+          namespace: "http://www.omg.org/spec/UML/20131001",
           prefix: "uml"
 
       end
@@ -751,7 +751,7 @@ module Xmi
                                      prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
         map_element "Model", to: :model,
-                             namespace: "http://www.omg.org/spec/UML/20161101",
+                             namespace: "http://www.omg.org/spec/UML/20131001",
                              prefix: "uml"
 
         map_element "Extension", to: :extension,

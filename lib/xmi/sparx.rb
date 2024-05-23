@@ -211,16 +211,57 @@ module Xmi
     end
 
     class SparxElementAssociation < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :start, Shale::Type::String
+      attribute :end, Shale::Type::String
+      attribute :name, Shale::Type::String, default: -> { "Association" }
+
+      xml do
+        root "Association"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementGeneralization < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "Generalization" }
+
+      xml do
+        root "Generalization"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementAggregation < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "Aggregation" }
+
+      xml do
+        root "Aggregation"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementNoteLink < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "NoteLink" }
+
+      xml do
+        root "NoteLink"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
     end
 
     class SparxElementAttributes < Shale::Mapper
     end
 
-    # <links>
-    #   <Association xmi:id="EAID_322379DE_61A8_411d_9638_5BB92DDF0A54" start="EAID_C1155D80_E68B_46d5_ADE5_F5639486163D" end="EAID_10AD8D60_9972_475a_AB7E_FA40212D5297"/>
-    # </links>
     class SparxElementLinks < Shale::Mapper
-      attribute :associations, SparxElementAssociation
+      attribute :associations, SparxElementAssociation, collection: true
       xml do
         root "links"
         map_element "Association", to: :associations

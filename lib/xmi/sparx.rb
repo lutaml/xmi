@@ -496,9 +496,6 @@ module Xmi
       attribute :idref, Shale::Type::String
       attribute :source, SparxConnectorSource
       attribute :target, SparxConnectorTarget
-
-      attribute :source, SparxConnectorSource
-      attribute :target, SparxConnectorTarget
       attribute :model, SparxConnectorModel
       attribute :properties, SparxConnectorProperties
       attribute :documentation, Shale::Type::String
@@ -653,7 +650,6 @@ module Xmi
         map_element "xrefs", to: :xrefs, render_nil: true
         map_element "elements", to: :elements
       end
-
     end
 
     class SparxDiagrams < Shale::Mapper
@@ -664,7 +660,6 @@ module Xmi
         map_element "diagram", to: :diagram
       end
     end
-
 
     class SparxExtension < Shale::Mapper
       attribute :id, Shale::Type::String

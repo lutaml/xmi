@@ -258,6 +258,12 @@ module Xmi
     end
 
     class SparxElementAttributes < Shale::Mapper
+      attribute :attribute, SparxElementAttribute, collection: true
+
+      xml do
+        root "attributes"
+        map_element "attribute", to: :attribute
+      end
     end
 
     class SparxElementLinks < Shale::Mapper
@@ -368,18 +374,26 @@ module Xmi
     end
 
     class SparxConnectorEndRole < Shale::Mapper
+      attribute :name, Shale::Type::String
       attribute :visibility, Shale::Type::String
+      attribute :targetScope, Shale::Type::String
       xml do
         root "role"
+        map_attribute :name, to: :name
         map_attribute :visibility, to: :visibility
+        map_attribute :targetScope, to: :targetScope
       end
     end
 
     class SparxConnectorEndType < Shale::Mapper
       attribute :aggregation, Shale::Type::String
+      attribute :multiplicity, Shale::Type::String
+      attribute :containment, Shale::Type::String
       xml do
         root "type"
         map_attribute :aggregation, to: :aggregation
+        map_attribute :multiplicity, to: :multiplicity
+        map_attribute :containment, to: :containment
       end
     end
 
@@ -394,6 +408,11 @@ module Xmi
     end
 
     class SparxConnectorEndConstraints < Shale::Mapper
+      attribute :constraint, SparxConnectorEndConstraint, collection: true
+      xml do
+        root "constraints"
+        map_element "constraint", to: :constraint
+      end
     end
 
     class SparxConnectorEndStyle < Shale::Mapper

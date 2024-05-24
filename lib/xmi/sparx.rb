@@ -263,7 +263,7 @@ module Xmi
         map_element "style", to: :style
         map_element "tags", to: :tags
         map_element "xrefs", to: :xrefs
-        map_element "extendedProperties", to: :extended_properties
+        map_element "extendedProperties", to: :extended_properties, namespace: nil, prefix: nil
         map_element "packageproperties", to: :package_properties
         map_element "paths", to: :paths
         map_element "times", to: :times
@@ -515,7 +515,7 @@ module Xmi
       xml do
         root "profiles"
         map_element "Profile", to: :profile,
-          namespace: "http://www.omg.org/spec/UML/20131001",
+          namespace: "http://www.omg.org/spec/UML/20161101",
           prefix: "uml"
 
       end
@@ -593,7 +593,7 @@ module Xmi
       attribute :style2, SparxDiagramStyle
       attribute :swimlanes, SparxDiagramStyle
       attribute :matrixitems, SparxDiagramStyle
-      attribute :extendedProperties, SparxElementExtendedProperties
+      attribute :extended_properties, SparxElementExtendedProperties
       attribute :xrefs, SparxElementXrefs
       attribute :elements, SparxDiagramElements
 
@@ -746,17 +746,6 @@ module Xmi
         map_attribute "href", to: :href
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
         map_attribute "type", to: :type, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-
-        map_element "Documentation", to: :documentation,
-                                     prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-
-        map_element "Model", to: :model,
-                             namespace: "http://www.omg.org/spec/UML/20131001",
-                             prefix: "uml"
-
-        map_element "Extension", to: :extension,
-                                 namespace: "http://www.omg.org/spec/XMI/20131001",
-                                 prefix: "xmi"
 
         map_element "publicationDate", to: :publication_date,
                                        namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",

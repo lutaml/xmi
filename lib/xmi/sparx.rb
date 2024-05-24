@@ -257,6 +257,90 @@ module Xmi
       end
     end
 
+    class SparxElementStyleex < Shale::Mapper
+      attribute :value, Shale::Type::String
+
+      xml do
+        root "styleex"
+        map_attribute "value", to: :value
+      end
+    end
+
+    class SparxElementBounds < Shale::Mapper
+      attribute :lower, Shale::Type::Integer
+      attribute :upper, Shale::Type::Integer
+
+      xml do
+        root "bounds"
+        map_attribute "lower", to: :lower
+        map_attribute "upper", to: :upper
+      end
+    end
+
+    class SparxElementStereotype < Shale::Mapper
+      attribute :stereotype, Shale::Type::String
+
+      xml do
+        root "stereotype"
+        map_attribute "stereotype", to: :stereotype
+      end
+    end
+
+    class SparxElementContainment < Shale::Mapper
+      attribute :containment, Shale::Type::String
+      attribute :position, Shale::Type::Integer
+
+      xml do
+        root "containment"
+        map_attribute "containment", to: :containment
+        map_attribute "position", to: :position
+      end
+    end
+
+    class SparxElementCoords < Shale::Mapper
+      attribute :ordered, Shale::Type::Integer
+      attribute :scale, Shale::Type::Integer
+
+      xml do
+        root "coords"
+        map_attribute "ordered", to: :ordered
+        map_attribute "scale", to: :scale
+      end
+    end
+
+    class SparxElementAttribute < Shale::Mapper
+      attribute :initial, Shale::Type::String
+      attribute :documentation, Shale::Type::String
+      attribute :model, SparxElementModel
+      attribute :properties, SparxElementProperties
+      attribute :coords, SparxElementCoords
+      attribute :containment, SparxElementContainment
+      attribute :stereotype, SparxElementStereotype
+      attribute :bounds, SparxElementBounds
+      attribute :options, Shale::Type::String
+      attribute :style, Shale::Type::String
+      attribute :styleex, SparxElementStyleex
+      attribute :tags, Shale::Type::String, collection: true
+      attribute :xrefs, SparxElementXrefs
+
+      xml do
+        root "attribute"
+        map_attribute "initial", to: :initial
+        map_attribute "documentation", to: :documentation
+        map_element "model", to: :model
+        map_element "properties", to: :properties
+        map_element "coords", to: :coords
+        map_element "containment", to: :containment
+        map_element "stereotype", to: :stereotype
+        map_element "bounds", to: :bounds
+        map_attribute "options", to: :options
+        map_attribute "style", to: :style
+        map_element "styleex", to: :styleex
+        map_attribute "tags", to: :tags
+        map_element "xrefs", to: :xrefs
+      end
+    end
+
     class SparxElementAttributes < Shale::Mapper
       attribute :attribute, SparxElementAttribute, collection: true
 
@@ -404,6 +488,20 @@ module Xmi
         root "type"
         map_attribute "isOrdered", to: :is_ordered
         map_attribute "isNavigable", to: :is_navigable
+      end
+    end
+
+    class SparxConnectorEndConstraint < Shale::Mapper
+      attribute :name, Shale::Type::String
+      attribute :type, Shale::Type::String
+      attribute :weight, Shale::Type::Float
+      attribute :status, Shale::Type::String
+      xml do
+        root "constraint"
+        map_attribute "name", to: :name
+        map_attribute "type", to: :type
+        map_attribute "weight", to: :weight
+        map_attribute "status", to: :status
       end
     end
 

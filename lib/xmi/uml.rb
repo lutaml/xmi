@@ -104,7 +104,7 @@ module Xmi
       attribute :association, Shale::Type::String
       attribute :name, Shale::Type::String
       attribute :is_derived, Shale::Type::String
-      attribute :uml_type, Uml::Type, collection: true
+      attribute :uml_type, Uml::Type
       attribute :upper_value, UpperValue
       attribute :lower_value, LowerValue
 

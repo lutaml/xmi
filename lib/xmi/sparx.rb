@@ -460,12 +460,12 @@ module Xmi
     class SparxConnectorEndRole < Shale::Mapper
       attribute :name, Shale::Type::String
       attribute :visibility, Shale::Type::String
-      attribute :targetScope, Shale::Type::String
+      attribute :target_scope, Shale::Type::String
       xml do
         root "role"
         map_attribute :name, to: :name
         map_attribute :visibility, to: :visibility
-        map_attribute :targetScope, to: :targetScope
+        map_attribute :targetScope, to: :target_scope
       end
     end
 

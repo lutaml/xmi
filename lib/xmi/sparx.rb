@@ -351,10 +351,14 @@ module Xmi
     end
 
     class SparxElementLinks < Shale::Mapper
-      attribute :associations, SparxElementAssociation, collection: true
+      attribute :association, SparxElementAssociation, collection: true
+      attribute :generalization, SparxElementGeneralization, collection: true
+      attribute :note_link, SparxElementNoteLink, collection: true
       xml do
         root "links"
-        map_element "Association", to: :associations
+        map_element "Association", to: :association
+        map_element "Generalization", to: :generalization
+        map_element "NoteLink", to: :note_link
       end
     end
 

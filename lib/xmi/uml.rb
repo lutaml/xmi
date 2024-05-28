@@ -55,10 +55,19 @@ module Xmi
       end
     end
 
-    class UpperValue < Shale::Mapper
+    class DefaultValue < Shale::Mapper
       attribute :type, Shale::Type::String
       attribute :id, Shale::Type::String
       attribute :value, Shale::Type::String
+      xml do
+        root "defaultValue"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "value", to: :value
+      end
+    end
+
+    class UpperValue < DefaultValue
       xml do
         root "upperValue"
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -67,7 +76,7 @@ module Xmi
       end
     end
 
-    class LowerValue < UpperValue
+    class LowerValue < DefaultValue
       xml do
         root "lowerValue"
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -94,9 +103,10 @@ module Xmi
       attribute :id, Shale::Type::String
       attribute :association, Shale::Type::String
       attribute :name, Shale::Type::String
-      attribute :uml_type, Uml::Type, collection: true
-      attribute :upperValue, UpperValue
-      attribute :lowerValue, LowerValue
+      attribute :is_derived, Shale::Type::String
+      attribute :uml_type, Uml::Type
+      attribute :upper_value, UpperValue
+      attribute :lower_value, LowerValue
 
       xml do
         root "ownedAttribute"
@@ -104,10 +114,77 @@ module Xmi
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "association", to: :association
         map_attribute "name", to: :name
+        map_attribute "isDerived", to: :is_derived
 
         map_element "type", to: :uml_type
         map_element "upperValue", to: :upper_value
         map_element "lowerValue", to: :lower_value
+      end
+    end
+
+    class OwnedParameter < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :name, Shale::Type::String
+      attribute :type, Shale::Type::String
+      attribute :direction, Shale::Type::String
+      attribute :upper_value, UpperValue
+      attribute :lower_value, LowerValue
+      attribute :default_value, DefaultValue
+
+      xml do
+        root "ownedParameter"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "name", to: :name
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "direction", to: :direction
+        map_element "upperValue", to: :upper_value
+        map_element "lowerValue", to: :lower_value
+        map_element "defaultValue", to: :default_value
+      end
+    end
+
+    class Specification < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :type, Shale::Type::String
+      attribute :language, Shale::Type::String
+
+      xml do
+        root "specification"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "language", to: :language
+      end
+    end
+
+    class Precondition < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :name, Shale::Type::String
+      attribute :type, Shale::Type::String
+      attribute :specification, Specification
+
+      xml do
+        root "precondition"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "name", to: :name
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_element "specification", to: :specification
+      end
+    end
+
+    class OwnedOperation < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :name, Shale::Type::String
+      attribute :owned_parameter, OwnedParameter, collection: true
+      attribute :precondition, Precondition
+      attribute :uml_type, Uml::Type, collection: true
+
+      xml do
+        root "ownedOperation"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "name", to: :name
+        map_element "ownedParameter", to: :owned_parameter
+        map_element "precondition", to: :precondition
+        map_element "type", to: :uml_type
       end
     end
 
@@ -151,6 +228,7 @@ module Xmi
       attribute :owned_literal, OwnedLiteral, collection: true
       attribute :owned_end, OwnedEnd, collection: true
       attribute :owned_attribute, OwnedAttribute, collection: true
+      attribute :owned_operation, OwnedOperation, collection: true
       attribute :packaged_element, PackagedElement, collection: true
       attribute :generalization, AssociationGeneralization, collection: true
 
@@ -175,6 +253,7 @@ module Xmi
         map_element "ownedEnd", to: :owned_end
         map_element "ownedLiteral", to: :owned_literal
         map_element "ownedAttribute", to: :owned_attribute
+        map_element "ownedOperation", to: :owned_operation
         map_element "packagedElement", to: :packaged_element
       end
     end
@@ -315,11 +394,10 @@ module Xmi
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
-        map_element "packageImport", to: :package_import
-        map_element "packagedElement", to: :packaged_element
+        map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
+        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
         map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20131001/UMLDI", prefix: "umldi"
-        map_element "profileApplication", to: :profile_application
-
+        map_element "profileApplication", to: :profile_application, namespace: nil, prefix: nil
       end
     end
 

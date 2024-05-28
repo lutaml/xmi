@@ -211,19 +211,154 @@ module Xmi
     end
 
     class SparxElementAssociation < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :start, Shale::Type::String
+      attribute :end, Shale::Type::String
+      attribute :name, Shale::Type::String, default: -> { "Association" }
+
+      xml do
+        root "Association"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementGeneralization < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "Generalization" }
+
+      xml do
+        root "Generalization"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementAggregation < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "Aggregation" }
+
+      xml do
+        root "Aggregation"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementNoteLink < SparxElementAssociation
+      attribute :name, Shale::Type::String, default: -> { "NoteLink" }
+
+      xml do
+        root "NoteLink"
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "start", to: :start
+        map_attribute "end", to: :end
+      end
+    end
+
+    class SparxElementStyleex < Shale::Mapper
+      attribute :value, Shale::Type::String
+
+      xml do
+        root "styleex"
+        map_attribute "value", to: :value
+      end
+    end
+
+    class SparxElementBounds < Shale::Mapper
+      attribute :lower, Shale::Type::Integer
+      attribute :upper, Shale::Type::Integer
+
+      xml do
+        root "bounds"
+        map_attribute "lower", to: :lower
+        map_attribute "upper", to: :upper
+      end
+    end
+
+    class SparxElementStereotype < Shale::Mapper
+      attribute :stereotype, Shale::Type::String
+
+      xml do
+        root "stereotype"
+        map_attribute "stereotype", to: :stereotype
+      end
+    end
+
+    class SparxElementContainment < Shale::Mapper
+      attribute :containment, Shale::Type::String
+      attribute :position, Shale::Type::Integer
+
+      xml do
+        root "containment"
+        map_attribute "containment", to: :containment
+        map_attribute "position", to: :position
+      end
+    end
+
+    class SparxElementCoords < Shale::Mapper
+      attribute :ordered, Shale::Type::Integer
+      attribute :scale, Shale::Type::Integer
+
+      xml do
+        root "coords"
+        map_attribute "ordered", to: :ordered
+        map_attribute "scale", to: :scale
+      end
+    end
+
+    class SparxElementAttribute < Shale::Mapper
+      attribute :initial, Shale::Type::String
+      attribute :documentation, Shale::Type::String
+      attribute :model, SparxElementModel
+      attribute :properties, SparxElementProperties
+      attribute :coords, SparxElementCoords
+      attribute :containment, SparxElementContainment
+      attribute :stereotype, SparxElementStereotype
+      attribute :bounds, SparxElementBounds
+      attribute :options, Shale::Type::String
+      attribute :style, Shale::Type::String
+      attribute :styleex, SparxElementStyleex
+      attribute :tags, Shale::Type::String, collection: true
+      attribute :xrefs, SparxElementXrefs
+
+      xml do
+        root "attribute"
+        map_attribute "initial", to: :initial
+        map_attribute "documentation", to: :documentation
+        map_element "model", to: :model
+        map_element "properties", to: :properties
+        map_element "coords", to: :coords
+        map_element "containment", to: :containment
+        map_element "stereotype", to: :stereotype
+        map_element "bounds", to: :bounds
+        map_attribute "options", to: :options
+        map_attribute "style", to: :style
+        map_element "styleex", to: :styleex
+        map_attribute "tags", to: :tags
+        map_element "xrefs", to: :xrefs
+      end
     end
 
     class SparxElementAttributes < Shale::Mapper
+      attribute :attribute, SparxElementAttribute, collection: true
+
+      xml do
+        root "attributes"
+        map_element "attribute", to: :attribute
+      end
     end
 
-    # <links>
-    #   <Association xmi:id="EAID_322379DE_61A8_411d_9638_5BB92DDF0A54" start="EAID_C1155D80_E68B_46d5_ADE5_F5639486163D" end="EAID_10AD8D60_9972_475a_AB7E_FA40212D5297"/>
-    # </links>
     class SparxElementLinks < Shale::Mapper
-      attribute :associations, SparxElementAssociation
+      attribute :association, SparxElementAssociation, collection: true
+      attribute :generalization, SparxElementGeneralization, collection: true
+      attribute :note_link, SparxElementNoteLink, collection: true
       xml do
         root "links"
-        map_element "Association", to: :associations
+        map_element "Association", to: :association
+        map_element "Generalization", to: :generalization
+        map_element "NoteLink", to: :note_link
       end
     end
 
@@ -327,18 +462,26 @@ module Xmi
     end
 
     class SparxConnectorEndRole < Shale::Mapper
+      attribute :name, Shale::Type::String
       attribute :visibility, Shale::Type::String
+      attribute :target_scope, Shale::Type::String
       xml do
         root "role"
+        map_attribute :name, to: :name
         map_attribute :visibility, to: :visibility
+        map_attribute :targetScope, to: :target_scope
       end
     end
 
     class SparxConnectorEndType < Shale::Mapper
       attribute :aggregation, Shale::Type::String
+      attribute :multiplicity, Shale::Type::String
+      attribute :containment, Shale::Type::String
       xml do
         root "type"
         map_attribute :aggregation, to: :aggregation
+        map_attribute :multiplicity, to: :multiplicity
+        map_attribute :containment, to: :containment
       end
     end
 
@@ -352,7 +495,26 @@ module Xmi
       end
     end
 
+    class SparxConnectorEndConstraint < Shale::Mapper
+      attribute :name, Shale::Type::String
+      attribute :type, Shale::Type::String
+      attribute :weight, Shale::Type::Float
+      attribute :status, Shale::Type::String
+      xml do
+        root "constraint"
+        map_attribute "name", to: :name
+        map_attribute "type", to: :type
+        map_attribute "weight", to: :weight
+        map_attribute "status", to: :status
+      end
+    end
+
     class SparxConnectorEndConstraints < Shale::Mapper
+      attribute :constraint, SparxConnectorEndConstraint, collection: true
+      xml do
+        root "constraints"
+        map_element "constraint", to: :constraint
+      end
     end
 
     class SparxConnectorEndStyle < Shale::Mapper
@@ -453,9 +615,6 @@ module Xmi
 
     class SparxConnector < Shale::Mapper
       attribute :idref, Shale::Type::String
-      attribute :source, SparxConnectorSource
-      attribute :target, SparxConnectorTarget
-
       attribute :source, SparxConnectorSource
       attribute :target, SparxConnectorTarget
       attribute :model, SparxConnectorModel
@@ -612,7 +771,6 @@ module Xmi
         map_element "xrefs", to: :xrefs, render_nil: true
         map_element "elements", to: :elements
       end
-
     end
 
     class SparxDiagrams < Shale::Mapper
@@ -623,7 +781,6 @@ module Xmi
         map_element "diagram", to: :diagram
       end
     end
-
 
     class SparxExtension < Shale::Mapper
       attribute :id, Shale::Type::String

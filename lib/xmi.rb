@@ -7,6 +7,13 @@ unless Shale.xml_adapter
   Shale.xml_adapter = Shale::Adapter::Nokogiri
 end
 
+# add a function to check type
+class Shale::Mapper
+  def is_type?(test_type)
+    !!self.type ? self.type == test_type : false
+  end
+end
+
 require_relative "xmi/version"
 
 module Xmi

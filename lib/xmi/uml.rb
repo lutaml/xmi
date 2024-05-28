@@ -394,11 +394,10 @@ module Xmi
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
-        map_element "packageImport", to: :package_import
-        map_element "packagedElement", to: :packaged_element
+        map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
+        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
         map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20131001/UMLDI", prefix: "umldi"
-        map_element "profileApplication", to: :profile_application
-
+        map_element "profileApplication", to: :profile_application, namespace: nil, prefix: nil
       end
     end
 

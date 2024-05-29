@@ -404,6 +404,7 @@ module Xmi
         map_element "times", to: :times
         map_element "flags", to: :flags
         map_element "links", to: :links
+        map_element "attributes", to: :attributes
       end
     end
 

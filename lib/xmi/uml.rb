@@ -43,8 +43,8 @@ module Xmi
 
       xml do
         root "ownedEnd"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
@@ -110,8 +110,8 @@ module Xmi
 
       xml do
         root "ownedAttribute"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "isDerived", to: :is_derived
@@ -191,17 +191,23 @@ module Xmi
     class OwnedComment < Shale::Mapper
       attribute :type, Shale::Type::String
       attribute :id, Shale::Type::String
-      attribute :body, Shale::Type::String
+      attribute :body_element, Shale::Type::String
+      attribute :body_attribute, Shale::Type::String
+      attribute :annotated_attribute, Shale::Type::String
       attribute :annotated_element, AnnotatedElement
 
       xml do
         root "ownedComment"
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "name", to: :name
-        map_attribute "annotatedElement", to: :annotated_element
+        map_attribute "body", to: :body_attribute
+        map_attribute "annotatedElement", to: :annotated_attribute
 
-        map_element "body", to: :body
+        map_element "annotatedElement", to: :annotated_element, prefix: nil, namespace: nil
+        map_element "body", to: :body_element
       end
     end
 
@@ -213,8 +219,8 @@ module Xmi
       attribute :general, Shale::Type::String
       xml do
         root "generalization"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "general", to: :general
       end
     end
@@ -240,6 +246,8 @@ module Xmi
         root "packagedElement"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
@@ -328,14 +336,14 @@ module Xmi
 
       xml do
         root "Diagram"
-        namespace "http://www.omg.org/spec/UML/20131001/UMLDI", "umldi"
+        namespace "http://www.omg.org/spec/UML/20161101/UMLDI", "umldi"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "isFrame", to: :is_frame
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element
+        map_element "ownedElement", to: :owned_element, namespace: nil, prefix: nil
       end
     end
 
@@ -367,14 +375,24 @@ module Xmi
       end
     end
 
+    class ImportedPackage < Shale::Mapper
+      attribute :href, Shale::Type::String
+
+      xml do
+        root "importedPackage"
+        map_attribute "href", to: :href, namespace: nil, prefix: nil
+      end
+    end
+
     class PackageImport < Shale::Mapper
       attribute :id, Shale::Type::String
-      attribute :imported_package, Shale::Type::String
+      attribute :imported_package, ImportedPackage
 
       xml do
         root "packageImport"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_element "importedPackage", to: :imported_package
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
+        map_element "importedPackage", to: :imported_package, namespace: nil, prefix: nil
       end
 
     end
@@ -389,14 +407,14 @@ module Xmi
 
       xml do
         root "Model"
-        namespace "http://www.omg.org/spec/UML/20131001", "uml"
+        namespace "http://www.omg.org/spec/UML/20161101", "uml"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
         map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
         map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
-        map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20131001/UMLDI", prefix: "umldi"
+        map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20161101/UMLDI", prefix: "umldi"
         map_element "profileApplication", to: :profile_application, namespace: nil, prefix: nil
       end
     end
@@ -469,14 +487,14 @@ module Xmi
         root "Profile"
         # namespace "http://www.omg.org/spec/UML/20131001", "uml"
 
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
         map_element 'ownedComment', to: :owned_comment
+        map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
         map_element 'packagedElement', to: :packaged_element
-        map_element "packageImport", to: :package_import
       end
     end
 

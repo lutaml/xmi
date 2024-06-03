@@ -28,10 +28,11 @@ module Xmi
       map_attribute "type", to: :type, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
       map_element "Documentation", to: :documentation,
-                                   prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+                                   namespace: "http://www.omg.org/spec/XMI/20131001",
+                                   prefix: "xmi"
 
       map_element "Model", to: :model,
-                           namespace: "http://www.omg.org/spec/UML/20131001",
+                           namespace: "http://www.omg.org/spec/UML/20161101",
                            prefix: "uml"
 
       map_element "Extension", to: :extension,

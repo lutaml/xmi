@@ -486,6 +486,7 @@ module Xmi
       xml do
         root "Profile"
         # namespace "http://www.omg.org/spec/UML/20131001", "uml"
+        preserve_namespaces true
 
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "name", to: :name

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'enumeration'
+require "shale"
 
-class EnumerationLiteralenumeration < Shale::Mapper
-  attribute :enumeration, Enumeration, collection: true
+require_relative "enumeration"
 
-  xml do
-    root 'EnumerationLiteral.enumeration'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class EnumerationLiteralenumeration < Shale::Mapper
+      attribute :enumeration, Enumeration, collection: true
 
-    map_element 'Enumeration', to: :enumeration
+      xml do
+        root "EnumerationLiteral.enumeration"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Enumeration", to: :enumeration
+      end
+    end
   end
 end

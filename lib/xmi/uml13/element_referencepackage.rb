@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'package'
+require "shale"
 
-class ElementReferencepackage < Shale::Mapper
-  attribute :package, Package, collection: true
+require_relative "package"
 
-  xml do
-    root 'ElementReference.package'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ElementReferencepackage < Shale::Mapper
+      attribute :package, Package, collection: true
 
-    map_element 'Package', to: :package
+      xml do
+        root "ElementReference.package"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Package", to: :package
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'structural_feature'
+require "shale"
 
-class ClassifierstructuralFeature < Shale::Mapper
-  attribute :structural_feature, StructuralFeature, collection: true
+require_relative "structural_feature"
 
-  xml do
-    root 'Classifier.structuralFeature'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ClassifierstructuralFeature < Shale::Mapper
+      attribute :structural_feature, StructuralFeature, collection: true
 
-    map_element 'StructuralFeature', to: :structural_feature
+      xml do
+        root "Classifier.structuralFeature"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "StructuralFeature", to: :structural_feature
+      end
+    end
   end
 end

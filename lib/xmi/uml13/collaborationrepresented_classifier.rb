@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'classifier'
+require "shale"
 
-class CollaborationrepresentedClassifier < Shale::Mapper
-  attribute :classifier, Classifier, collection: true
+require_relative "classifier"
 
-  xml do
-    root 'Collaboration.representedClassifier'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class CollaborationrepresentedClassifier < Shale::Mapper
+      attribute :classifier, Classifier, collection: true
 
-    map_element 'Classifier', to: :classifier
+      xml do
+        root "Collaboration.representedClassifier"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Classifier", to: :classifier
+      end
+    end
   end
 end

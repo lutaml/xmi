@@ -1,26 +1,32 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'binding'
-require_relative 'dependency'
-require_relative 'refinement'
-require_relative 'trace'
-require_relative 'usage'
+require "shale"
 
-class DependencysubDependencies < Shale::Mapper
-  attribute :dependency, Dependency, collection: true
-  attribute :refinement, Refinement, collection: true
-  attribute :usage, Usage, collection: true
-  attribute :trace, Trace, collection: true
-  attribute :binding, Binding, collection: true
+require_relative "binding"
+require_relative "dependency"
+require_relative "refinement"
+require_relative "trace"
+require_relative "usage"
 
-  xml do
-    root 'Dependency.subDependencies'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class DependencysubDependencies < Shale::Mapper
+      attribute :dependency, Dependency, collection: true
+      attribute :refinement, Refinement, collection: true
+      attribute :usage, Usage, collection: true
+      attribute :trace, Trace, collection: true
+      attribute :binding, Binding, collection: true
 
-    map_element 'Dependency', to: :dependency
-    map_element 'Refinement', to: :refinement
-    map_element 'Usage', to: :usage
-    map_element 'Trace', to: :trace
-    map_element 'Binding', to: :binding
+      xml do
+        root "Dependency.subDependencies"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Dependency", to: :dependency
+        map_element "Refinement", to: :refinement
+        map_element "Usage", to: :usage
+        map_element "Trace", to: :trace
+        map_element "Binding", to: :binding
+      end
+    end
   end
 end

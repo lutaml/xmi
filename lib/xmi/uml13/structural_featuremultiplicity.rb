@@ -1,16 +1,22 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'xm_ireference'
+require "shale"
 
-class StructuralFeaturemultiplicity < Shale::Mapper
-  attribute :content, Shale::Type::String
-  attribute :xmi_reference, XMIreference, collection: true
+require_relative "xm_ireference"
 
-  xml do
-    root 'StructuralFeature.multiplicity'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class StructuralFeaturemultiplicity < Shale::Mapper
+      attribute :content, Shale::Type::String
+      attribute :xmi_reference, XMIreference, collection: true
 
-    map_content to: :content
-    map_element 'XMI.reference', to: :xmi_reference, prefix: nil, namespace: nil
+      xml do
+        root "StructuralFeature.multiplicity"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_content to: :content
+        map_element "XMI.reference", to: :xmi_reference, prefix: nil, namespace: nil
+      end
+    end
   end
 end

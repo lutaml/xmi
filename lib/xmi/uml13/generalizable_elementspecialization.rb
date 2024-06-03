@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'generalization'
+require "shale"
 
-class GeneralizableElementspecialization < Shale::Mapper
-  attribute :generalization, Generalization, collection: true
+module Xmi
+  module Uml13
+    class Generalization < Shale::Mapper
+    end
 
-  xml do
-    root 'GeneralizableElement.specialization'
-    namespace 'omg.org/UML1.3', 'UML'
+    class GeneralizableElementspecialization < Shale::Mapper
+      attribute :generalization, Generalization, collection: true
 
-    map_element 'Generalization', to: :generalization
+      xml do
+        root "GeneralizableElement.specialization"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Generalization", to: :generalization
+      end
+    end
   end
 end

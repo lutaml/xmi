@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'boolean_expression'
+require "shale"
 
-class Guardexpression < Shale::Mapper
-  attribute :boolean_expression, BooleanExpression
+require_relative "boolean_expression"
 
-  xml do
-    root 'Guard.expression'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Guardexpression < Shale::Mapper
+      attribute :boolean_expression, BooleanExpression
 
-    map_element 'BooleanExpression', to: :boolean_expression
+      xml do
+        root "Guard.expression"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "BooleanExpression", to: :boolean_expression
+      end
+    end
   end
 end

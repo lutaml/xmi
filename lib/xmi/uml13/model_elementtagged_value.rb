@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'tagged_value'
+require "shale"
 
-class ModelElementtaggedValue < Shale::Mapper
-  attribute :tagged_value, TaggedValue, collection: true
+require_relative "tagged_value"
 
-  xml do
-    root 'ModelElement.taggedValue'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ModelElementtaggedValue < Shale::Mapper
+      attribute :tagged_value, TaggedValue, collection: true
 
-    map_element 'TaggedValue', to: :tagged_value
+      xml do
+        root "ModelElement.taggedValue"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "TaggedValue", to: :tagged_value
+      end
+    end
   end
 end

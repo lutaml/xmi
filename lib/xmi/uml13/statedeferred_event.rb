@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'event'
+require "shale"
 
-class StatedeferredEvent < Shale::Mapper
-  attribute :event, Event, collection: true
+require_relative "event"
 
-  xml do
-    root 'State.deferredEvent'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class StatedeferredEvent < Shale::Mapper
+      attribute :event, Event, collection: true
 
-    map_element 'Event', to: :event
+      xml do
+        root "State.deferredEvent"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Event", to: :event
+      end
+    end
   end
 end

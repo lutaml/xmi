@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'method'
+require "shale"
 
-class Operationmethod < Shale::Mapper
-  attribute :method, Method, collection: true
+require_relative "method"
 
-  xml do
-    root 'Operation.method'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Operationmethod < Shale::Mapper
+      attribute :method, Method, collection: true
 
-    map_element 'Method', to: :method
+      xml do
+        root "Operation.method"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Method", to: :method
+      end
+    end
   end
 end

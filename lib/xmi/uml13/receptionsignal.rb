@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'signal'
+require "shale"
 
-class Receptionsignal < Shale::Mapper
-  attribute :signal, Signal, collection: true
+require_relative "signal"
 
-  xml do
-    root 'Reception.signal'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Receptionsignal < Shale::Mapper
+      attribute :signal, Signal, collection: true
 
-    map_element 'Signal', to: :signal
+      xml do
+        root "Reception.signal"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Signal", to: :signal
+      end
+    end
   end
 end

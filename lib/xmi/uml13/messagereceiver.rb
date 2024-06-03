@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'classifier_role'
+require "shale"
 
-class Messagereceiver < Shale::Mapper
-  attribute :classifier_role, ClassifierRole, collection: true
+require_relative "classifier_role"
 
-  xml do
-    root 'Message.receiver'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Messagereceiver < Shale::Mapper
+      attribute :classifier_role, ClassifierRole, collection: true
 
-    map_element 'ClassifierRole', to: :classifier_role
+      xml do
+        root "Message.receiver"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ClassifierRole", to: :classifier_role
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'namespace'
+require "shale"
 
-class ModelElementnamespace < Shale::Mapper
-  attribute :namespace, Namespace, collection: true
+require_relative "namespace"
 
-  xml do
-    root 'ModelElement.namespace'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ModelElementnamespace < Shale::Mapper
+      attribute :namespace, Namespace, collection: true
 
-    map_element 'Namespace', to: :namespace
+      xml do
+        root "ModelElement.namespace"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Namespace", to: :namespace
+      end
+    end
   end
 end

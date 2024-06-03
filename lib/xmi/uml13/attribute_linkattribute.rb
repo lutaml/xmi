@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'attribute'
+require "shale"
 
-class AttributeLinkattribute < Shale::Mapper
-  attribute :attribute, Attribute, collection: true
+require_relative "attribute"
 
-  xml do
-    root 'AttributeLink.attribute'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class AttributeLinkattribute < Shale::Mapper
+      attribute :attribute, Attribute, collection: true
 
-    map_element 'Attribute', to: :attribute
+      xml do
+        root "AttributeLink.attribute"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Attribute", to: :attribute
+      end
+    end
   end
 end

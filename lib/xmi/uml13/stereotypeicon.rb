@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'geometry'
+require "shale"
 
-class Stereotypeicon < Shale::Mapper
-  attribute :geometry, Geometry
+require_relative "geometry"
 
-  xml do
-    root 'Stereotype.icon'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Stereotypeicon < Shale::Mapper
+      attribute :geometry, Geometry
 
-    map_element 'Geometry', to: :geometry
+      xml do
+        root "Stereotype.icon"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Geometry", to: :geometry
+      end
+    end
   end
 end

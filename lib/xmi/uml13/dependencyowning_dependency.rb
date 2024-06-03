@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'dependency'
+require "shale"
 
-class DependencyowningDependency < Shale::Mapper
-  attribute :dependency, Dependency, collection: true
+module Xmi
+  module Uml13
+    class Dependency < Shale::Mapper
+    end
 
-  xml do
-    root 'Dependency.owningDependency'
-    namespace 'omg.org/UML1.3', 'UML'
+    class DependencyowningDependency < Shale::Mapper
+      attribute :dependency, Dependency, collection: true
 
-    map_element 'Dependency', to: :dependency
+      xml do
+        root "Dependency.owningDependency"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Dependency", to: :dependency
+      end
+    end
   end
 end

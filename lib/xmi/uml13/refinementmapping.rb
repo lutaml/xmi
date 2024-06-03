@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'mapping'
+require "shale"
 
-class Refinementmapping < Shale::Mapper
-  attribute :mapping, Mapping
+require_relative "mapping"
 
-  xml do
-    root 'Refinement.mapping'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Refinementmapping < Shale::Mapper
+      attribute :mapping, Mapping
 
-    map_element 'Mapping', to: :mapping
+      xml do
+        root "Refinement.mapping"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Mapping", to: :mapping
+      end
+    end
   end
 end

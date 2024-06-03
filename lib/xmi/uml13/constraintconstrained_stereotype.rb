@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'stereotype'
+require "shale"
 
-class ConstraintconstrainedStereotype < Shale::Mapper
-  attribute :stereotype, Stereotype, collection: true
+require_relative "stereotype"
 
-  xml do
-    root 'Constraint.constrainedStereotype'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ConstraintconstrainedStereotype < Shale::Mapper
+      attribute :stereotype, Stereotype, collection: true
 
-    map_element 'Stereotype', to: :stereotype
+      xml do
+        root "Constraint.constrainedStereotype"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Stereotype", to: :stereotype
+      end
+    end
   end
 end

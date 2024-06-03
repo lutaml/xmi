@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'model_element'
+require "shale"
 
-class Dependencyclient < Shale::Mapper
-  attribute :model_element, ModelElement, collection: true
+require_relative "model_element"
 
-  xml do
-    root 'Dependency.client'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Dependencyclient < Shale::Mapper
+      attribute :model_element, ModelElement, collection: true
 
-    map_element 'ModelElement', to: :model_element
+      xml do
+        root "Dependency.client"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ModelElement", to: :model_element
+      end
+    end
   end
 end

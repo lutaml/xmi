@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'state_machine'
+require "shale"
 
-class StatestateMachine < Shale::Mapper
-  attribute :state_machine, StateMachine, collection: true
+require_relative "state_machine"
 
-  xml do
-    root 'State.stateMachine'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class StatestateMachine < Shale::Mapper
+      attribute :state_machine, StateMachine, collection: true
 
-    map_element 'StateMachine', to: :state_machine
+      xml do
+        root "State.stateMachine"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "StateMachine", to: :state_machine
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'activity_model'
+require "shale"
 
-class PartitionactivityModel < Shale::Mapper
-  attribute :activity_model, ActivityModel, collection: true
+require_relative "activity_model"
 
-  xml do
-    root 'Partition.activityModel'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class PartitionactivityModel < Shale::Mapper
+      attribute :activity_model, ActivityModel, collection: true
 
-    map_element 'ActivityModel', to: :activity_model
+      xml do
+        root "Partition.activityModel"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ActivityModel", to: :activity_model
+      end
+    end
   end
 end

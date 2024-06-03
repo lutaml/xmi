@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'object_flow_state'
+require "shale"
 
-class ClassifierInStateobjectFlowState < Shale::Mapper
-  attribute :object_flow_state, ObjectFlowState, collection: true
+require_relative "object_flow_state"
 
-  xml do
-    root 'ClassifierInState.objectFlowState'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ClassifierInStateobjectFlowState < Shale::Mapper
+      attribute :object_flow_state, ObjectFlowState, collection: true
 
-    map_element 'ObjectFlowState', to: :object_flow_state
+      xml do
+        root "ClassifierInState.objectFlowState"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ObjectFlowState", to: :object_flow_state
+      end
+    end
   end
 end

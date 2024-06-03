@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'stereotype'
+require "shale"
 
-class ModelElementstereotype < Shale::Mapper
-  attribute :stereotype, Stereotype, collection: true
+module Xmi
+  module Uml13
+    class Stereotype < Shale::Mapper
+    end
 
-  xml do
-    root 'ModelElement.stereotype'
-    namespace 'omg.org/UML1.3', 'UML'
+    class ModelElementstereotype < Shale::Mapper
+      attribute :stereotype, Stereotype, collection: true
 
-    map_element 'Stereotype', to: :stereotype
+      xml do
+        root "ModelElement.stereotype"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Stereotype", to: :stereotype
+      end
+    end
   end
 end

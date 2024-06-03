@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'parameter'
+require "shale"
 
-class BehavioralFeatureparameter < Shale::Mapper
-  attribute :parameter, Parameter, collection: true
+require_relative "parameter"
 
-  xml do
-    root 'BehavioralFeature.parameter'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class BehavioralFeatureparameter < Shale::Mapper
+      attribute :parameter, Parameter, collection: true
 
-    map_element 'Parameter', to: :parameter
+      xml do
+        root "BehavioralFeature.parameter"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Parameter", to: :parameter
+      end
+    end
   end
 end

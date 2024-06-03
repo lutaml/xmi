@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'object_set_expression'
+require "shale"
 
-class Actiontarget < Shale::Mapper
-  attribute :object_set_expression, ObjectSetExpression
+require_relative "object_set_expression"
 
-  xml do
-    root 'Action.target'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Actiontarget < Shale::Mapper
+      attribute :object_set_expression, ObjectSetExpression
 
-    map_element 'ObjectSetExpression', to: :object_set_expression
+      xml do
+        root "Action.target"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ObjectSetExpression", to: :object_set_expression
+      end
+    end
   end
 end

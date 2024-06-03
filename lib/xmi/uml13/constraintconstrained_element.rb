@@ -1,14 +1,21 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'model_element'
+require "shale"
 
-class ConstraintconstrainedElement < Shale::Mapper
-  attribute :model_element, ModelElement, collection: true
+module Xmi
+  module Uml13
+    class ModelElement < Shale::Mapper
+    end
 
-  xml do
-    root 'Constraint.constrainedElement'
-    namespace 'omg.org/UML1.3', 'UML'
+    class ConstraintconstrainedElement < Shale::Mapper
+      attribute :model_element, ModelElement, collection: true
 
-    map_element 'ModelElement', to: :model_element
+      xml do
+        root "Constraint.constrainedElement"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "ModelElement", to: :model_element
+      end
+    end
   end
 end

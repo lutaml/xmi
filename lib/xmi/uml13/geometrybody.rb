@@ -1,16 +1,22 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'xm_ireference'
+require "shale"
 
-class Geometrybody < Shale::Mapper
-  attribute :content, Shale::Type::String
-  attribute :xmi_reference, XMIreference, collection: true
+require_relative "xm_ireference"
 
-  xml do
-    root 'Geometry.body'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Geometrybody < Shale::Mapper
+      attribute :content, Shale::Type::String
+      attribute :xmi_reference, XMIreference, collection: true
 
-    map_content to: :content
-    map_element 'XMI.reference', to: :xmi_reference, prefix: nil, namespace: nil
+      xml do
+        root "Geometry.body"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_content to: :content
+        map_element "XMI.reference", to: :xmi_reference, prefix: nil, namespace: nil
+      end
+    end
   end
 end

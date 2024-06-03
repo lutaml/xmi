@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'presentation'
+require "shale"
 
-class ModelElementpresentation < Shale::Mapper
-  attribute :presentation, Presentation, collection: true
+require_relative "presentation"
 
-  xml do
-    root 'ModelElement.presentation'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ModelElementpresentation < Shale::Mapper
+      attribute :presentation, Presentation, collection: true
 
-    map_element 'Presentation', to: :presentation
+      xml do
+        root "ModelElement.presentation"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Presentation", to: :presentation
+      end
+    end
   end
 end

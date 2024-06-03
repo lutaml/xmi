@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'request'
+require "shale"
 
-class Actionrequest < Shale::Mapper
-  attribute :request, Request, collection: true
+require_relative "request"
 
-  xml do
-    root 'Action.request'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Actionrequest < Shale::Mapper
+      attribute :request, Request, collection: true
 
-    map_element 'Request', to: :request
+      xml do
+        root "Action.request"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "Request", to: :request
+      end
+    end
   end
 end

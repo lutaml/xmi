@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'generalizable_element'
+require "shale"
 
-class Generalizationsupertype < Shale::Mapper
-  attribute :generalizable_element, GeneralizableElement, collection: true
+require_relative "generalizable_element"
 
-  xml do
-    root 'Generalization.supertype'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class Generalizationsupertype < Shale::Mapper
+      attribute :generalizable_element, GeneralizableElement, collection: true
 
-    map_element 'GeneralizableElement', to: :generalizable_element
+      xml do
+        root "Generalization.supertype"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "GeneralizableElement", to: :generalizable_element
+      end
+    end
   end
 end

@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'state'
+require "shale"
 
-class ActionSequencestate2 < Shale::Mapper
-  attribute :state, State, collection: true
+require_relative "state"
 
-  xml do
-    root 'ActionSequence.state2'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ActionSequencestate2 < Shale::Mapper
+      attribute :state, State, collection: true
 
-    map_element 'State', to: :state
+      xml do
+        root "ActionSequence.state2"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "State", to: :state
+      end
+    end
   end
 end

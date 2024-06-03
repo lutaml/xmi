@@ -1,14 +1,20 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'state'
+require "shale"
 
-class ClassifierInStateinState < Shale::Mapper
-  attribute :state, State, collection: true
+require_relative "state"
 
-  xml do
-    root 'ClassifierInState.inState'
-    namespace 'omg.org/UML1.3', 'UML'
+module Xmi
+  module Uml13
+    class ClassifierInStateinState < Shale::Mapper
+      attribute :state, State, collection: true
 
-    map_element 'State', to: :state
+      xml do
+        root "ClassifierInState.inState"
+        namespace "omg.org/UML1.3", "UML"
+
+        map_element "State", to: :state
+      end
+    end
   end
 end

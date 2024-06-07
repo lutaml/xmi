@@ -913,11 +913,11 @@ module Xmi
           attribute :number, SparxCustomProfileNumber
           attribute :year_version, SparxCustomProfileYearVersion
           attribute :modelica_parameter, SparxSysPhS
-          attribute :abstract_schema, Iso19103::AbstractSchema, collection: true
-          attribute :gi_interface, Iso19103::GiInterface, collection: true
-          attribute :gi_property, Iso19103::GiProperty, collection: true
-          attribute :gi_enumeration, Iso19103::GiEnumeration, collection: true
-          attribute :gi_enumeration_literal, Iso19103::GiEnumerationLiteral, collection: true
+          attribute :abstract_schema, EaRoot::AbstractSchema, collection: true
+          attribute :gi_interface, EaRoot::GiInterface, collection: true
+          attribute :gi_property, EaRoot::GiProperty, collection: true
+          attribute :gi_enumeration, EaRoot::GiEnumeration, collection: true
+          attribute :gi_enumeration_literal, EaRoot::GiEnumerationLiteral, collection: true
         end
       end
     end

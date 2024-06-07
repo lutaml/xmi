@@ -25,14 +25,14 @@ module Xmi
 
     xml do
       root "Documentation"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmlns"
+      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 
-      map_attribute "id", to: :id, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
-      map_attribute "label", to: :label, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
-      map_attribute "uuid", to: :uuid, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
+      map_attribute "id", to: :id
+      map_attribute "label", to: :label
+      map_attribute "uuid", to: :uuid
       map_attribute "href", to: :href
-      map_attribute "idref", to: :idref, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
-      map_attribute "type", to: :type, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
+      map_attribute "idref", to: :idref
+      map_attribute "type", to: :type
       map_attribute "exporter", to: :exporter
       map_attribute "exporterVersion", to: :exporter_version
       map_attribute "exporterID", to: :exporter_id

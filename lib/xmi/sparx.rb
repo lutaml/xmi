@@ -117,6 +117,7 @@ module Xmi
 
     class SparxElementTags < Shale::Mapper
       attribute :tags, SparxElementTag, collection: true
+
       xml do
         root "tags"
         map_element "tag", to: :tags
@@ -912,6 +913,11 @@ module Xmi
           attribute :number, SparxCustomProfileNumber
           attribute :year_version, SparxCustomProfileYearVersion
           attribute :modelica_parameter, SparxSysPhS
+          attribute :abstract_schema, Iso19103::AbstractSchema, collection: true
+          attribute :gi_interface, Iso19103::GiInterface, collection: true
+          attribute :gi_property, Iso19103::GiProperty, collection: true
+          attribute :gi_enumeration, Iso19103::GiEnumeration, collection: true
+          attribute :gi_enumeration_literal, Iso19103::GiEnumerationLiteral, collection: true
         end
       end
     end
@@ -947,6 +953,21 @@ module Xmi
         map_element "ModelicaParameter", to: :modelica_parameter,
                                          namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
                                          prefix: "SysPhS"
+        map_element "AbstractSchema", to: :abstract_schema,
+                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                      prefix: "ISO19103"
+        map_element "GI_Interface", to: :gi_interface,
+                                    namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                    prefix: "ISO19103"
+        map_element "GI_Property", to: :gi_property,
+                                   namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                   prefix: "ISO19103"
+        map_element "GI_Enumeration", to: :gi_enumeration,
+                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                      prefix: "ISO19103"
+        map_element "GI_EnumerationLiteral", to: :gi_enumeration_literal,
+                                             namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                             prefix: "ISO19103"
       end
     end
 
@@ -981,6 +1002,21 @@ module Xmi
         map_element "ModelicaParameter", to: :modelica_parameter,
                                          namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
                                          prefix: "SysPhS"
+        map_element "AbstractSchema", to: :abstract_schema,
+                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                      prefix: "ISO19103"
+        map_element "GI_Interface", to: :gi_interface,
+                                    namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                    prefix: "ISO19103"
+        map_element "GI_Property", to: :gi_property,
+                                   namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                   prefix: "ISO19103"
+        map_element "GI_Enumeration", to: :gi_enumeration,
+                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                      prefix: "ISO19103"
+        map_element "GI_EnumerationLiteral", to: :gi_enumeration_literal,
+                                             namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
+                                             prefix: "ISO19103"
       end
     end
   end

@@ -913,11 +913,6 @@ module Xmi
           attribute :number, SparxCustomProfileNumber
           attribute :year_version, SparxCustomProfileYearVersion
           attribute :modelica_parameter, SparxSysPhS
-          attribute :abstract_schema, EaRoot::AbstractSchema, collection: true
-          attribute :gi_interface, EaRoot::GiInterface, collection: true
-          attribute :gi_property, EaRoot::GiProperty, collection: true
-          attribute :gi_enumeration, EaRoot::GiEnumeration, collection: true
-          attribute :gi_enumeration_literal, EaRoot::GiEnumerationLiteral, collection: true
         end
       end
     end
@@ -926,48 +921,39 @@ module Xmi
       include SparxRootAttributes
       attribute :extension, SparxExtension
 
+      @@default_mapping =<<-MAP
+      root "XMI"
+      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
+
+      map_attribute "id", to: :id
+      map_attribute "label", to: :label
+      map_attribute "uuid", to: :uuid
+      map_attribute "href", to: :href
+      map_attribute "idref", to: :idref
+      map_attribute "type", to: :type
+
+      map_element "Extension", to: :extension
+      map_element "publicationDate", to: :publication_date,
+                                     namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                                     prefix: "thecustomprofile"
+      map_element "edition", to: :edition,
+                             namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                             prefix: "thecustomprofile"
+      map_element "number", to: :number,
+                            namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                            prefix: "thecustomprofile"
+      map_element "yearVersion", to: :year_version,
+                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                                 prefix: "thecustomprofile"
+      map_element "ModelicaParameter", to: :modelica_parameter,
+                                       namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
+                                       prefix: "SysPhS"
+      MAP
+
+      @@mapping ||= @@default_mapping
+
       xml do
-        root "XMI"
-        namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
-
-        map_attribute "id", to: :id
-        map_attribute "label", to: :label
-        map_attribute "uuid", to: :uuid
-        map_attribute "href", to: :href
-        map_attribute "idref", to: :idref
-        map_attribute "type", to: :type
-
-        map_element "Extension", to: :extension
-        map_element "publicationDate", to: :publication_date,
-                                       namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                       prefix: "thecustomprofile"
-        map_element "edition", to: :edition,
-                               namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                               prefix: "thecustomprofile"
-        map_element "number", to: :number,
-                              namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile"
-        map_element "yearVersion", to: :year_version,
-                                   namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                   prefix: "thecustomprofile"
-        map_element "ModelicaParameter", to: :modelica_parameter,
-                                         namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
-                                         prefix: "SysPhS"
-        map_element "AbstractSchema", to: :abstract_schema,
-                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                      prefix: "ISO19103"
-        map_element "GI_Interface", to: :gi_interface,
-                                    namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                    prefix: "ISO19103"
-        map_element "GI_Property", to: :gi_property,
-                                   namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                   prefix: "ISO19103"
-        map_element "GI_Enumeration", to: :gi_enumeration,
-                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                      prefix: "ISO19103"
-        map_element "GI_EnumerationLiteral", to: :gi_enumeration_literal,
-                                             namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                             prefix: "ISO19103"
+        eval Xmi::Sparx::SparxRoot.class_variable_get("@@mapping")
       end
     end
 
@@ -975,48 +961,39 @@ module Xmi
       include SparxRootAttributes
       attribute :extension, SparxExtension2013
 
+      @@default_mapping =<<-MAP
+      root "XMI"
+      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
+
+      map_attribute "id", to: :id
+      map_attribute "label", to: :label
+      map_attribute "uuid", to: :uuid
+      map_attribute "href", to: :href
+      map_attribute "idref", to: :idref
+      map_attribute "type", to: :type
+
+      map_element "Extension", to: :extension
+      map_element "publicationDate", to: :publication_date,
+                                     namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                                     prefix: "thecustomprofile"
+      map_element "edition", to: :edition,
+                             namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                             prefix: "thecustomprofile"
+      map_element "number", to: :number,
+                            namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                            prefix: "thecustomprofile"
+      map_element "yearVersion", to: :year_version,
+                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
+                                 prefix: "thecustomprofile"
+      map_element "ModelicaParameter", to: :modelica_parameter,
+                                       namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
+                                       prefix: "SysPhS"
+      MAP
+
+      @@mapping ||= @@default_mapping
+
       xml do
-        root "XMI"
-        namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
-
-        map_attribute "id", to: :id
-        map_attribute "label", to: :label
-        map_attribute "uuid", to: :uuid
-        map_attribute "href", to: :href
-        map_attribute "idref", to: :idref
-        map_attribute "type", to: :type
-
-        map_element "Extension", to: :extension
-        map_element "publicationDate", to: :publication_date,
-                                       namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                       prefix: "thecustomprofile"
-        map_element "edition", to: :edition,
-                               namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                               prefix: "thecustomprofile"
-        map_element "number", to: :number,
-                              namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile"
-        map_element "yearVersion", to: :year_version,
-                                   namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                   prefix: "thecustomprofile"
-        map_element "ModelicaParameter", to: :modelica_parameter,
-                                         namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
-                                         prefix: "SysPhS"
-        map_element "AbstractSchema", to: :abstract_schema,
-                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                      prefix: "ISO19103"
-        map_element "GI_Interface", to: :gi_interface,
-                                    namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                    prefix: "ISO19103"
-        map_element "GI_Property", to: :gi_property,
-                                   namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                   prefix: "ISO19103"
-        map_element "GI_Enumeration", to: :gi_enumeration,
-                                      namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                      prefix: "ISO19103"
-        map_element "GI_EnumerationLiteral", to: :gi_enumeration_literal,
-                                             namespace: "https://standards.isotc211.org/19103/-/2/uml-profile",
-                                             prefix: "ISO19103"
+        eval Xmi::Sparx::SparxRoot2013.class_variable_get("@@mapping")
       end
     end
   end

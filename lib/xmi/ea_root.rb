@@ -54,8 +54,12 @@ module Xmi
       end
 
       def load_extension(options)
-        content = gen_content(options)
-        Object.class_eval content
+        @content = gen_content(options)
+        Object.class_eval @content
+      end
+
+      def output_rb_file(output_rb_path)
+        File.open(output_rb_path, "w") { |file| file.write(@content) }
       end
 
       private

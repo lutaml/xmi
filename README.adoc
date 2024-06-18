@@ -1,5 +1,90 @@
-= XMI: OMG XMI parser
+= XMI
 
 == Purpose
 
-This parser provides a Ruby interface to OMG XMI (2.5.2) files.
+This Ruby object mapper is a module designed to convert XMI (XML Metadata Interchange) files into Ruby objects.  It can also leverage the `nokogiri` gem for XML parsing and provides methods to dynamically generate Ruby classes and modules based on the XML structure, particularly those related to EA (Enterprise Architect) MDG (Model Driven Generation) extensions.
+
+== Installation
+
+Add this line to your application's Gemfile:
+
+[source,ruby]
+----
+gem "xmi"
+----
+
+And then execute:
+
+[source,shell]
+----
+$ bundle install
+----
+
+Or install it yourself as:
+
+[source,shell]
+----
+$ gem install xmi
+----
+
+== Usage
+
+=== Convert XMI file into Ruby objects
+
+To convert XMI file into Ruby objects, run:
+
+[source,ruby]
+----
+xml = "path/to/your/file.xmi"
+xml_content = File.read(xml)
+xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
+----
+
+This method takes the path to an XMI file and generate the Ruby objects.
+
+=== Loading MDG Extensions and Generate Ruby Classes and Modules Dynamically
+
+To load an MDG extension from an XML file, use the `load_mdg_extension` method:
+
+[source,ruby]
+----
+Xmi::EaRoot.load_mdg_extension("path/to/your/mdg_extension.xml")
+
+xml = "path/to/your/file.xmi"
+xml_content = File.read(xml)
+xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
+----
+
+`Xmi::EaRoot.load_mdg_extension` takes the path to an XML file and generate the
+Ruby classes and modules defined in XML file dynamically.
+Then, you can generate Ruby objects by `Xmi::Sparx::SparxRoot2013.from_xml`.
+
+=== Output Classes and Modules Generated from Extension into Ruby Files
+
+You can also generate Ruby files directly from the XMI content:
+
+[source,ruby]
+----
+Xmi::EaRoot.load_extension(
+  input_xml_path: 'path/to/your/custom_extension.xml',
+  module_name: 'CustomModule'
+)
+Xmi::EaRoot.output_rb_file('path/to/output_file.rb')
+----
+
+This approach allows you to save the dynamically generated Ruby code to a file for further use.
+
+== Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+
+== Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/xmi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/xmi/blob/master/CODE_OF_CONDUCT.md).
+
+== Code of Conduct
+
+Everyone interacting in the Xmi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/xmi/blob/master/CODE_OF_CONDUCT.md).

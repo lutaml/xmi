@@ -1,10 +1,12 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'boolean_expression'
-require_relative 'expression'
-require_relative 'object_set_expression'
-require_relative 'procedure_expression'
-require_relative 'time_expression'
+require "shale"
+
+require_relative "boolean_expression"
+require_relative "expression"
+require_relative "object_set_expression"
+require_relative "procedure_expression"
+require_relative "time_expression"
 
 class ParameterdefaultValue < Shale::Mapper
   attribute :expression, Expression
@@ -14,13 +16,13 @@ class ParameterdefaultValue < Shale::Mapper
   attribute :boolean_expression, BooleanExpression
 
   xml do
-    root 'Parameter.defaultValue'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Parameter.defaultValue"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'Expression', to: :expression
-    map_element 'ProcedureExpression', to: :procedure_expression
-    map_element 'ObjectSetExpression', to: :object_set_expression
-    map_element 'TimeExpression', to: :time_expression
-    map_element 'BooleanExpression', to: :boolean_expression
+    map_element "Expression", to: :expression
+    map_element "ProcedureExpression", to: :procedure_expression
+    map_element "ObjectSetExpression", to: :object_set_expression
+    map_element "TimeExpression", to: :time_expression
+    map_element "BooleanExpression", to: :boolean_expression
   end
 end

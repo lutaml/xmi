@@ -1,8 +1,10 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'argumentaction'
-require_relative 'argumentvalue'
-require_relative 'xm_iextension'
+require "shale"
+
+require_relative "argumentaction"
+require_relative "argumentvalue"
+require_relative "xm_iextension"
 
 class Argument < Shale::Mapper
   attribute :action, Shale::Type::Value
@@ -16,17 +18,17 @@ class Argument < Shale::Mapper
   attribute :argument_action, Argumentaction, collection: true
 
   xml do
-    root 'Argument'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Argument"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_attribute 'action', to: :action
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_element 'Argument.value', to: :argument_value
-    map_element 'XMI.extension', to: :xmi_extension, prefix: nil, namespace: nil
-    map_element 'Argument.action', to: :argument_action
+    map_attribute "action", to: :action
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_element "Argument.value", to: :argument_value
+    map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
+    map_element "Argument.action", to: :argument_action
   end
 end

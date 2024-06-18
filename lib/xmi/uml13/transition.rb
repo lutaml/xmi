@@ -1,31 +1,33 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'model_elementbehavior'
-require_relative 'model_elementbinding'
-require_relative 'model_elementcollaboration'
-require_relative 'model_elementconstraint'
-require_relative 'model_elementelement_reference'
-require_relative 'model_elementimplementation'
-require_relative 'model_elementname'
-require_relative 'model_elementnamespace'
-require_relative 'model_elementpartition'
-require_relative 'model_elementpresentation'
-require_relative 'model_elementprovision'
-require_relative 'model_elementrequirement'
-require_relative 'model_elementstereotype'
-require_relative 'model_elementtagged_value'
-require_relative 'model_elementtemplate'
-require_relative 'model_elementtemplate_parameter'
-require_relative 'model_elementview'
-require_relative 'model_elementvisibility'
-require_relative 'transitioneffect'
-require_relative 'transitionguard'
-require_relative 'transitionsource'
-require_relative 'transitionstate'
-require_relative 'transitionstatemachine'
-require_relative 'transitiontarget'
-require_relative 'transitiontrigger'
-require_relative 'xm_iextension'
+require "shale"
+
+require_relative "model_elementbehavior"
+require_relative "model_elementbinding"
+require_relative "model_elementcollaboration"
+require_relative "model_elementconstraint"
+require_relative "model_elementelement_reference"
+require_relative "model_elementimplementation"
+require_relative "model_elementname"
+require_relative "model_elementnamespace"
+require_relative "model_elementpartition"
+require_relative "model_elementpresentation"
+require_relative "model_elementprovision"
+require_relative "model_elementrequirement"
+require_relative "model_elementstereotype"
+require_relative "model_elementtagged_value"
+require_relative "model_elementtemplate"
+require_relative "model_elementtemplate_parameter"
+require_relative "model_elementview"
+require_relative "model_elementvisibility"
+require_relative "transitioneffect"
+require_relative "transitionguard"
+require_relative "transitionsource"
+require_relative "transitionstate"
+require_relative "transitionstatemachine"
+require_relative "transitiontarget"
+require_relative "transitiontrigger"
+require_relative "xm_iextension"
 
 class Transition < Shale::Mapper
   attribute :name, Shale::Type::Value
@@ -83,61 +85,61 @@ class Transition < Shale::Mapper
   attribute :transition_effect, Transitioneffect, collection: true
 
   xml do
-    root 'Transition'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Transition"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_attribute 'name', to: :name
-    map_attribute 'visibility', to: :visibility
-    map_attribute 'binding', to: :binding
-    map_attribute 'template', to: :template
-    map_attribute 'templateParameter', to: :template_parameter
-    map_attribute 'implementation', to: :implementation
-    map_attribute 'view', to: :view
-    map_attribute 'presentation', to: :presentation
-    map_attribute 'namespace', to: :namespace
-    map_attribute 'constraint', to: :constraint
-    map_attribute 'requirement', to: :requirement
-    map_attribute 'provision', to: :provision
-    map_attribute 'stereotype', to: :stereotype
-    map_attribute 'elementReference', to: :element_reference
-    map_attribute 'collaboration', to: :collaboration
-    map_attribute 'behavior', to: :behavior
-    map_attribute 'partition', to: :partition
-    map_attribute 'source', to: :source
-    map_attribute 'target', to: :target
-    map_attribute 'statemachine', to: :statemachine
-    map_attribute 'state', to: :state
-    map_attribute 'trigger', to: :trigger
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_element 'ModelElement.name', to: :model_element_name
-    map_element 'ModelElement.visibility', to: :model_element_visibility
-    map_element 'XMI.extension', to: :xmi_extension, prefix: nil, namespace: nil
-    map_element 'ModelElement.binding', to: :model_element_binding
-    map_element 'ModelElement.template', to: :model_element_template
-    map_element 'ModelElement.templateParameter', to: :model_element_template_parameter
-    map_element 'ModelElement.implementation', to: :model_element_implementation
-    map_element 'ModelElement.view', to: :model_element_view
-    map_element 'ModelElement.presentation', to: :model_element_presentation
-    map_element 'ModelElement.namespace', to: :model_element_namespace
-    map_element 'ModelElement.constraint', to: :model_element_constraint
-    map_element 'ModelElement.requirement', to: :model_element_requirement
-    map_element 'ModelElement.provision', to: :model_element_provision
-    map_element 'ModelElement.stereotype', to: :model_element_stereotype
-    map_element 'ModelElement.elementReference', to: :model_element_element_reference
-    map_element 'ModelElement.collaboration', to: :model_element_collaboration
-    map_element 'ModelElement.behavior', to: :model_element_behavior
-    map_element 'ModelElement.partition', to: :model_element_partition
-    map_element 'Transition.source', to: :transition_source
-    map_element 'Transition.target', to: :transition_target
-    map_element 'Transition.statemachine', to: :transition_statemachine
-    map_element 'Transition.state', to: :transition_state
-    map_element 'Transition.trigger', to: :transition_trigger
-    map_element 'ModelElement.taggedValue', to: :model_element_tagged_value
-    map_element 'Transition.guard', to: :transition_guard
-    map_element 'Transition.effect', to: :transition_effect
+    map_attribute "name", to: :name
+    map_attribute "visibility", to: :visibility
+    map_attribute "binding", to: :binding
+    map_attribute "template", to: :template
+    map_attribute "templateParameter", to: :template_parameter
+    map_attribute "implementation", to: :implementation
+    map_attribute "view", to: :view
+    map_attribute "presentation", to: :presentation
+    map_attribute "namespace", to: :namespace
+    map_attribute "constraint", to: :constraint
+    map_attribute "requirement", to: :requirement
+    map_attribute "provision", to: :provision
+    map_attribute "stereotype", to: :stereotype
+    map_attribute "elementReference", to: :element_reference
+    map_attribute "collaboration", to: :collaboration
+    map_attribute "behavior", to: :behavior
+    map_attribute "partition", to: :partition
+    map_attribute "source", to: :source
+    map_attribute "target", to: :target
+    map_attribute "statemachine", to: :statemachine
+    map_attribute "state", to: :state
+    map_attribute "trigger", to: :trigger
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_element "ModelElement.name", to: :model_element_name
+    map_element "ModelElement.visibility", to: :model_element_visibility
+    map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
+    map_element "ModelElement.binding", to: :model_element_binding
+    map_element "ModelElement.template", to: :model_element_template
+    map_element "ModelElement.templateParameter", to: :model_element_template_parameter
+    map_element "ModelElement.implementation", to: :model_element_implementation
+    map_element "ModelElement.view", to: :model_element_view
+    map_element "ModelElement.presentation", to: :model_element_presentation
+    map_element "ModelElement.namespace", to: :model_element_namespace
+    map_element "ModelElement.constraint", to: :model_element_constraint
+    map_element "ModelElement.requirement", to: :model_element_requirement
+    map_element "ModelElement.provision", to: :model_element_provision
+    map_element "ModelElement.stereotype", to: :model_element_stereotype
+    map_element "ModelElement.elementReference", to: :model_element_element_reference
+    map_element "ModelElement.collaboration", to: :model_element_collaboration
+    map_element "ModelElement.behavior", to: :model_element_behavior
+    map_element "ModelElement.partition", to: :model_element_partition
+    map_element "Transition.source", to: :transition_source
+    map_element "Transition.target", to: :transition_target
+    map_element "Transition.statemachine", to: :transition_statemachine
+    map_element "Transition.state", to: :transition_state
+    map_element "Transition.trigger", to: :transition_trigger
+    map_element "ModelElement.taggedValue", to: :model_element_tagged_value
+    map_element "Transition.guard", to: :transition_guard
+    map_element "Transition.effect", to: :transition_effect
   end
 end

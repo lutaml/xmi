@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'model_element'
+require "shale"
+
+require_relative "model_element"
 
 class StereotypeextendedElement < Shale::Mapper
   attribute :model_element, ModelElement, collection: true
 
   xml do
-    root 'Stereotype.extendedElement'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Stereotype.extendedElement"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'ModelElement', to: :model_element
+    map_element "ModelElement", to: :model_element
   end
 end

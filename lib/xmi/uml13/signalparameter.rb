@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'parameter'
+require "shale"
+
+require_relative "parameter"
 
 class Signalparameter < Shale::Mapper
   attribute :parameter, Parameter, collection: true
 
   xml do
-    root 'Signal.parameter'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Signal.parameter"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'Parameter', to: :parameter
+    map_element "Parameter", to: :parameter
   end
 end

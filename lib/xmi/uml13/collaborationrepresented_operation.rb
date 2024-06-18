@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'operation'
+require "shale"
+
+require_relative "operation"
 
 class CollaborationrepresentedOperation < Shale::Mapper
   attribute :operation, Operation, collection: true
 
   xml do
-    root 'Collaboration.representedOperation'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Collaboration.representedOperation"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'Operation', to: :operation
+    map_element "Operation", to: :operation
   end
 end

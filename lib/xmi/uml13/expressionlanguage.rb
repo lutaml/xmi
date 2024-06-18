@@ -1,16 +1,18 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'xm_ireference'
+require "shale"
+
+require_relative "xm_ireference"
 
 class Expressionlanguage < Shale::Mapper
   attribute :content, Shale::Type::String
   attribute :xmi_reference, XMIreference, collection: true
 
   xml do
-    root 'Expression.language'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Expression.language"
+    namespace "omg.org/UML1.3", "UML"
 
     map_content to: :content
-    map_element 'XMI.reference', to: :xmi_reference, prefix: nil, namespace: nil
+    map_element "XMI.reference", to: :xmi_reference, prefix: nil, namespace: nil
   end
 end

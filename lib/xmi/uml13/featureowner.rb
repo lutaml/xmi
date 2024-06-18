@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'classifier'
+require "shale"
+
+require_relative "classifier"
 
 class Featureowner < Shale::Mapper
   attribute :classifier, Classifier, collection: true
 
   xml do
-    root 'Feature.owner'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Feature.owner"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'Classifier', to: :classifier
+    map_element "Classifier", to: :classifier
   end
 end

@@ -35,7 +35,7 @@ module Xmi
     end
 
     module OwnedEndAttributes
-      def self.included(klass)
+      def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
           attribute :type, Shale::Type::String
           attribute :id, Shale::Type::String
@@ -674,9 +674,9 @@ module Xmi
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
-        map_element 'ownedComment', to: :owned_comment
+        map_element "ownedComment", to: :owned_comment
         map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
-        map_element 'packagedElement', to: :packaged_element
+        map_element "packagedElement", to: :packaged_element
       end
     end
 
@@ -692,9 +692,9 @@ module Xmi
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
-        map_element 'ownedComment', to: :owned_comment
+        map_element "ownedComment", to: :owned_comment
         map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
-        map_element 'packagedElement', to: :packaged_element
+        map_element "packagedElement", to: :packaged_element
       end
     end
   end

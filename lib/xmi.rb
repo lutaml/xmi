@@ -8,9 +8,11 @@ unless Shale.xml_adapter
 end
 
 # add a function to check type
-class Shale::Mapper
-  def is_type?(test_type)
-    !!self.type ? self.type == test_type : false
+module Shale
+  class Mapper
+    def type?(test_type)
+      !!type ? type == test_type : false
+    end
   end
 end
 

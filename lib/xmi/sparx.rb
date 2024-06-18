@@ -88,7 +88,6 @@ module Xmi
       end
     end
 
-    # <style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
     class SparxElementStyle < Shale::Mapper
       attribute :appearance, Shale::Type::String
 
@@ -520,7 +519,7 @@ module Xmi
     end
 
     module SparxConnectorEnd
-      def self.included(klass)
+      def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
           attribute :idref, Shale::Type::String
           attribute :model, SparxConnectorModel
@@ -667,8 +666,8 @@ module Xmi
         root "profiles"
 
         map_element "Profile", to: :profile,
-          namespace: "http://www.omg.org/spec/UML/20161101",
-          prefix: "uml"
+                               namespace: "http://www.omg.org/spec/UML/20161101",
+                               prefix: "uml"
       end
     end
 
@@ -679,11 +678,10 @@ module Xmi
         root "profiles"
 
         map_element "Profile", to: :profile,
-          namespace: "http://www.omg.org/spec/UML/20131001",
-          prefix: "uml"
+                               namespace: "http://www.omg.org/spec/UML/20131001",
+                               prefix: "uml"
       end
     end
-
 
     class SparxDiagramElement < Shale::Mapper
       attribute :geometry, Shale::Type::String
@@ -774,7 +772,7 @@ module Xmi
     end
 
     module SparxExtensionAttributes
-      def self.included(klass)
+      def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
           attribute :id, Shale::Type::String
           attribute :label, Shale::Type::String
@@ -921,7 +919,7 @@ module Xmi
       include SparxRootAttributes
       attribute :extension, SparxExtension
 
-      @@default_mapping =<<-MAP
+      @@default_mapping = <<-MAP # rubocop:disable Style/ClassVars
       root "XMI"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 
@@ -950,10 +948,10 @@ module Xmi
                                        prefix: "SysPhS"
       MAP
 
-      @@mapping ||= @@default_mapping
+      @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars
 
       xml do
-        eval Xmi::Sparx::SparxRoot.class_variable_get("@@mapping")
+        eval Xmi::Sparx::SparxRoot.class_variable_get("@@mapping") # rubocop:disable Security/Eval
       end
     end
 
@@ -961,7 +959,7 @@ module Xmi
       include SparxRootAttributes
       attribute :extension, SparxExtension2013
 
-      @@default_mapping =<<-MAP
+      @@default_mapping = <<-MAP # rubocop:disable Style/ClassVars
       root "XMI"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 
@@ -990,10 +988,10 @@ module Xmi
                                        prefix: "SysPhS"
       MAP
 
-      @@mapping ||= @@default_mapping
+      @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars
 
       xml do
-        eval Xmi::Sparx::SparxRoot2013.class_variable_get("@@mapping")
+        eval Xmi::Sparx::SparxRoot2013.class_variable_get("@@mapping") # rubocop:disable Security/Eval
       end
     end
   end

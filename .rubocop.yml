@@ -1,8 +1,13 @@
 AllCops:
   TargetRubyVersion: 3.0
+  Exclude:
+    - "lib/xmi/uml13/**/*.rb"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Documentation:
+  Enabled: false

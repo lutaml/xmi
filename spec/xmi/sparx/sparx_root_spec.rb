@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot do
+RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
   context ".from_xml" do
     context "when parsing from XML with XMI 2013 and UML 2016" do
       let(:xml) { File.new(fixtures_path("ISO 6709 Edition 2.xml")) }

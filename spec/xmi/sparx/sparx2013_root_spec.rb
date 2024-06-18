@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot2013 do
-  context ".from_xml" do
+RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLength
+  context ".from_xml" do # rubocop:disable Metrics/BlockLength
     context "when parsing from XML with XMI 2013 and UML 2013" do
       let(:xml) { File.new(fixtures_path("ea-xmi-2.5.1.xmi")) }
 
@@ -34,7 +34,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do
       end
     end
 
-    context "loading EA MDG extension on demand" do
+    context "loading EA MDG extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default.xmi")) }
       let(:mdg_definition_xml) { File.new(fixtures_path("ISO19103MDG v1.0.0-beta.xml")) }
       let(:expected_mdg_klasses) do
@@ -93,7 +93,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do
         end
       end
 
-      context "after loading extension" do
+      context "after loading extension" do # rubocop:disable Metrics/BlockLength
         before do
           Xmi::EaRoot.load_mdg_extension(mdg_definition_xml)
         end

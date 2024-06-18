@@ -3,45 +3,45 @@
 require "nokogiri"
 
 module Xmi
-  class EaRoot
+  class EaRoot # rubocop:disable Metrics/ClassLength
     MODULE_TEMPLATE = <<~TEXT
-    module Xmi
-      class EaRoot
-        module #MODULE_NAME#
-    #KLASSES#
+      module Xmi
+        class EaRoot
+          module #MODULE_NAME#
+      #KLASSES#
+          end
         end
       end
-    end
     TEXT
 
     KLASS_TEMPLATE = <<~TEXT
-          class #KLASS_NAME# < #FROM_KLASS#
-            #ROOT_TAG_LINE#
+            class #KLASS_NAME# < #FROM_KLASS#
+              #ROOT_TAG_LINE#
 
-    #ATTRIBUTES##XML_MAPPING#
-          end
-    TEXT
-
-    XML_MAPPING = <<~TEXT
-            xml do
-              root "#ROOT_TAG#"
-    #MAP_ATTRIBUTES#
+      #ATTRIBUTES##XML_MAPPING#
             end
     TEXT
 
+    XML_MAPPING = <<~TEXT
+              xml do
+                root "#ROOT_TAG#"
+      #MAP_ATTRIBUTES#
+              end
+    TEXT
+
     ATTRIBUTE_LINE = <<~TEXT
-    attribute :#TAG_NAME#, #ATTRIBUTE_TYPE#
+      attribute :#TAG_NAME#, #ATTRIBUTE_TYPE#
     TEXT
 
     MAP_ATTRIBUTES = <<~TEXT
-    map_attribute "#ATTRIBUTE_NAME#", to: :#ATTRIBUTE_METHOD#
+      map_attribute "#ATTRIBUTE_NAME#", to: :#ATTRIBUTE_METHOD#
     TEXT
 
     MAP_ELEMENT = <<~TEXT
-    map_element "#ELEMENT_NAME#",
-                to: :#ELEMENT_METHOD#,
-                namespace: "#NAMESPACE#",
-                prefix: "#PREFIX#"
+      map_element "#ELEMENT_NAME#",
+                  to: :#ELEMENT_METHOD#,
+                  namespace: "#NAMESPACE#",
+                  prefix: "#PREFIX#"
     TEXT
 
     class << self
@@ -78,16 +78,11 @@ module Xmi
         mdg_klasses.each do |klass|
           next unless Xmi::EaRoot::Mdg.const_get(klass).respond_to? :root_tag
 
-          root_tag = Xmi::EaRoot::Mdg.const_get(klass).root_tag
-          element_method = Shale::Utils.snake_case(klass.to_s)
-
-          map_element = MAP_ELEMENT
-                        .gsub("#ELEMENT_NAME#", root_tag)
-                        .gsub("#ELEMENT_METHOD#", element_method)
-                        .gsub("#NAMESPACE#", @mdg_namespace[:uri])
-                        .gsub("#PREFIX#", @mdg_namespace[:name])
-
-          map_elements << map_element
+          map_elements << MAP_ELEMENT
+                          .gsub("#ELEMENT_NAME#", Xmi::EaRoot::Mdg.const_get(klass).root_tag)
+                          .gsub("#ELEMENT_METHOD#", Shale::Utils.snake_case(klass.to_s))
+                          .gsub("#NAMESPACE#", @mdg_namespace[:uri])
+                          .gsub("#PREFIX#", @mdg_namespace[:name])
         end
 
         map_elements
@@ -96,7 +91,7 @@ module Xmi
       def update_shale_attributes(mdg_klasses, sparx_root)
         mdg_klasses.each do |klass|
           method_name = Shale::Utils.snake_case(klass)
-          full_klass_name = "Xmi::EaRoot::Mdg::#{klass.to_s}"
+          full_klass_name = "Xmi::EaRoot::Mdg::#{klass}"
 
           attr_line = "#{ATTRIBUTE_LINE.rstrip}, collection: true"
           attr_line = attr_line
@@ -110,10 +105,10 @@ module Xmi
       def update_shale_xml_mappings(map_elements, sparx_root)
         new_mapping = sparx_root.class_variable_get("@@default_mapping")
         new_mapping += map_elements.join("\n")
-        sparx_root.class_variable_set("@@mapping", new_mapping)
+        sparx_root.class_variable_set("@@mapping", new_mapping) # rubocop:disable Style/ClassVars
 
         new_mapping_block = proc do
-          eval sparx_root.class_variable_get("@@mapping")
+          eval sparx_root.class_variable_get("@@mapping") # rubocop:disable Security/Eval
         end
         new_mapping = proc { xml(&new_mapping_block) }
         sparx_root.class_eval(&new_mapping)
@@ -207,11 +202,36 @@ module Xmi
 
       def gen_generic_klass(node)
         node_name = get_klass_name_from_node(node)
-        abstract_klass_name = get_klass_name_from_node(@abstract_klass_node)
+        attributes_lines, map_attributes_lines = gen_klass_tags(node)
+        apply_types_lines, apply_types_nodes = gen_apply_types(node)
+        attributes_lines, map_attributes_lines = gen_klass_apply_types(
+          attributes_lines, map_attributes_lines,
+          apply_types_lines, apply_types_nodes
+        )
+
+        xml_mapping = replace_xml_mapping(node_name, map_attributes_lines)
+
+        replace_klass_template(node_name, attributes_lines, xml_mapping)
+      end
+
+      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes)
+        unless apply_types_nodes.empty?
+          attributes_lines += apply_types_lines
+          apply_types_nodes.each do |n|
+            apply_types = n.attribute_nodes.map(&:value)
+            apply_types.each do |apply_type|
+              map_attributes_lines += gen_map_attribute_line("base_#{apply_type}", "base_#{apply_type}")
+            end
+          end
+        end
+
+        [attributes_lines, map_attributes_lines]
+      end
+
+      def gen_klass_tags(node)
         attributes_lines = ""
         map_attributes_lines = ""
 
-        # tags
         tags_lines, tags = gen_tags(node)
         attributes_lines += tags_lines
         (@abstract_tags + tags).each do |tag|
@@ -219,25 +239,19 @@ module Xmi
           map_attributes_lines += gen_map_attribute_line(tag_name, tag_name)
         end
 
-        # apply types
-        apply_types_lines, apply_types_nodes = gen_apply_types(node)
-        unless apply_types_nodes.empty?
-          attributes_lines += apply_types_lines
-          apply_types_nodes.each do |n|
-            apply_types = n.attribute_nodes.map(&:value)
-            apply_types.each do |apply_type|
-              tag_name = "base_#{apply_type}"
-              map_attributes_lines += gen_map_attribute_line(tag_name, tag_name)
-            end
-          end
-        end
+        [attributes_lines, map_attributes_lines]
+      end
 
+      def replace_xml_mapping(node_name, map_attributes_lines)
+        XML_MAPPING
+          .gsub("#ROOT_TAG#", node_name)
+          .gsub("#MAP_ATTRIBUTES#", "\n#{map_attributes_lines.rstrip}")
+          .rstrip
+      end
+
+      def replace_klass_template(node_name, attributes_lines, xml_mapping)
+        abstract_klass_name = get_klass_name_from_node(@abstract_klass_node)
         root_tag_line = "def self.root_tag; \"#{node_name}\"; end"
-
-        xml_mapping = XML_MAPPING
-                      .gsub("#ROOT_TAG#", node_name)
-                      .gsub("#MAP_ATTRIBUTES#", "\n#{map_attributes_lines.rstrip}")
-                      .rstrip
 
         KLASS_TEMPLATE
           .gsub("#KLASS_NAME#", Shale::Utils.classify(node_name))
@@ -248,16 +262,13 @@ module Xmi
       end
 
       def gen_generic_klasses(xmi_doc)
-        nodes = xmi_doc.xpath(
-          "//UMLProfiles//Stereotypes//Stereotype[not(contains(@isAbstract, 'true'))]"
-        )
+        nodes = xmi_doc.xpath("//UMLProfiles//Stereotypes//Stereotype[not(contains(@isAbstract, 'true'))]")
         klasses_lines = ""
 
         nodes.each do |node|
           # check baseStereotypes is abstract class
           base_stereotypes = node.attribute_nodes.find do |attr|
-            attr.name == "baseStereotypes" &&
-              attr.value == get_klass_name_from_node(@abstract_klass_node)
+            attr.name == "baseStereotypes" && attr.value == get_klass_name_from_node(@abstract_klass_node)
           end
           next if base_stereotypes.nil?
 

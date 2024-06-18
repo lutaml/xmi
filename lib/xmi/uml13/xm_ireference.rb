@@ -1,4 +1,6 @@
-require 'shale'
+# frozen_string_literal: true
+
+require "shale"
 
 class XMIreference < Shale::Mapper
   attribute :content, Shale::Type::String
@@ -6,10 +8,10 @@ class XMIreference < Shale::Mapper
   attribute :xmi_idref, Shale::Type::Value
 
   xml do
-    root 'XMI.reference'
+    root "XMI.reference"
 
     map_content to: :content
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
   end
 end

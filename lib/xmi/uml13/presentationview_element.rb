@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'view_element'
+require "shale"
+
+require_relative "view_element"
 
 class PresentationviewElement < Shale::Mapper
   attribute :view_element, ViewElement, collection: true
 
   xml do
-    root 'Presentation.viewElement'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Presentation.viewElement"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'ViewElement', to: :view_element
+    map_element "ViewElement", to: :view_element
   end
 end

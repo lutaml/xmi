@@ -1,14 +1,16 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'call_event'
+require "shale"
+
+require_relative "call_event"
 
 class Operationoccurrence < Shale::Mapper
   attribute :call_event, CallEvent, collection: true
 
   xml do
-    root 'Operation.occurrence'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "Operation.occurrence"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_element 'CallEvent', to: :call_event
+    map_element "CallEvent", to: :call_event
   end
 end

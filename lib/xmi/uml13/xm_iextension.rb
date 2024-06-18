@@ -1,4 +1,6 @@
-require 'shale'
+# frozen_string_literal: true
+
+require "shale"
 
 class XMIextension < Shale::Mapper
   attribute :content, Shale::Type::String
@@ -11,15 +13,15 @@ class XMIextension < Shale::Mapper
   attribute :xmi_extender_id, Shale::Type::Value
 
   xml do
-    root 'XMI.extension'
+    root "XMI.extension"
 
     map_content to: :content
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_attribute 'xmi.extender', to: :xmi_extender
-    map_attribute 'xmi.extenderID', to: :xmi_extender_id
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_attribute "xmi.extender", to: :xmi_extender
+    map_attribute "xmi.extenderID", to: :xmi_extender_id
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "uml13/abstraction"
 require_relative "uml13/action"
 require_relative "uml13/action_sequence"

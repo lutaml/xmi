@@ -1,8 +1,10 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'view_elementmodel'
-require_relative 'view_elementpresentation'
-require_relative 'xm_iextension'
+require "shale"
+
+require_relative "view_elementmodel"
+require_relative "view_elementpresentation"
+require_relative "xm_iextension"
 
 class ViewElement < Shale::Mapper
   attribute :model, Shale::Type::Value
@@ -17,18 +19,18 @@ class ViewElement < Shale::Mapper
   attribute :view_element_presentation, ViewElementpresentation, collection: true
 
   xml do
-    root 'ViewElement'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "ViewElement"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_attribute 'model', to: :model
-    map_attribute 'presentation', to: :presentation
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_element 'XMI.extension', to: :xmi_extension, prefix: nil, namespace: nil
-    map_element 'ViewElement.model', to: :view_element_model
-    map_element 'ViewElement.presentation', to: :view_element_presentation
+    map_attribute "model", to: :model
+    map_attribute "presentation", to: :presentation
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
+    map_element "ViewElement.model", to: :view_element_model
+    map_element "ViewElement.presentation", to: :view_element_presentation
   end
 end

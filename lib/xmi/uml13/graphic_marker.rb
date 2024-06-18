@@ -1,7 +1,9 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'graphic_markerbody'
-require_relative 'xm_iextension'
+require "shale"
+
+require_relative "graphic_markerbody"
+require_relative "xm_iextension"
 
 class GraphicMarker < Shale::Mapper
   attribute :body, Shale::Type::Value
@@ -14,16 +16,16 @@ class GraphicMarker < Shale::Mapper
   attribute :xmi_extension, XMIextension, collection: true
 
   xml do
-    root 'GraphicMarker'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "GraphicMarker"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_attribute 'body', to: :body
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_element 'GraphicMarker.body', to: :graphic_marker_body
-    map_element 'XMI.extension', to: :xmi_extension, prefix: nil, namespace: nil
+    map_attribute "body", to: :body
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_element "GraphicMarker.body", to: :graphic_marker_body
+    map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
   end
 end

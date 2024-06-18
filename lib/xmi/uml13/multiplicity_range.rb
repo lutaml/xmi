@@ -1,8 +1,10 @@
-require 'shale'
+# frozen_string_literal: true
 
-require_relative 'multiplicity_rangelower'
-require_relative 'multiplicity_rangeupper'
-require_relative 'xm_iextension'
+require "shale"
+
+require_relative "multiplicity_rangelower"
+require_relative "multiplicity_rangeupper"
+require_relative "xm_iextension"
 
 class MultiplicityRange < Shale::Mapper
   attribute :lower, Shale::Type::Value
@@ -17,18 +19,18 @@ class MultiplicityRange < Shale::Mapper
   attribute :xmi_extension, XMIextension, collection: true
 
   xml do
-    root 'MultiplicityRange'
-    namespace 'omg.org/UML1.3', 'UML'
+    root "MultiplicityRange"
+    namespace "omg.org/UML1.3", "UML"
 
-    map_attribute 'lower', to: :lower
-    map_attribute 'upper', to: :upper
-    map_attribute 'xmi.id', to: :xmi_id
-    map_attribute 'xmi.label', to: :xmi_label
-    map_attribute 'xmi.uuid', to: :xmi_uuid
-    map_attribute 'href', to: :href
-    map_attribute 'xmi.idref', to: :xmi_idref
-    map_element 'MultiplicityRange.lower', to: :multiplicity_range_lower
-    map_element 'MultiplicityRange.upper', to: :multiplicity_range_upper
-    map_element 'XMI.extension', to: :xmi_extension, prefix: nil, namespace: nil
+    map_attribute "lower", to: :lower
+    map_attribute "upper", to: :upper
+    map_attribute "xmi.id", to: :xmi_id
+    map_attribute "xmi.label", to: :xmi_label
+    map_attribute "xmi.uuid", to: :xmi_uuid
+    map_attribute "href", to: :href
+    map_attribute "xmi.idref", to: :xmi_idref
+    map_element "MultiplicityRange.lower", to: :multiplicity_range_lower
+    map_element "MultiplicityRange.upper", to: :multiplicity_range_upper
+    map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
   end
 end

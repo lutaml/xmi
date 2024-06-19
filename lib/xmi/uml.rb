@@ -366,10 +366,8 @@ module Xmi
       xml do
         root "packagedElement"
 
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20161101", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
 
@@ -399,8 +397,6 @@ module Xmi
         root "packagedElement"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end

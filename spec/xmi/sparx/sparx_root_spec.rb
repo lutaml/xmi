@@ -20,7 +20,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         expect(xmi_root_model.model).to be_instance_of(Xmi::Uml::UmlModel)
         expect(xmi_root_model.model.name).to eq("EA_Model")
         expect(xmi_root_model.model.packaged_element).to be_instance_of(Array)
-        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement)
+        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement2013)
         expect(xmi_root_model.model.packaged_element.first.name).to eq("ISO 6709 Edition 2")
       end
 

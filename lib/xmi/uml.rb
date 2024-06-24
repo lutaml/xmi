@@ -605,8 +605,8 @@ module Xmi
 
     class UmlModel < Shale::Mapper
       include UmlModelAttributes
-      attribute :packaged_element, PackagedElement, collection: true
-      attribute :package_import, PackageImport, collection: true
+      attribute :packaged_element, PackagedElement2013, collection: true
+      attribute :package_import, PackageImport2013, collection: true
       attribute :diagram, Diagram
 
       xml do

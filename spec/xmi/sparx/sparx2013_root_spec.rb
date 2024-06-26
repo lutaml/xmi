@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLength
   context ".from_xml" do # rubocop:disable Metrics/BlockLength
-    context "when parsing from XML with XMI 2013 and UML 2013" do
+    context "when parsing from XML with XMI 2013 and UML 2013" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("ea-xmi-2.5.1.xmi")) }
 
       subject(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
@@ -22,6 +22,18 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
         expect(xmi_root_model.model.packaged_element).to be_instance_of(Array)
         expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement2013)
         expect(xmi_root_model.model.packaged_element.first.name).to eq("requirement type class diagram")
+      end
+
+      it "should contains memberEnd element in packaged_element" do
+        element = xmi_root_model.model.packaged_element.first
+                                .packaged_element[1].member_ends.first
+        expect(element.idref).to eq("EAID_dstA98919_831B_4182_BBC2_C2EAF17FEF60")
+      end
+
+      it "should contains memberEnd attribute in packaged_element" do
+        element = xmi_root_model
+                  .extension.profiles.profile.first.packaged_element[1]
+        expect(element.member_end).to eq("extension_BasicDoc BasicDoc-base_Class")
       end
 
       it "should contains Extension" do

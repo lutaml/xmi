@@ -339,12 +339,13 @@ module Xmi
     end
 
     module PackagedElementAttributes
-      def self.included(klass)
+      def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
           attribute :type, Shale::Type::String
           attribute :id, Shale::Type::String
           attribute :name, Shale::Type::String
-          attribute :member_end, MemberEnd
+          attribute :member_end, Shale::Type::String
+          attribute :member_ends, MemberEnd, collection: true
           attribute :owned_literal, OwnedLiteral, collection: true
           attribute :owned_operation, OwnedOperation, collection: true
 
@@ -382,6 +383,7 @@ module Xmi
         map_element "ownedAttribute", to: :owned_attribute
         map_element "ownedOperation", to: :owned_operation
         map_element "packagedElement", to: :packaged_element
+        map_element "memberEnd", to: :member_ends
       end
     end
 
@@ -412,6 +414,7 @@ module Xmi
         map_element "ownedAttribute", to: :owned_attribute
         map_element "ownedOperation", to: :owned_operation
         map_element "packagedElement", to: :packaged_element
+        map_element "memberEnd", to: :member_ends
       end
     end
 

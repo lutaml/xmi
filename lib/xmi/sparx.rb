@@ -2,6 +2,16 @@
 
 module Xmi
   module Sparx
+    class SparxElementDocumentation < Shale::Mapper
+      attribute :value, Shale::Type::String
+
+      xml do
+        root "documentation"
+
+        map_attribute "value", to: :value
+      end
+    end
+
     class SparxElementModel < Shale::Mapper
       attribute :package, Shale::Type::String
       attribute :package2, Shale::Type::String
@@ -318,7 +328,7 @@ module Xmi
 
     class SparxElementAttribute < Shale::Mapper
       attribute :initial, Shale::Type::String
-      attribute :documentation, Shale::Type::String
+      attribute :documentation, SparxElementDocumentation
       attribute :options, Shale::Type::String
       attribute :style, Shale::Type::String
       attribute :tags, Shale::Type::String, collection: true
@@ -336,11 +346,11 @@ module Xmi
         root "attribute"
 
         map_attribute "initial", to: :initial
-        map_attribute "documentation", to: :documentation
         map_attribute "options", to: :options
         map_attribute "style", to: :style
         map_attribute "tags", to: :tags
 
+        map_element "documentation", to: :documentation
         map_element "model", to: :model
         map_element "properties", to: :properties
         map_element "coords", to: :coords

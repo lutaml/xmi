@@ -124,13 +124,16 @@ module Xmi
       attribute :type, Shale::Type::String
       attribute :id, Shale::Type::String
       attribute :name, Shale::Type::String
+      attribute :uml_type, Uml::Type
 
       xml do
         root "ownedLiteral"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "name", to: :value
+        map_attribute "name", to: :name
+
+        map_element "type", to: :uml_type
       end
     end
 

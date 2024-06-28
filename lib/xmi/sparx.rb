@@ -327,12 +327,14 @@ module Xmi
     end
 
     class SparxElementAttribute < Shale::Mapper
+      attribute :idref, Shale::Type::String
+      attribute :name, Shale::Type::String
+      attribute :scope, Shale::Type::String
       attribute :initial, Shale::Type::String
       attribute :documentation, SparxElementDocumentation
       attribute :options, Shale::Type::String
       attribute :style, Shale::Type::String
       attribute :tags, Shale::Type::String, collection: true
-
       attribute :model, SparxElementModel
       attribute :properties, SparxElementProperties
       attribute :coords, SparxElementCoords
@@ -345,11 +347,14 @@ module Xmi
       xml do
         root "attribute"
 
-        map_attribute "initial", to: :initial
-        map_attribute "options", to: :options
-        map_attribute "style", to: :style
-        map_attribute "tags", to: :tags
+        map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "name", to: :name
+        map_attribute "scope", to: :scope
 
+        map_element "initial", to: :initial
+        map_element "options", to: :options
+        map_element "style", to: :style
+        map_element "tags", to: :tags
         map_element "documentation", to: :documentation
         map_element "model", to: :model
         map_element "properties", to: :properties

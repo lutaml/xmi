@@ -946,13 +946,18 @@ module Xmi
     end
 
     module SparxRootAttributes
-      def self.included(klass)
+      def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
           attribute :publication_date, SparxCustomProfilePublicationDate
           attribute :edition, SparxCustomProfileEdition
           attribute :number, SparxCustomProfileNumber
           attribute :year_version, SparxCustomProfileYearVersion
           attribute :modelica_parameter, SparxSysPhS
+
+          attribute :eauml_import, EaRoot::Eauml::Import, collection: true
+          attribute :gml_application_schema, EaRoot::Gml::ApplicationSchema, collection: true
+          attribute :gml_code_list, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_property, EaRoot::Gml::Property, collection: true
         end
       end
     end
@@ -988,6 +993,18 @@ module Xmi
       map_element "ModelicaParameter", to: :modelica_parameter,
                                        namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
                                        prefix: "SysPhS"
+      map_element "import", to: :eauml_import,
+                            namespace: "http://www.sparxsystems.com/profiles/EAUML/1.0",
+                            prefix: "EAUML"
+      map_element "ApplicationSchema", to: :gml_application_schema,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "CodeList", to: :gml_code_list,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "property", to: :gml_property,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
       MAP
 
       @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars
@@ -1028,6 +1045,18 @@ module Xmi
       map_element "ModelicaParameter", to: :modelica_parameter,
                                        namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
                                        prefix: "SysPhS"
+      map_element "import", to: :eauml_import,
+                            namespace: "http://www.sparxsystems.com/profiles/EAUML/1.0",
+                            prefix: "EAUML"
+      map_element "ApplicationSchema", to: :gml_application_schema,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "CodeList", to: :gml_code_list,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "property", to: :gml_property,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
       MAP
 
       @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars

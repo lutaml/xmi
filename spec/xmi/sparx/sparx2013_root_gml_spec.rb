@@ -6,7 +6,6 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
   context ".from_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA GML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default-with-gml.xmi")) }
-      let(:gml_definition_xml) { File.new(fixtures_path("GML.xml")) }
       let(:expected_gml_klasses) do
         %i[
           ApplicationSchema
@@ -55,25 +54,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
 
       let(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
 
-      context "before loading extension" do
-        it "should not contain Gml module" do
-          ea_modules = Xmi::EaRoot.constants.select do |c|
-            Xmi::EaRoot.const_get(c).is_a? Module
-          end
-
-          expect(ea_modules).to be_empty
-        end
-      end
-
       context "after loading extension" do # rubocop:disable Metrics/BlockLength
-        before do
-          Xmi::EaRoot.load_extension(gml_definition_xml)
-        end
-
-        after do
-          Xmi::EaRoot.send(:remove_const, "Gml")
-        end
-
         it "should contain Gml module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a? Module
@@ -100,7 +81,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
 
         it "should contains new attributes" do
           expected_gml_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot2013.attributes).to have_key(Shale::Utils.snake_case(k).to_sym)
+            expect(Xmi::Sparx::SparxRoot2013.attributes).to have_key(Shale::Utils.snake_case("gml_#{k}").to_sym)
           end
         end
 
@@ -140,11 +121,12 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
 
         gml_test.each do |t|
           it "should contains #{t[:klass]}" do
-            expect(xmi_root_model.send(t[:attribute].to_sym))
+            gml_method = "gml_#{t[:attribute]}".to_sym
+            expect(xmi_root_model.send(gml_method))
               .to be_instance_of(Array)
-            expect(xmi_root_model.send(t[:attribute].to_sym).first.class.name)
+            expect(xmi_root_model.send(gml_method).first.class.name)
               .to eq(t[:klass])
-            expect(xmi_root_model.send(t[:attribute].to_sym).first
+            expect(xmi_root_model.send(gml_method).first
               .send(t[:method].to_sym)).to eq(t[:value])
           end
         end

@@ -167,7 +167,7 @@ module Xmi
         [attributes_lines, tags]
       end
 
-      def gen_abstract_klass
+      def gen_abstract_klass # rubocop:disable Metrics/MethodLength
         unless @abstract_klass_node
           @abstract_tags = []
           return ""

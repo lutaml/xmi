@@ -42,20 +42,20 @@ xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
 
 This method takes the path to an XMI file and generate the Ruby objects.
 
-=== Loading MDG Extensions and Generate Ruby Classes and Modules Dynamically
+=== Loading Extensions and Generate Ruby Classes and Modules Dynamically
 
-To load an MDG extension from an XML file, use the `load_mdg_extension` method:
+To load an extension from an XML file, use the `load_extension` method:
 
 [source,ruby]
 ----
-Xmi::EaRoot.load_mdg_extension("path/to/your/mdg_extension.xml")
+Xmi::EaRoot.load_extension("path/to/your/extension.xml")
 
 xml = "path/to/your/file.xmi"
 xml_content = File.read(xml)
 xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
 ----
 
-`Xmi::EaRoot.load_mdg_extension` takes the path to an XML file and generate the
+`Xmi::EaRoot.load_extension` takes the path to an XML file and generate the
 Ruby classes and modules defined in XML file dynamically.
 Then, you can generate Ruby objects by `Xmi::Sparx::SparxRoot2013.from_xml`.
 

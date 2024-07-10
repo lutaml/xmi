@@ -45,17 +45,10 @@ module Xmi
     TEXT
 
     class << self
-      def load_mdg_extension(xml_path)
-        options = {}
-        options[:input_xml_path] = xml_path
-        options[:module_name] = "Mdg"
-        load_extension(options)
-        update_mdg_mappings
-      end
-
-      def load_extension(options)
-        @content = gen_content(options)
+      def load_extension(xml_path)
+        @content = gen_content(xml_path)
         Object.class_eval @content
+        update_mappings(@module_name)
       end
 
       def output_rb_file(output_rb_path)
@@ -64,35 +57,35 @@ module Xmi
 
       private
 
-      def update_mdg_mappings
-        mdg_klasses = all_mdg_klasses
-        map_elements = construct_shale_xml_mappings(mdg_klasses)
+      def update_mappings(module_name)
+        new_klasses = all_new_klasses(module_name)
+        map_elements = construct_shale_xml_mappings(new_klasses, module_name)
         sparx_roots.each do |sparx_root|
-          update_shale_attributes(mdg_klasses, sparx_root)
+          update_shale_attributes(new_klasses, sparx_root, module_name)
           update_shale_xml_mappings(map_elements, sparx_root)
         end
       end
 
-      def construct_shale_xml_mappings(mdg_klasses)
+      def construct_shale_xml_mappings(new_klasses, module_name) # rubocop:disable Metrics/MethodLength
         map_elements = []
-        mdg_klasses.each do |klass|
-          next unless Xmi::EaRoot::Mdg.const_get(klass).respond_to? :root_tag
+        new_klasses.each do |klass|
+          next unless Xmi::EaRoot.const_get(module_name).const_get(klass)
+                                 .respond_to? :root_tag
 
           map_elements << MAP_ELEMENT
-                          .gsub("#ELEMENT_NAME#", Xmi::EaRoot::Mdg.const_get(klass).root_tag)
+                          .gsub("#ELEMENT_NAME#", Xmi::EaRoot.const_get(module_name).const_get(klass).root_tag)
                           .gsub("#ELEMENT_METHOD#", Shale::Utils.snake_case(klass.to_s))
-                          .gsub("#NAMESPACE#", @mdg_namespace[:uri])
-                          .gsub("#PREFIX#", @mdg_namespace[:name])
+                          .gsub("#NAMESPACE#", @def_namespace[:uri])
+                          .gsub("#PREFIX#", @def_namespace[:name])
         end
 
         map_elements
       end
 
-      def update_shale_attributes(mdg_klasses, sparx_root)
-        mdg_klasses.each do |klass|
+      def update_shale_attributes(new_klasses, sparx_root, module_name)
+        new_klasses.each do |klass|
           method_name = Shale::Utils.snake_case(klass)
-          full_klass_name = "Xmi::EaRoot::Mdg::#{klass}"
-
+          full_klass_name = "Xmi::EaRoot::#{module_name}::#{klass}"
           attr_line = "#{ATTRIBUTE_LINE.rstrip}, collection: true"
           attr_line = attr_line
                       .gsub("#TAG_NAME#", method_name)
@@ -118,9 +111,9 @@ module Xmi
         [Xmi::Sparx::SparxRoot, Xmi::Sparx::SparxRoot2013]
       end
 
-      def all_mdg_klasses
-        Xmi::EaRoot::Mdg.constants.select do |c|
-          Xmi::EaRoot::Mdg.const_get(c).is_a? Class
+      def all_new_klasses(module_name)
+        Xmi::EaRoot.const_get(module_name).constants.select do |c|
+          Xmi::EaRoot.const_get(module_name).const_get(c).is_a? Class
         end
       end
 
@@ -131,6 +124,8 @@ module Xmi
       end
 
       def get_klass_name_from_node(node)
+        return Shale::Mapper.to_s unless node
+
         node.attribute_nodes.find { |attr| attr.name == "name" }.value
       end
 
@@ -173,6 +168,11 @@ module Xmi
       end
 
       def gen_abstract_klass
+        unless @abstract_klass_node
+          @abstract_tags = []
+          return ""
+        end
+
         attributes_lines = ""
         tags_lines, @abstract_tags = gen_tags(@abstract_klass_node)
         attributes_lines += tags_lines
@@ -266,12 +266,6 @@ module Xmi
         klasses_lines = ""
 
         nodes.each do |node|
-          # check baseStereotypes is abstract class
-          base_stereotypes = node.attribute_nodes.find do |attr|
-            attr.name == "baseStereotypes" && attr.value == get_klass_name_from_node(@abstract_klass_node)
-          end
-          next if base_stereotypes.nil?
-
           klasses_lines += "#{gen_generic_klass(node)}\n"
         end
 
@@ -292,7 +286,7 @@ module Xmi
           .gsub("#KLASSES#", gen_klasses(xmi_doc))
       end
 
-      def get_mdg_namespace(xmi_doc)
+      def get_namespace_from_definition(xmi_doc)
         node = xmi_doc.at_xpath("//UMLProfile/Documentation")
         namespace_key = node.attribute_nodes.find do |attr|
           attr.name == "name"
@@ -304,12 +298,15 @@ module Xmi
         { name: namespace_key, uri: namespace_uri }
       end
 
-      def gen_content(options)
-        xml = options[:input_xml_path]
-        module_name = options[:module_name].capitalize
-        xmi_doc = Nokogiri::XML(File.open(xml).read)
-        @mdg_namespace = get_mdg_namespace(xmi_doc)
-        gen_module(xmi_doc, module_name)
+      def gen_content(xml)
+        xmi_doc = Nokogiri::XML(File.read(xml))
+        @module_name = get_module_name(xmi_doc)
+        @def_namespace = get_namespace_from_definition(xmi_doc)
+        gen_module(xmi_doc, @module_name)
+      end
+
+      def get_module_name(xmi_doc)
+        xmi_doc.root.name.split(".").first.capitalize
       end
     end
   end

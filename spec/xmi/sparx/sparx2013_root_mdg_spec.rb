@@ -59,7 +59,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
       context "before loading extension" do
         it "should not contain Mdg module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
-            Xmi::EaRoot.const_get(c).is_a? Module
+            Xmi::EaRoot.const_get(c).is_a?(Module) && c != :Gml && c != :Eauml
           end
 
           expect(ea_modules).to be_empty

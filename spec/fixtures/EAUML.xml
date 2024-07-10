@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<EAUML version="1.0">
+	<Documentation id="EAUML" name="Sparx Systems profiles EAUML" version="1.0"
+		notes="http://www.sparxsystems.com/profiles/EAUML/1.0" />
+	<UMLProfiles>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="EAUML" name="EAUML" version="1.0"
+			URI="http://www.sparxsystems.com/profiles/EAUML/1.0" />
+			<Content>
+				<Stereotypes>
+					<Stereotype name="import">
+						<AppliesTo>
+							<Apply type="PackageImport" />
+						</AppliesTo>
+						<TaggedValues />
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes />
+				<ViewDefinitions />
+				<Metamodel />
+			</Content>
+		</UMLProfile>
+	</UMLProfiles>
+</EAUML>

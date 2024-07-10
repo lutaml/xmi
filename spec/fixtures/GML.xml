@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GML version="1.0">
+	<Documentation id="GML" name="Sparx Systems profiles GML" version="1.0"
+		notes="http://www.sparxsystems.com/profiles/GML/1.0" />
+	<UMLProfiles>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="GML" name="GML" version="1.0"
+			URI="http://www.sparxsystems.com/profiles/GML/1.0" />
+			<Content>
+				<Stereotypes>
+					<Stereotype name="ApplicationSchema">
+						<AppliesTo>
+							<Apply type="Package" />
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="version" type="SingleLineCharacterString"
+							description="" unit="" values=""
+							default="" />
+							<Tag name="xsdDocument" type="String"
+							description="" unit="" values=""
+							default="" />
+							<Tag name="xmlns" type="String"
+							description="" unit="" values=""
+							default="" />
+							<Tag name="targetNamespace" type="String"
+							description="" unit="" values=""
+							default="" />
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="CodeList">
+						<AppliesTo>
+							<Apply type="Class" />
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="asDictionary" type="String" description="" unit=""
+							values="" default="" />
+							<Tag name="defaultCodeSpace" type="String" description="" unit=""
+							values="" default="" />
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="property">
+						<AppliesTo>
+							<Apply type="Property" />
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="sequenceNumber" type="String" description="" unit=""
+							values="" default="" />
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes />
+				<ViewDefinitions />
+				<Metamodel />
+			</Content>
+		</UMLProfile>
+	</UMLProfiles>
+</GML>

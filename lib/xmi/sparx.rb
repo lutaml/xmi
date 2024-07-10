@@ -674,6 +674,16 @@ module Xmi
       end
     end
 
+    class SparxPrimitiveTypes2013 < Shale::Mapper
+      attribute :packaged_element, Uml::PackagedElement2013, collection: true
+
+      xml do
+        root "primitivetypes"
+
+        map_element "packagedElement", to: :packaged_element
+      end
+    end
+
     class SparxProfiles < Shale::Mapper
       attribute :profile, Uml::Profile, collection: true
 
@@ -786,6 +796,20 @@ module Xmi
       end
     end
 
+    class SparxEAStub < Shale::Mapper
+      attribute :id, Shale::Type::String
+      attribute :name, Shale::Type::String
+      attribute :uml_type, Shale::Type::String
+
+      xml do
+        root "diagrams"
+
+        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
+        map_attribute "name", to: :name
+        map_attribute "UMLType", to: :uml_type
+      end
+    end
+
     module SparxExtensionAttributes
       def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
@@ -799,8 +823,9 @@ module Xmi
           attribute :extender_id, Shale::Type::String
           attribute :elements, SparxElements
           attribute :connectors, SparxConnectors
-          attribute :primitive_types, SparxPrimitiveTypes
+          attribute :primitive_types, SparxPrimitiveTypes2013
           attribute :diagrams, SparxDiagrams
+          attribute :ea_stub, SparxEAStub, collection: true
         end
       end
     end
@@ -826,6 +851,7 @@ module Xmi
         map_element "primitivetypes", to: :primitive_types
         map_element "profiles", to: :profiles
         map_element "diagrams", to: :diagrams
+        map_element "EAStub", to: :ea_stub
       end
     end
 
@@ -850,6 +876,7 @@ module Xmi
         map_element "primitivetypes", to: :primitive_types
         map_element "profiles", to: :profiles
         map_element "diagrams", to: :diagrams
+        map_element "EAStub", to: :ea_stub
       end
     end
 

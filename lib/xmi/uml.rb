@@ -649,6 +649,7 @@ module Xmi
       end
     end
 
+    # TODO: add attributes xmlns:uml and xmlns:xmi
     module ProfileAttributes
       def self.included(klass)
         klass.class_eval do
@@ -656,6 +657,8 @@ module Xmi
           attribute :package_import, PackageImport, collection: true
           attribute :id, Shale::Type::String
           attribute :name, Shale::Type::String
+          # attribute :xmi, Shale::Type::String
+          # attribute :uml, Shale::Type::String
           attribute :ns_prefix, Shale::Type::String
 
           # Is this an EA thing?

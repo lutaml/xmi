@@ -6,34 +6,36 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
   context ".from_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA CityGML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default-with-citygml.xmi")) }
-      let(:citygml_definition_xml) { File.new(fixtures_path("CityGML.xml")) }
+      let(:citygml_definition_xml) { File.new(fixtures_path("CityGML_MDG_Technology.xml")) }
       let(:expected_citygml_klasses) do
         %i[
           FeatureType
-          Property
           CodeList
-          TopLevelFeatureType
-          DataType
-          ApplicationSchema
-          Version
-          BasicType
+          Leaf
           ObjectType
+          BasicType
+          TopLevelFeatureType
           Union
+          Property
+          Version
+          ApplicationSchema
+          DataType
         ].sort
       end
 
       let(:expected_citygml_keys) do
         %i[
           FeatureType
-          Property
           CodeList
-          TopLevelFeatureType
-          DataType
-          ApplicationSchema
-          Version
-          BasicType
+          Leaf
           ObjectType
+          BasicType
+          TopLevelFeatureType
           Union
+          Property
+          Version
+          ApplicationSchema
+          DataType
         ].sort
       end
 

@@ -72,7 +72,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
         end
 
         after do
-          Xmi::EaRoot.send(:remove_const, "Mdg")
+          Xmi::EaRoot.send(:remove_const, "Iso19103")
         end
 
         it "should contain Mdg module" do
@@ -84,8 +84,8 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
         end
 
         it "should create Mdg classes dynamically" do
-          mdg_klasses = Xmi::EaRoot::Mdg.constants.select do |c|
-            Xmi::EaRoot::Mdg.const_get(c).is_a? Class
+          mdg_klasses = Xmi::EaRoot::Iso19103.constants.select do |c|
+            Xmi::EaRoot::Iso19103.const_get(c).is_a? Class
           end
 
           expect(mdg_klasses.sort).to eq(
@@ -122,31 +122,31 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
 
         mdg_test = [
           {
-            klass: "Xmi::EaRoot::Mdg::AbstractSchema",
+            klass: "Xmi::EaRoot::Iso19103::AbstractSchema",
             attribute: "abstract_schema",
             method: "base_package",
             value: "EAPK_63F21616_57B0_4ffc_A785_8FB5B49C27F1"
           },
           {
-            klass: "Xmi::EaRoot::Mdg::GIInterface",
+            klass: "Xmi::EaRoot::Iso19103::GIInterface",
             attribute: "gi_interface",
             method: "base_interface",
             value: "EAID_1EA35B7C_1E09_4fe5_B75D_515CA12171B9"
           },
           {
-            klass: "Xmi::EaRoot::Mdg::GIProperty",
+            klass: "Xmi::EaRoot::Iso19103::GIProperty",
             attribute: "gi_property",
             method: "base_property",
             value: "EAID_2A7400AC_F474_4063_A5B9_5C5305020D60"
           },
           {
-            klass: "Xmi::EaRoot::Mdg::GIEnumeration",
+            klass: "Xmi::EaRoot::Iso19103::GIEnumeration",
             attribute: "gi_enumeration",
             method: "base_enumeration",
             value: "EAID_5AC15946_7E2E_4d2e_8208_300138B764C9"
           },
           {
-            klass: "Xmi::EaRoot::Mdg::GIEnumerationLiteral",
+            klass: "Xmi::EaRoot::Iso19103::GIEnumerationLiteral",
             attribute: "gi_enumeration_literal",
             method: "base_enumeration_literal",
             value: "EAID_44EAA54D_A02D_4263_9EBF_C67721A40BAA"

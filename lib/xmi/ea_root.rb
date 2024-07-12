@@ -202,7 +202,7 @@ module Xmi
         [apply_types_lines, apply_types_nodes]
       end
 
-      def gen_generic_klass(node)
+      def gen_generic_klass(node, from_klass = nil) # rubocop:disable Metrics/MethodLength
         node_name = get_klass_name_from_node(node)
         attributes_lines, map_attributes_lines = gen_klass_tags(node)
         apply_types_lines, apply_types_nodes = gen_apply_types(node)
@@ -211,18 +211,34 @@ module Xmi
           apply_types_lines, apply_types_nodes
         )
 
+        map_attributes_lines = node_map_attributes(node_name,
+                                                   from_klass, map_attributes_lines)
         xml_mapping = replace_xml_mapping(node_name, map_attributes_lines)
 
-        replace_klass_template(node_name, attributes_lines, xml_mapping)
+        replace_klass_template(node_name, attributes_lines,
+                               xml_mapping, from_klass)
       end
 
-      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes)
+      def node_map_attributes(node_name, from_klass, map_attributes_lines)
+        if from_klass && @node_map.key?(from_klass.to_sym)
+          map_attributes_lines += @node_map[from_klass.to_sym].to_s
+        else
+          @node_map ||= {}
+          @node_map[node_name.to_sym] = map_attributes_lines
+        end
+
+        map_attributes_lines
+      end
+
+      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes) # rubocop:disable Metrics/MethodLength
         unless apply_types_nodes.empty?
           attributes_lines += apply_types_lines
           apply_types_nodes.each do |n|
             apply_types = n.attribute_nodes.map(&:value)
             apply_types.each do |apply_type|
-              map_attributes_lines += gen_map_attribute_line("base_#{apply_type}", "base_#{apply_type}")
+              map_attributes_lines += gen_map_attribute_line(
+                "base_#{apply_type}", "base_#{apply_type}"
+              )
             end
           end
         end
@@ -251,9 +267,11 @@ module Xmi
           .rstrip
       end
 
-      def replace_klass_template(node_name, attributes_lines, xml_mapping)
+      def replace_klass_template(node_name, attributes_lines, xml_mapping,
+                                 from_klass = nil)
         abstract_klass_name = get_klass_name_from_node(@abstract_klass_node)
-        root_tag_line = "def self.root_tag; \"#{node_name}\"; end"
+        abstract_klass_name = from_klass if from_klass
+        root_tag_line = "def self.root_tag = \"#{node_name}\""
 
         KLASS_TEMPLATE
           .gsub("#KLASS_NAME#", Shale::Utils.classify(node_name))
@@ -267,8 +285,30 @@ module Xmi
         nodes = xmi_doc.xpath("//UMLProfiles//Stereotypes//Stereotype[not(contains(@isAbstract, 'true'))]")
         klasses_lines = ""
 
+        klasses_lines += "#{gen_generic_klasses_wo_base_stereotypes(nodes)}\n"
+        klasses_lines += "#{gen_generic_klasses_w_base_stereotypes(nodes)}\n"
+
+        klasses_lines
+      end
+
+      def gen_generic_klasses_wo_base_stereotypes(nodes)
+        nodes = nodes.select { |n| n.attributes["baseStereotypes"].nil? }
+        klasses_lines = ""
+
         nodes.each do |node|
           klasses_lines += "#{gen_generic_klass(node)}\n"
+        end
+
+        klasses_lines
+      end
+
+      def gen_generic_klasses_w_base_stereotypes(nodes)
+        nodes = nodes.reject { |n| n.attributes["baseStereotypes"].nil? }
+        klasses_lines = ""
+
+        nodes.each do |node|
+          base_stereotypes = node.attributes["baseStereotypes"].value
+          klasses_lines += "#{gen_generic_klass(node, base_stereotypes)}\n"
         end
 
         klasses_lines
@@ -289,13 +329,8 @@ module Xmi
       end
 
       def get_namespace_from_definition(xmi_doc)
-        node = xmi_doc.at_xpath("//UMLProfile/Documentation")
-        namespace_key = node.attribute_nodes.find do |attr|
-          attr.name == "name"
-        end.value
-        namespace_uri = node.attribute_nodes.find do |attr|
-          attr.name == "URI"
-        end.value
+        namespace_key = get_module_name_from_definition(xmi_doc)
+        namespace_uri = get_module_uri(xmi_doc)
 
         { name: namespace_key, uri: namespace_uri }
       end
@@ -308,7 +343,24 @@ module Xmi
       end
 
       def get_module_name(xmi_doc)
-        xmi_doc.root.name.split(".").first.capitalize
+        get_module_name_from_definition(xmi_doc).capitalize
+      end
+
+      def get_module_name_from_definition(xmi_doc)
+        node = xmi_doc.at_xpath("//UMLProfile/Documentation")
+        node.attribute_nodes.find { |attr| attr.name == "name" }&.value
+      end
+
+      def get_module_uri(xmi_doc)
+        node = xmi_doc.at_xpath("//UMLProfile/Documentation")
+        uri = node.attribute_nodes.find { |attr| attr.name == "URI" }&.value
+
+        return uri if uri
+
+        name = get_module_name_from_definition(xmi_doc)
+        ver = node.attribute_nodes.find { |attr| attr.name == "version" }&.value
+
+        "http://www.sparxsystems.com/profiles/#{name}/#{ver}"
       end
     end
   end

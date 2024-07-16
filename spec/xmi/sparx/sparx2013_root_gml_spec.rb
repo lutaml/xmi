@@ -10,7 +10,12 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
         %i[
           ApplicationSchema
           CodeList
+          DataType
+          Enumeration
+          FeatureType
           Property
+          Type
+          Union
         ].sort
       end
 

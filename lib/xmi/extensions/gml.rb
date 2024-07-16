@@ -37,15 +37,87 @@ module Xmi
         end
       end
 
+      class DataType < Shale::Mapper
+        attribute :is_collection, Shale::Type::String
+        attribute :no_property_type, Shale::Type::String
+        attribute :base_class, Shale::Type::String
+
+        xml do
+          root "DataType"
+
+          map_attribute "isCollection", to: :is_collection
+          map_attribute "noPropertyType", to: :no_property_type
+          map_attribute "base_Class", to: :base_class
+        end
+      end
+
+      class Union < Shale::Mapper
+        attribute :is_collection, Shale::Type::String
+        attribute :no_property_type, Shale::Type::String
+        attribute :base_class, Shale::Type::String
+
+        xml do
+          root "Union"
+
+          map_attribute "isCollection", to: :is_collection
+          map_attribute "noPropertyType", to: :no_property_type
+          map_attribute "base_Class", to: :base_class
+        end
+      end
+
+      class Enumeration < Shale::Mapper
+        attribute :base_enumeration, Shale::Type::String
+
+        xml do
+          root "Enumeration"
+
+          map_attribute "base_Enumeration", to: :base_enumeration
+        end
+      end
+
+      class Type < Shale::Mapper
+        attribute :is_collection, Shale::Type::String
+        attribute :no_property_type, Shale::Type::String
+        attribute :base_class, Shale::Type::String
+
+        xml do
+          root "Type"
+
+          map_attribute "isCollection", to: :is_collection
+          map_attribute "noPropertyType", to: :no_property_type
+          map_attribute "base_Class", to: :base_class
+        end
+      end
+
+      class FeatureType < Shale::Mapper
+        attribute :is_collection, Shale::Type::String
+        attribute :no_property_type, Shale::Type::String
+        attribute :base_class, Shale::Type::String
+        attribute :by_value_property_type, Shale::Type::String
+
+        xml do
+          root "FeatureType"
+
+          map_attribute "isCollection", to: :is_collection
+          map_attribute "noPropertyType", to: :no_property_type
+          map_attribute "base_Class", to: :base_class
+          map_attribute "byValuePropertyType", to: :by_value_property_type
+        end
+      end
+
       class Property < Shale::Mapper
         attribute :sequence_number, Shale::Type::String
         attribute :base_property, Shale::Type::String
+        attribute :is_metadata, Shale::Type::String
+        attribute :inline_or_by_reference, Shale::Type::String
 
         xml do
           root "property"
 
           map_attribute "sequenceNumber", to: :sequence_number
           map_attribute "base_Property", to: :base_property
+          map_attribute "isMetadata", to: :is_metadata
+          map_attribute "inlineOrByReference", to: :inline_or_by_reference
         end
       end
     end

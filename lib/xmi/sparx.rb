@@ -957,6 +957,11 @@ module Xmi
           attribute :eauml_import, EaRoot::Eauml::Import, collection: true
           attribute :gml_application_schema, EaRoot::Gml::ApplicationSchema, collection: true
           attribute :gml_code_list, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_data_type, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_union, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_enumeration, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_type, EaRoot::Gml::CodeList, collection: true
+          attribute :gml_feature_type, EaRoot::Gml::CodeList, collection: true
           attribute :gml_property, EaRoot::Gml::Property, collection: true
         end
       end
@@ -1000,6 +1005,21 @@ module Xmi
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
                             prefix: "GML"
       map_element "CodeList", to: :gml_code_list,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "DataType", to: :gml_data_type,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Union", to: :gml_union,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Enumeration", to: :gml_enumeration,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Type", to: :gml_type,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "FeatureType", to: :gml_feature_type,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
                             prefix: "GML"
       map_element "property", to: :gml_property,
@@ -1052,6 +1072,21 @@ module Xmi
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
                             prefix: "GML"
       map_element "CodeList", to: :gml_code_list,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "DataType", to: :gml_data_type,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Union", to: :gml_union,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Enumeration", to: :gml_enumeration,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "Type", to: :gml_type,
+                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+                            prefix: "GML"
+      map_element "FeatureType", to: :gml_feature_type,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
                             prefix: "GML"
       map_element "property", to: :gml_property,

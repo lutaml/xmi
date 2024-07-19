@@ -622,6 +622,26 @@ module Xmi
       end
     end
 
+    class SparxConnectorLabels < Shale::Mapper
+      attribute :rb, Shale::Type::String
+      attribute :lb, Shale::Type::String
+      attribute :mb, Shale::Type::String
+      attribute :rt, Shale::Type::String
+      attribute :lt, Shale::Type::String
+      attribute :mt, Shale::Type::String
+
+      xml do
+        root "labels"
+
+        map_attribute :rb, to: :rb
+        map_attribute :lb, to: :lb
+        map_attribute :mb, to: :mb
+        map_attribute :rt, to: :rt
+        map_attribute :lt, to: :lt
+        map_attribute :mt, to: :mt
+      end
+    end
+
     class SparxConnector < Shale::Mapper
       attribute :idref, Shale::Type::String
       attribute :source, SparxConnectorSource
@@ -630,7 +650,7 @@ module Xmi
       attribute :properties, SparxConnectorProperties
       attribute :documentation, Shale::Type::String
       attribute :appearance, SparxConnectorAppearance
-      attribute :labels, Shale::Type::String
+      attribute :labels, SparxConnectorLabels
       attribute :extended_properties, SparxElementExtendedProperties
       attribute :style, SparxElementStyle
       attribute :tags, SparxElementTags

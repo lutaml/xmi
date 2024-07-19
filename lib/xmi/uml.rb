@@ -473,6 +473,7 @@ module Xmi
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
+        map_attribute "text", to: :text
         map_attribute "modelElement", to: :model_element
 
         map_element "ownedElement", to: :owned_element

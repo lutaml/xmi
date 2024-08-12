@@ -36,28 +36,6 @@ module Xmi
 
       map_element "Documentation", to: :documentation
       map_element "Model", to: :model,
-                           namespace: "http://www.omg.org/spec/UML/20161101",
-                           prefix: "uml"
-    end
-  end
-
-  class Root2013 < Shale::Mapper
-    include RootAttributes
-    attribute :model, Uml::UmlModel2013
-
-    xml do
-      root "XMI"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
-
-      map_attribute "id", to: :id
-      map_attribute "label", to: :label
-      map_attribute "uuid", to: :uuid
-      map_attribute "href", to: :href, namespace: nil, prefix: nil
-      map_attribute "idref", to: :idref
-      map_attribute "type", to: :type
-
-      map_element "Documentation", to: :documentation
-      map_element "Model", to: :model,
                            namespace: "http://www.omg.org/spec/UML/20131001",
                            prefix: "uml"
     end

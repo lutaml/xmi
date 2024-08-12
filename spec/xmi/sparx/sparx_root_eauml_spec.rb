@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLength
-  context ".from_xml" do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
+  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA UML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default-with-eauml.xmi")) }
       let(:expected_eauml_klasses) do
@@ -48,7 +48,7 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
         ]
       end
 
-      let(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
+      let(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
       context "after loading extension" do # rubocop:disable Metrics/BlockLength
         it "should contain Eauml module" do
@@ -71,26 +71,26 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
 
         it "should contains original attributes" do
           expect_orig_attributes.each do |k|
-            expect(Xmi::Sparx::SparxRoot2013.attributes).to have_key(Shale::Utils.snake_case(k).to_sym)
+            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Shale::Utils.snake_case(k).to_sym)
           end
         end
 
         it "should contains new attributes" do
           expected_eauml_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot2013.attributes).to have_key(Shale::Utils.snake_case("eauml_#{k}").to_sym)
+            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Shale::Utils.snake_case("eauml_#{k}").to_sym)
           end
         end
 
         it "should contains original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            expect(Xmi::Sparx::SparxRoot2013.xml_mapping.elements).to have_key(element_key)
+            expect(Xmi::Sparx::SparxRoot.xml_mapping.elements).to have_key(element_key)
           end
         end
 
         it "should contains new xml mapping" do
           expected_eauml_keys.each do |k|
             element_key = "http://www.sparxsystems.com/profiles/EAUML/1.0:#{k}"
-            expect(Xmi::Sparx::SparxRoot2013.xml_mapping.elements).to have_key(element_key)
+            expect(Xmi::Sparx::SparxRoot.xml_mapping.elements).to have_key(element_key)
           end
         end
 

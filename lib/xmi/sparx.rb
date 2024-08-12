@@ -694,30 +694,8 @@ module Xmi
       end
     end
 
-    class SparxPrimitiveTypes2013 < Shale::Mapper
-      attribute :packaged_element, Uml::PackagedElement2013, collection: true
-
-      xml do
-        root "primitivetypes"
-
-        map_element "packagedElement", to: :packaged_element
-      end
-    end
-
     class SparxProfiles < Shale::Mapper
       attribute :profile, Uml::Profile, collection: true
-
-      xml do
-        root "profiles"
-
-        map_element "Profile", to: :profile,
-                               namespace: "http://www.omg.org/spec/UML/20161101",
-                               prefix: "uml"
-      end
-    end
-
-    class SparxProfiles2013 < Shale::Mapper
-      attribute :profile, Uml::Profile2013, collection: true
 
       xml do
         root "profiles"
@@ -843,7 +821,7 @@ module Xmi
           attribute :extender_id, Shale::Type::String
           attribute :elements, SparxElements
           attribute :connectors, SparxConnectors
-          attribute :primitive_types, SparxPrimitiveTypes2013
+          attribute :primitive_types, SparxPrimitiveTypes
           attribute :diagrams, SparxDiagrams
           attribute :ea_stub, SparxEAStub, collection: true
         end
@@ -853,31 +831,6 @@ module Xmi
     class SparxExtension < Shale::Mapper
       include SparxExtensionAttributes
       attribute :profiles, SparxProfiles
-
-      xml do
-        root "Extension"
-
-        map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "label", to: :label, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "uuid", to: :uuid, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "href", to: :href
-        map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "type", to: :type, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "extender", to: :extender
-        map_attribute "extenderID", to: :extender_id
-
-        map_element "elements", to: :elements
-        map_element "connectors", to: :connectors
-        map_element "primitivetypes", to: :primitive_types
-        map_element "profiles", to: :profiles
-        map_element "diagrams", to: :diagrams
-        map_element "EAStub", to: :ea_stub
-      end
-    end
-
-    class SparxExtension2013 < Shale::Mapper
-      include SparxExtensionAttributes
-      attribute :profiles, SparxProfiles2013
 
       xml do
         root "Extension"
@@ -991,6 +944,45 @@ module Xmi
       include SparxRootAttributes
       attribute :extension, SparxExtension
 
+      class << self
+        def parse_xml(xml_content)
+          xml_content = fix_encoding(xml_content)
+          xml_content = replace_xmlns(xml_content)
+          xml_content = replace_relative_ns(xml_content)
+
+          from_xml(xml_content)
+        end
+
+        private
+
+        def fix_encoding(xml_content)
+          return xml_content if xml_content.valid_encoding?
+
+          xml_content
+            .encode("UTF-16be", invalid: :replace, replace: "?")
+            .encode("UTF-8")
+        end
+
+        def replace_xmlns(xml_content)
+          xml_content
+            .gsub(%r{xmlns:xmi="http://www.omg.org/spec/XMI/\d{8}},
+                  "xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001")
+            .gsub(%r{xmlns:uml="http://www.omg.org/spec/UML/\d{8}},
+                  "xmlns:uml=\"http://www.omg.org/spec/UML/20131001")
+            .gsub(%r{xmlns:umldc="http://www.omg.org/spec/UML/\d{8}},
+                  "xmlns:umldc=\"http://www.omg.org/spec/UML/20131001")
+            .gsub(%r{xmlns:umldi="http://www.omg.org/spec/UML/\d{8}},
+                  "xmlns:umldi=\"http://www.omg.org/spec/UML/20131001")
+        end
+
+        def replace_relative_ns(xml_content)
+          xml_content.gsub(
+            /<(.*)xmlns="(.*)" targetNamespace="(.*)"(.*)>/,
+            '<\1xmlns="\3" targetNamespace="\3"\4>'
+          )
+        end
+      end
+
       @@default_mapping = <<-MAP # rubocop:disable Style/ClassVars
       root "XMI"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
@@ -1051,73 +1043,6 @@ module Xmi
 
       xml do
         eval Xmi::Sparx::SparxRoot.class_variable_get("@@mapping") # rubocop:disable Security/Eval
-      end
-    end
-
-    class SparxRoot2013 < Root2013
-      include SparxRootAttributes
-      attribute :extension, SparxExtension2013
-
-      @@default_mapping = <<-MAP # rubocop:disable Style/ClassVars
-      root "XMI"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
-
-      map_attribute "id", to: :id
-      map_attribute "label", to: :label
-      map_attribute "uuid", to: :uuid
-      map_attribute "href", to: :href
-      map_attribute "idref", to: :idref
-      map_attribute "type", to: :type
-
-      map_element "Extension", to: :extension
-      map_element "publicationDate", to: :publication_date,
-                                     namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                     prefix: "thecustomprofile"
-      map_element "edition", to: :edition,
-                             namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                             prefix: "thecustomprofile"
-      map_element "number", to: :number,
-                            namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                            prefix: "thecustomprofile"
-      map_element "yearVersion", to: :year_version,
-                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile"
-      map_element "ModelicaParameter", to: :modelica_parameter,
-                                       namespace: "http://www.sparxsystems.com/profiles/SysPhS/1.0",
-                                       prefix: "SysPhS"
-      map_element "import", to: :eauml_import,
-                            namespace: "http://www.sparxsystems.com/profiles/EAUML/1.0",
-                            prefix: "EAUML"
-      map_element "ApplicationSchema", to: :gml_application_schema,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "CodeList", to: :gml_code_list,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "DataType", to: :gml_data_type,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "Union", to: :gml_union,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "Enumeration", to: :gml_enumeration,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "Type", to: :gml_type,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "FeatureType", to: :gml_feature_type,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      map_element "property", to: :gml_property,
-                            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
-      MAP
-
-      @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars
-
-      xml do
-        eval Xmi::Sparx::SparxRoot2013.class_variable_get("@@mapping") # rubocop:disable Security/Eval
       end
     end
   end

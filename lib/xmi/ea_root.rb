@@ -62,10 +62,8 @@ module Xmi
       def update_mappings(module_name)
         new_klasses = all_new_klasses(module_name)
         map_elements = construct_shale_xml_mappings(new_klasses, module_name)
-        sparx_roots.each do |sparx_root|
-          update_shale_attributes(new_klasses, sparx_root, module_name)
-          update_shale_xml_mappings(map_elements, sparx_root)
-        end
+        update_shale_attributes(new_klasses, Xmi::Sparx::SparxRoot, module_name)
+        update_shale_xml_mappings(map_elements, Xmi::Sparx::SparxRoot)
       end
 
       def construct_shale_xml_mappings(new_klasses, module_name) # rubocop:disable Metrics/MethodLength
@@ -107,10 +105,6 @@ module Xmi
         end
         new_mapping = proc { xml(&new_mapping_block) }
         sparx_root.class_eval(&new_mapping)
-      end
-
-      def sparx_roots
-        [Xmi::Sparx::SparxRoot, Xmi::Sparx::SparxRoot2013]
       end
 
       def all_new_klasses(module_name)

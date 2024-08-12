@@ -2,14 +2,14 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLength
-  context ".from_xml" do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
+  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "when parsing from XML with XMI 2013 and UML 2013" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("ea-xmi-2.5.1.xmi")) }
 
-      subject(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
+      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
-      it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot2013) }
+      it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 
       it "should contains Documentation" do
         expect(xmi_root_model.documentation).to be_instance_of(Xmi::Documentation)
@@ -17,10 +17,10 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
       end
 
       it "should contains Model" do
-        expect(xmi_root_model.model).to be_instance_of(Xmi::Uml::UmlModel2013)
+        expect(xmi_root_model.model).to be_instance_of(Xmi::Uml::UmlModel)
         expect(xmi_root_model.model.name).to eq("EA_Model")
         expect(xmi_root_model.model.packaged_element).to be_instance_of(Array)
-        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement2013)
+        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement)
         expect(xmi_root_model.model.packaged_element.first.name).to eq("requirement type class diagram")
       end
 
@@ -37,11 +37,11 @@ RSpec.describe Xmi::Sparx::SparxRoot2013 do # rubocop:disable Metrics/BlockLengt
       end
 
       it "should contains Extension" do
-        expect(xmi_root_model.extension).to be_instance_of(Xmi::Sparx::SparxExtension2013)
+        expect(xmi_root_model.extension).to be_instance_of(Xmi::Sparx::SparxExtension)
         expect(xmi_root_model.extension.extender).to eq("Enterprise Architect")
-        expect(xmi_root_model.extension.profiles).to be_instance_of(Xmi::Sparx::SparxProfiles2013)
+        expect(xmi_root_model.extension.profiles).to be_instance_of(Xmi::Sparx::SparxProfiles)
         expect(xmi_root_model.extension.profiles.profile).to be_instance_of(Array)
-        expect(xmi_root_model.extension.profiles.profile.first).to be_instance_of(Xmi::Uml::Profile2013)
+        expect(xmi_root_model.extension.profiles.profile.first).to be_instance_of(Xmi::Uml::Profile)
         expect(xmi_root_model.extension.profiles.profile.first.name).to eq("thecustomprofile")
       end
     end

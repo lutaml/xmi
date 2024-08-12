@@ -37,7 +37,7 @@ To convert XMI file into Ruby objects, run:
 ----
 xml = "path/to/your/file.xmi"
 xml_content = File.read(xml)
-xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
+xmi_root_model = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
 ----
 
 This method takes the path to an XMI file and generate the Ruby objects.
@@ -52,12 +52,12 @@ Xmi::EaRoot.load_extension("path/to/your/extension.xml")
 
 xml = "path/to/your/file.xmi"
 xml_content = File.read(xml)
-xmi_root_model = Xmi::Sparx::SparxRoot2013.from_xml(xml_content)
+xmi_root_model = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
 ----
 
 `Xmi::EaRoot.load_extension` takes the path to an XML file and generate the
 Ruby classes and modules defined in XML file dynamically.
-Then, you can generate Ruby objects by `Xmi::Sparx::SparxRoot2013.from_xml`.
+Then, you can generate Ruby objects by `Xmi::Sparx::SparxRoot.parse_xml`.
 
 === Output Classes and Modules Generated from Extension into Ruby Files
 

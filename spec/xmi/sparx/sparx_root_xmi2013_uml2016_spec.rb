@@ -3,12 +3,12 @@
 require "spec_helper"
 
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
-  context ".from_xml" do # rubocop:disable Metrics/BlockLength
+  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "when parsing from XML with XMI 2013 and UML 2016 (ISO 6709 Edition 2.xml)" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("ISO 6709 Edition 2.xml")) }
       let(:xml_output) { xmi_root_model.to_xml }
 
-      subject(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
+      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
       it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 
@@ -21,7 +21,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         expect(xmi_root_model.model).to be_instance_of(Xmi::Uml::UmlModel)
         expect(xmi_root_model.model.name).to eq("EA_Model")
         expect(xmi_root_model.model.packaged_element).to be_instance_of(Array)
-        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement2013)
+        expect(xmi_root_model.model.packaged_element.first).to be_instance_of(Xmi::Uml::PackagedElement)
         expect(xmi_root_model.model.packaged_element.first.name).to eq("ISO 6709 Edition 2")
       end
 
@@ -628,7 +628,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("large_test.xmi")) }
       let(:xml_output) { xmi_root_model.to_xml }
 
-      subject(:xmi_root_model) { described_class.from_xml(File.read(xml)) }
+      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
       it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 

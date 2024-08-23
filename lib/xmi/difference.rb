@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require "shale"
+# require "shale"
 
 require_relative "extension"
 
 module Xmi
-  class Difference < Shale::Mapper
-    attribute :id, Shale::Type::Value
-    attribute :label, Shale::Type::String
-    attribute :uuid, Shale::Type::String
-    attribute :href, Shale::Type::Value
-    attribute :idref, Shale::Type::Value
-    attribute :type, Shale::Type::Value
-    attribute :target, Shale::Type::Value
-    attribute :container, Shale::Type::Value
+  class Difference < Lutaml::Model::Serializable
+    attribute :id, :string
+    attribute :label, :string
+    attribute :uuid, :string
+    attribute :href, :string
+    attribute :idref, :string
+    attribute :type, :string
+    attribute :target, :string
+    attribute :container, :string
     attribute :difference, Difference, collection: true
     attribute :extension, Extension, collection: true
 

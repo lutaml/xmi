@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
-require "shale"
+# require "shale"
 
 require_relative "extension"
 
 module Xmi
-  class Documentation < Shale::Mapper
-    attribute :id, Shale::Type::Value
-    attribute :label, Shale::Type::String
-    attribute :uuid, Shale::Type::String
-    attribute :href, Shale::Type::Value
-    attribute :idref, Shale::Type::Value
-    attribute :type, Shale::Type::Value
-    attribute :contact, Shale::Type::String, collection: true
-    attribute :exporter, Shale::Type::String
-    attribute :exporter_version, Shale::Type::String
-    attribute :exporter_id, Shale::Type::String
-    attribute :long_description, Shale::Type::String, collection: true
-    attribute :short_description, Shale::Type::String, collection: true
-    attribute :notice, Shale::Type::String, collection: true
-    attribute :owner, Shale::Type::String, collection: true
-    attribute :timestamp, Shale::Type::Time, collection: true
+  class Documentation < Lutaml::Model::Serializable
+    attribute :id, :string
+    attribute :label, :string
+    attribute :uuid, :string
+    attribute :href, :string
+    attribute :idref, :string
+    attribute :type, :string
+    attribute :contact, :string, collection: true
+    attribute :exporter, :string
+    attribute :exporter_version, :string
+    attribute :exporter_id, :string
+    attribute :long_description, :string, collection: true
+    attribute :short_description, :string, collection: true
+    attribute :notice, :string, collection: true
+    attribute :owner, :string, collection: true
+    attribute :timestamp, :time, collection: true
     attribute :extension, Extension, collection: true
 
     xml do

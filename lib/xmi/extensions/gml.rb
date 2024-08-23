@@ -5,12 +5,12 @@ Dir[File.join(__dir__, "ea_extensions", "*.rb")].each { |file| require file }
 module Xmi
   class EaRoot
     module Gml
-      class ApplicationSchema < Shale::Mapper
-        attribute :version, Shale::Type::String
-        attribute :xsd_document, Shale::Type::String
-        attribute :xmlns, Shale::Type::String
-        attribute :target_namespace, Shale::Type::String
-        attribute :base_package, Shale::Type::String
+      class ApplicationSchema < Lutaml::Model::Serializable
+        attribute :version, :string
+        attribute :xsd_document, :string
+        attribute :xmlns, :string
+        attribute :target_namespace, :string
+        attribute :base_package, :string
 
         xml do
           root "ApplicationSchema"
@@ -23,10 +23,10 @@ module Xmi
         end
       end
 
-      class CodeList < Shale::Mapper
-        attribute :as_dictionary, Shale::Type::String
-        attribute :default_code_space, Shale::Type::String
-        attribute :base_class, Shale::Type::String
+      class CodeList < Lutaml::Model::Serializable
+        attribute :as_dictionary, :string
+        attribute :default_code_space, :string
+        attribute :base_class, :string
 
         xml do
           root "CodeList"
@@ -37,10 +37,10 @@ module Xmi
         end
       end
 
-      class DataType < Shale::Mapper
-        attribute :is_collection, Shale::Type::String
-        attribute :no_property_type, Shale::Type::String
-        attribute :base_class, Shale::Type::String
+      class DataType < Lutaml::Model::Serializable
+        attribute :is_collection, :string
+        attribute :no_property_type, :string
+        attribute :base_class, :string
 
         xml do
           root "DataType"
@@ -51,10 +51,10 @@ module Xmi
         end
       end
 
-      class Union < Shale::Mapper
-        attribute :is_collection, Shale::Type::String
-        attribute :no_property_type, Shale::Type::String
-        attribute :base_class, Shale::Type::String
+      class Union < Lutaml::Model::Serializable
+        attribute :is_collection, :string
+        attribute :no_property_type, :string
+        attribute :base_class, :string
 
         xml do
           root "Union"
@@ -65,8 +65,8 @@ module Xmi
         end
       end
 
-      class Enumeration < Shale::Mapper
-        attribute :base_enumeration, Shale::Type::String
+      class Enumeration < Lutaml::Model::Serializable
+        attribute :base_enumeration, :string
 
         xml do
           root "Enumeration"
@@ -75,10 +75,10 @@ module Xmi
         end
       end
 
-      class Type < Shale::Mapper
-        attribute :is_collection, Shale::Type::String
-        attribute :no_property_type, Shale::Type::String
-        attribute :base_class, Shale::Type::String
+      class Type < Lutaml::Model::Serializable
+        attribute :is_collection, :string
+        attribute :no_property_type, :string
+        attribute :base_class, :string
 
         xml do
           root "Type"
@@ -89,11 +89,11 @@ module Xmi
         end
       end
 
-      class FeatureType < Shale::Mapper
-        attribute :is_collection, Shale::Type::String
-        attribute :no_property_type, Shale::Type::String
-        attribute :base_class, Shale::Type::String
-        attribute :by_value_property_type, Shale::Type::String
+      class FeatureType < Lutaml::Model::Serializable
+        attribute :is_collection, :string
+        attribute :no_property_type, :string
+        attribute :base_class, :string
+        attribute :by_value_property_type, :string
 
         xml do
           root "FeatureType"
@@ -105,11 +105,11 @@ module Xmi
         end
       end
 
-      class Property < Shale::Mapper
-        attribute :sequence_number, Shale::Type::String
-        attribute :base_property, Shale::Type::String
-        attribute :is_metadata, Shale::Type::String
-        attribute :inline_or_by_reference, Shale::Type::String
+      class Property < Lutaml::Model::Serializable
+        attribute :sequence_number, :string
+        attribute :base_property, :string
+        attribute :is_metadata, :string
+        attribute :inline_or_by_reference, :string
 
         xml do
           root "property"

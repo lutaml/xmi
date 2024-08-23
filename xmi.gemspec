@@ -31,8 +31,9 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.0.0"
 
+  spec.add_runtime_dependency "lutaml-model"
   spec.add_runtime_dependency "nokogiri"
-  spec.add_runtime_dependency "shale"
+  # spec.add_runtime_dependency "shale"
 
   spec.add_development_dependency "pry", "~> 0.12.2"
   spec.add_development_dependency "rake", "~> 13.0"

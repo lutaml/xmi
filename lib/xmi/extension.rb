@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require "shale"
+# require "shale"
 
 module Xmi
-  class Extension < Shale::Mapper
-    attribute :id, Shale::Type::String
-    attribute :label, Shale::Type::String
-    attribute :uuid, Shale::Type::String
-    attribute :href, Shale::Type::String
-    attribute :idref, Shale::Type::String
-    attribute :type, Shale::Type::String
-    attribute :extender, Shale::Type::String
-    attribute :extender_id, Shale::Type::String
+  class Extension < Lutaml::Model::Serializable
+    attribute :id, :string
+    attribute :label, :string
+    attribute :uuid, :string
+    attribute :href, :string
+    attribute :idref, :string
+    attribute :type, :string
+    attribute :extender, :string
+    attribute :extender_id, :string
 
     xml do
       root "Extension"

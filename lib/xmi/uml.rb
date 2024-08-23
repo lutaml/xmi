@@ -2,8 +2,8 @@
 
 module Xmi
   module Uml
-    class AnnotatedElement < Shale::Mapper
-      attribute :idref, Shale::Type::String
+    class AnnotatedElement < Lutaml::Model::Serializable
+      attribute :idref, :string
 
       xml do
         root "annotatedElement"
@@ -12,9 +12,9 @@ module Xmi
       end
     end
 
-    class Type < Shale::Mapper
-      attribute :idref, Shale::Type::String
-      attribute :href, Shale::Type::String
+    class Type < Lutaml::Model::Serializable
+      attribute :idref, :string
+      attribute :href, :string
 
       xml do
         root "type"
@@ -24,8 +24,8 @@ module Xmi
       end
     end
 
-    class MemberEnd < Shale::Mapper
-      attribute :idref, Shale::Type::String
+    class MemberEnd < Lutaml::Model::Serializable
+      attribute :idref, :string
 
       xml do
         root "memberEnd"
@@ -37,20 +37,20 @@ module Xmi
     module OwnedEndAttributes
       def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :association, Shale::Type::String
-          attribute :name, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :association, :string
+          attribute :name, :string
           attribute :uml_type, Uml::Type
           attribute :member_end, MemberEnd
-          attribute :lower, Shale::Type::Integer
-          attribute :upper, Shale::Type::Integer
-          attribute :is_composite, Shale::Type::Boolean
+          attribute :lower, :integer
+          attribute :upper, :integer
+          attribute :is_composite, :boolean
         end
       end
     end
 
-    class OwnedEnd < Shale::Mapper
+    class OwnedEnd < Lutaml::Model::Serializable
       include OwnedEndAttributes
 
       xml do
@@ -68,10 +68,10 @@ module Xmi
       end
     end
 
-    class DefaultValue < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
-      attribute :value, Shale::Type::String
+    class DefaultValue < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
+      attribute :value, :string
 
       xml do
         root "defaultValue"
@@ -102,10 +102,10 @@ module Xmi
       end
     end
 
-    class OwnedLiteral < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
+    class OwnedLiteral < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
+      attribute :name, :string
       attribute :uml_type, Uml::Type
 
       xml do
@@ -122,11 +122,11 @@ module Xmi
     module OwnedAttributeAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :association, Shale::Type::String
-          attribute :name, Shale::Type::String
-          attribute :is_derived, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :association, :string
+          attribute :name, :string
+          attribute :is_derived, :string
           attribute :uml_type, Uml::Type
           attribute :upper_value, UpperValue
           attribute :lower_value, LowerValue
@@ -134,7 +134,7 @@ module Xmi
       end
     end
 
-    class OwnedAttribute < Shale::Mapper
+    class OwnedAttribute < Lutaml::Model::Serializable
       include OwnedAttributeAttributes
 
       xml do
@@ -152,11 +152,11 @@ module Xmi
       end
     end
 
-    class OwnedParameter < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :direction, Shale::Type::String
+    class OwnedParameter < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :name, :string
+      attribute :type, :string
+      attribute :direction, :string
       attribute :upper_value, UpperValue
       attribute :lower_value, LowerValue
       attribute :default_value, DefaultValue
@@ -175,10 +175,10 @@ module Xmi
       end
     end
 
-    class Specification < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :language, Shale::Type::String
+    class Specification < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :type, :string
+      attribute :language, :string
 
       xml do
         root "specification"
@@ -188,10 +188,10 @@ module Xmi
       end
     end
 
-    class Precondition < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :type, Shale::Type::String
+    class Precondition < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :name, :string
+      attribute :type, :string
       attribute :specification, Specification
 
       xml do
@@ -203,9 +203,9 @@ module Xmi
       end
     end
 
-    class OwnedOperation < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
+    class OwnedOperation < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :name, :string
       attribute :owned_parameter, OwnedParameter, collection: true
       attribute :precondition, Precondition
       attribute :uml_type, Uml::Type, collection: true
@@ -223,17 +223,17 @@ module Xmi
     module OwnedCommentAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :body_element, Shale::Type::String
-          attribute :body_attribute, Shale::Type::String
-          attribute :annotated_attribute, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :body_element, :string
+          attribute :body_attribute, :string
+          attribute :annotated_attribute, :string
           attribute :annotated_element, AnnotatedElement
         end
       end
     end
 
-    class OwnedComment < Shale::Mapper
+    class OwnedComment < Lutaml::Model::Serializable
       include OwnedCommentAttributes
 
       xml do
@@ -255,14 +255,14 @@ module Xmi
     module AssociationGeneralizationAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :general, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :general, :string
         end
       end
     end
 
-    class AssociationGeneralization < Shale::Mapper
+    class AssociationGeneralization < Lutaml::Model::Serializable
       include AssociationGeneralizationAttributes
 
       xml do
@@ -277,22 +277,22 @@ module Xmi
     module PackagedElementAttributes
       def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :name, Shale::Type::String
-          attribute :member_end, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :name, :string
+          attribute :member_end, :string
           attribute :member_ends, MemberEnd, collection: true
           attribute :owned_literal, OwnedLiteral, collection: true
           attribute :owned_operation, OwnedOperation, collection: true
 
           # EA specific
-          attribute :supplier, Shale::Type::String
-          attribute :client, Shale::Type::String
+          attribute :supplier, :string
+          attribute :client, :string
         end
       end
     end
 
-    class PackagedElement < Shale::Mapper
+    class PackagedElement < Lutaml::Model::Serializable
       include PackagedElementAttributes
       attribute :packaged_element, PackagedElement, collection: true
       attribute :owned_end, OwnedEnd, collection: true
@@ -323,13 +323,13 @@ module Xmi
       end
     end
 
-    class Bounds < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
-      attribute :x, Shale::Type::Integer
-      attribute :y, Shale::Type::Integer
-      attribute :height, Shale::Type::Integer
-      attribute :width, Shale::Type::Integer
+    class Bounds < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
+      attribute :x, :integer
+      attribute :y, :integer
+      attribute :height, :integer
+      attribute :width, :integer
 
       xml do
         root "bounds"
@@ -343,11 +343,11 @@ module Xmi
       end
     end
 
-    class Waypoint < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
-      attribute :x, Shale::Type::Integer
-      attribute :y, Shale::Type::Integer
+    class Waypoint < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
+      attribute :x, :integer
+      attribute :y, :integer
 
       xml do
         root "waypoint"
@@ -359,15 +359,15 @@ module Xmi
       end
     end
 
-    class OwnedElement < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
-      attribute :text, Shale::Type::String
-      attribute :model_element, Shale::Type::String
+    class OwnedElement < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
+      attribute :text, :string
+      attribute :model_element, :string
       attribute :owned_element, OwnedElement, collection: true
       attribute :bounds, Bounds, collection: true
-      attribute :source, Shale::Type::String
-      attribute :target, Shale::Type::String
+      attribute :source, :string
+      attribute :target, :string
       attribute :waypoint, Waypoint
 
       xml do
@@ -389,16 +389,16 @@ module Xmi
     module DiagramAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :id, Shale::Type::String
-          attribute :is_frame, Shale::Type::Boolean
-          attribute :model_element, Shale::Type::String
+          attribute :type, :string
+          attribute :id, :string
+          attribute :is_frame, :boolean
+          attribute :model_element, :string
           attribute :owned_element, OwnedElement, collection: true
         end
       end
     end
 
-    class Diagram < Shale::Mapper
+    class Diagram < Lutaml::Model::Serializable
       include DiagramAttributes
 
       xml do
@@ -414,9 +414,9 @@ module Xmi
       end
     end
 
-    class ProfileApplicationAppliedProfile < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :href, Shale::Type::String
+    class ProfileApplicationAppliedProfile < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :href, :string
 
       xml do
         root "appliedProfile"
@@ -426,9 +426,9 @@ module Xmi
       end
     end
 
-    class ProfileApplication < Shale::Mapper
-      attribute :type, Shale::Type::String
-      attribute :id, Shale::Type::String
+    class ProfileApplication < Lutaml::Model::Serializable
+      attribute :type, :string
+      attribute :id, :string
       attribute :applied_profile, ProfileApplicationAppliedProfile
 
       xml do
@@ -441,8 +441,8 @@ module Xmi
       end
     end
 
-    class ImportedPackage < Shale::Mapper
-      attribute :href, Shale::Type::String
+    class ImportedPackage < Lutaml::Model::Serializable
+      attribute :href, :string
 
       xml do
         root "importedPackage"
@@ -454,13 +454,13 @@ module Xmi
     module PackageImportAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :id, Shale::Type::String
+          attribute :id, :string
           attribute :imported_package, ImportedPackage
         end
       end
     end
 
-    class PackageImport < Shale::Mapper
+    class PackageImport < Lutaml::Model::Serializable
       include PackageImportAttributes
 
       xml do
@@ -476,14 +476,14 @@ module Xmi
     module UmlModelAttributes
       def self.included(klass)
         klass.class_eval do
-          attribute :type, Shale::Type::String
-          attribute :name, Shale::Type::String
+          attribute :type, :string
+          attribute :name, :string
           attribute :profile_application, ProfileApplication, collection: true
         end
       end
     end
 
-    class UmlModel < Shale::Mapper
+    class UmlModel < Lutaml::Model::Serializable
       include UmlModelAttributes
       attribute :packaged_element, PackagedElement, collection: true
       attribute :package_import, PackageImport, collection: true
@@ -509,19 +509,19 @@ module Xmi
         klass.class_eval do
           attribute :packaged_element, PackagedElement, collection: true
           attribute :package_import, PackageImport, collection: true
-          attribute :id, Shale::Type::String
-          attribute :name, Shale::Type::String
-          # attribute :xmi, Shale::Type::String
-          # attribute :uml, Shale::Type::String
-          attribute :ns_prefix, Shale::Type::String
+          attribute :id, :string
+          attribute :name, :string
+          # attribute :xmi, :string
+          # attribute :uml, :string
+          attribute :ns_prefix, :string
 
           # Is this an EA thing?
-          attribute :metamodel_reference, Shale::Type::String
+          attribute :metamodel_reference, :string
         end
       end
     end
 
-    class Profile < Shale::Mapper
+    class Profile < Lutaml::Model::Serializable
       include ProfileAttributes
       attribute :owned_comment, OwnedComment, collection: true
 

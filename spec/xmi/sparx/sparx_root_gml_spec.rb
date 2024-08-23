@@ -74,32 +74,32 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           end
 
           expect(gml_klasses.sort).to eq(
-            expected_gml_klasses.map { |k| Shale::Utils.classify(k).to_sym }
+            expected_gml_klasses.map { |k| Lutaml::Model::Utils.classify(k).to_sym }
           )
         end
 
         it "should contains original attributes" do
           expect_orig_attributes.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Shale::Utils.snake_case(k).to_sym)
+            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
         it "should contains new attributes" do
           expected_gml_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Shale::Utils.snake_case("gml_#{k}").to_sym)
+            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case("gml_#{k}").to_sym)
           end
         end
 
         it "should contains original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            expect(Xmi::Sparx::SparxRoot.xml_mapping.elements).to have_key(element_key)
+            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
           end
         end
 
         it "should contains new xml mapping" do
           expected_gml_keys.each do |k|
             element_key = "http://www.sparxsystems.com/profiles/GML/1.0:#{k}"
-            expect(Xmi::Sparx::SparxRoot.xml_mapping.elements).to have_key(element_key)
+            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
           end
         end
 

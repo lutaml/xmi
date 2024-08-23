@@ -3,8 +3,8 @@
 module Xmi
   class EaRoot
     module Eauml
-      class Import < Shale::Mapper
-        attribute :base_package_import, Shale::Type::String
+      class Import < Lutaml::Model::Serializable
+        attribute :base_package_import, :string
 
         xml do
           root "import"

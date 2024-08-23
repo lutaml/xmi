@@ -61,12 +61,12 @@ module Xmi
 
       def update_mappings(module_name)
         new_klasses = all_new_klasses(module_name)
-        map_elements = construct_shale_xml_mappings(new_klasses, module_name)
-        update_shale_attributes(new_klasses, Xmi::Sparx::SparxRoot, module_name)
-        update_shale_xml_mappings(map_elements, Xmi::Sparx::SparxRoot)
+        map_elements = construct_xml_mappings(new_klasses, module_name)
+        update_model_attributes(new_klasses, Xmi::Sparx::SparxRoot, module_name)
+        update_model_xml_mappings(map_elements, Xmi::Sparx::SparxRoot)
       end
 
-      def construct_shale_xml_mappings(new_klasses, module_name) # rubocop:disable Metrics/MethodLength
+      def construct_xml_mappings(new_klasses, module_name) # rubocop:disable Metrics/MethodLength
         map_elements = []
         new_klasses.each do |klass|
           next unless Xmi::EaRoot.const_get(module_name).const_get(klass)
@@ -74,7 +74,7 @@ module Xmi
 
           map_elements << MAP_ELEMENT
                           .gsub("#ELEMENT_NAME#", Xmi::EaRoot.const_get(module_name).const_get(klass).root_tag)
-                          .gsub("#ELEMENT_METHOD#", Shale::Utils.snake_case(klass.to_s))
+                          .gsub("#ELEMENT_METHOD#", Lutaml::Model::Utils.snake_case(klass.to_s))
                           .gsub("#NAMESPACE#", @def_namespace[:uri])
                           .gsub("#PREFIX#", @def_namespace[:name])
         end
@@ -82,9 +82,9 @@ module Xmi
         map_elements
       end
 
-      def update_shale_attributes(new_klasses, sparx_root, module_name)
+      def update_model_attributes(new_klasses, sparx_root, module_name)
         new_klasses.each do |klass|
-          method_name = Shale::Utils.snake_case(klass)
+          method_name = Lutaml::Model::Utils.snake_case(klass)
           full_klass_name = "Xmi::EaRoot::#{module_name}::#{klass}"
           attr_line = "#{ATTRIBUTE_LINE.rstrip}, collection: true"
           attr_line = attr_line
@@ -95,7 +95,7 @@ module Xmi
         end
       end
 
-      def update_shale_xml_mappings(map_elements, sparx_root)
+      def update_model_xml_mappings(map_elements, sparx_root)
         new_mapping = sparx_root.class_variable_get("@@default_mapping")
         new_mapping += map_elements.join("\n")
         sparx_root.class_variable_set("@@mapping", new_mapping) # rubocop:disable Style/ClassVars
@@ -120,14 +120,14 @@ module Xmi
       end
 
       def get_klass_name_from_node(node)
-        return Shale::Mapper.to_s unless node
+        return Lutaml::Model::Serializable.to_s unless node
 
         node.attribute_nodes.find { |attr| attr.name == "name" }.value
       end
 
       def gen_map_attribute_line(attr_name, attr_method)
         space_before = " " * 10
-        method_name = Shale::Utils.snake_case(attr_method)
+        method_name = Lutaml::Model::Utils.snake_case(attr_method)
 
         map_attributes = MAP_ATTRIBUTES
                          .gsub("#ATTRIBUTE_NAME#", attr_name)
@@ -136,8 +136,8 @@ module Xmi
         "#{space_before}#{map_attributes}"
       end
 
-      def gen_attribute_line(tag_name, attribute_type = "Shale::Type::String")
-        tag_name = Shale::Utils.snake_case(tag_name)
+      def gen_attribute_line(tag_name, attribute_type = ":string")
+        tag_name = Lutaml::Model::Utils.snake_case(tag_name)
         space_before = " " * 8
 
         attribute_line = ATTRIBUTE_LINE
@@ -175,8 +175,8 @@ module Xmi
         klass_name = get_klass_name_from_node(@abstract_klass_node)
 
         KLASS_TEMPLATE
-          .gsub("#KLASS_NAME#", Shale::Utils.classify(klass_name))
-          .gsub("#FROM_KLASS#", "Shale::Mapper")
+          .gsub("#KLASS_NAME#", Lutaml::Model::Utils.classify(klass_name))
+          .gsub("#FROM_KLASS#", "Lutaml::Model::Serializable")
           .gsub("#ATTRIBUTES#", attributes_lines.rstrip)
           .gsub("#XML_MAPPING#", "")
           .gsub("#ROOT_TAG_LINE#", "")
@@ -268,8 +268,8 @@ module Xmi
         root_tag_line = "def self.root_tag = \"#{node_name}\""
 
         KLASS_TEMPLATE
-          .gsub("#KLASS_NAME#", Shale::Utils.classify(node_name))
-          .gsub("#FROM_KLASS#", Shale::Utils.classify(abstract_klass_name))
+          .gsub("#KLASS_NAME#", Lutaml::Model::Utils.classify(node_name))
+          .gsub("#FROM_KLASS#", Lutaml::Model::Utils.classify(abstract_klass_name))
           .gsub("#ROOT_TAG_LINE#", root_tag_line)
           .gsub("#ATTRIBUTES#", attributes_lines.rstrip)
           .gsub("#XML_MAPPING#", "\n\n#{xml_mapping}")

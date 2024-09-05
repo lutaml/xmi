@@ -648,7 +648,7 @@ module Xmi
       attribute :target, SparxConnectorTarget
       attribute :model, SparxConnectorModel
       attribute :properties, SparxConnectorProperties
-      attribute :documentation, Shale::Type::String
+      attribute :documentation, SparxElementDocumentation
       attribute :appearance, SparxConnectorAppearance
       attribute :labels, SparxConnectorLabels
       attribute :extended_properties, SparxElementExtendedProperties

@@ -225,6 +225,7 @@ module Xmi
         klass.class_eval do
           attribute :type, :string
           attribute :id, :string
+          attribute :name, :string
           attribute :body_element, :string
           attribute :body_attribute, :string
           attribute :annotated_attribute, :string

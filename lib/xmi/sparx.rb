@@ -2,8 +2,8 @@
 
 module Xmi
   module Sparx
-    class SparxElementDocumentation < Shale::Mapper
-      attribute :value, Shale::Type::String
+    class SparxElementDocumentation < Lutaml::Model::Serializable
+      attribute :value, :string
 
       xml do
         root "documentation"
@@ -12,12 +12,12 @@ module Xmi
       end
     end
 
-    class SparxElementModel < Shale::Mapper
-      attribute :package, Shale::Type::String
-      attribute :package2, Shale::Type::String
-      attribute :tpos, Shale::Type::Integer
-      attribute :ea_localid, Shale::Type::String
-      attribute :ea_eleType, Shale::Type::String
+    class SparxElementModel < Lutaml::Model::Serializable
+      attribute :package, :string
+      attribute :package2, :string
+      attribute :tpos, :integer
+      attribute :ea_localid, :string
+      attribute :ea_eleType, :string
 
       xml do
         root "model"
@@ -30,20 +30,20 @@ module Xmi
       end
     end
 
-    class SparxElementProperties < Shale::Mapper
-      attribute :name, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :is_specification, Shale::Type::Boolean
-      attribute :is_root, Shale::Type::Boolean
-      attribute :is_leaf, Shale::Type::Boolean
-      attribute :is_abstract, Shale::Type::Boolean
-      attribute :is_active, Shale::Type::Boolean
-      attribute :s_type, Shale::Type::String
-      attribute :n_type, Shale::Type::String
-      attribute :scope, Shale::Type::String
-      attribute :stereotype, Shale::Type::String
-      attribute :alias, Shale::Type::String
-      attribute :documentation, Shale::Type::String
+    class SparxElementProperties < Lutaml::Model::Serializable
+      attribute :name, :string
+      attribute :type, :string
+      attribute :is_specification, :boolean
+      attribute :is_root, :boolean
+      attribute :is_leaf, :boolean
+      attribute :is_abstract, :boolean
+      attribute :is_active, :boolean
+      attribute :s_type, :string
+      attribute :n_type, :string
+      attribute :scope, :string
+      attribute :stereotype, :string
+      attribute :alias, :string
+      attribute :documentation, :string
 
       xml do
         root "properties"
@@ -64,14 +64,14 @@ module Xmi
       end
     end
 
-    class SparxElementProject < Shale::Mapper
-      attribute :author, Shale::Type::String
-      attribute :version, Shale::Type::String
-      attribute :phase, Shale::Type::String
-      attribute :created, Shale::Type::String
-      attribute :modified, Shale::Type::String
-      attribute :complexity, Shale::Type::Integer
-      attribute :status, Shale::Type::String
+    class SparxElementProject < Lutaml::Model::Serializable
+      attribute :author, :string
+      attribute :version, :string
+      attribute :phase, :string
+      attribute :created, :string
+      attribute :modified, :string
+      attribute :complexity, :integer
+      attribute :status, :string
 
       xml do
         root "project"
@@ -86,9 +86,9 @@ module Xmi
       end
     end
 
-    class SparxElementCode < Shale::Mapper
-      attribute :gentype, Shale::Type::String
-      attribute :product_name, Shale::Type::String
+    class SparxElementCode < Lutaml::Model::Serializable
+      attribute :gentype, :string
+      attribute :product_name, :string
 
       xml do
         root "code"
@@ -98,8 +98,8 @@ module Xmi
       end
     end
 
-    class SparxElementStyle < Shale::Mapper
-      attribute :appearance, Shale::Type::String
+    class SparxElementStyle < Lutaml::Model::Serializable
+      attribute :appearance, :string
 
       xml do
         root "style"
@@ -108,11 +108,11 @@ module Xmi
       end
     end
 
-    class SparxElementTag < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :value, Shale::Type::String
-      attribute :model_element, Shale::Type::String
+    class SparxElementTag < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :name, :string
+      attribute :value, :string
+      attribute :model_element, :string
 
       xml do
         root "tag"
@@ -124,7 +124,7 @@ module Xmi
       end
     end
 
-    class SparxElementTags < Shale::Mapper
+    class SparxElementTags < Lutaml::Model::Serializable
       attribute :tags, SparxElementTag, collection: true
 
       xml do
@@ -133,8 +133,8 @@ module Xmi
       end
     end
 
-    class SparxElementXrefs < Shale::Mapper
-      attribute :value, Shale::Type::String
+    class SparxElementXrefs < Lutaml::Model::Serializable
+      attribute :value, :string
 
       xml do
         root "xrefs"
@@ -143,10 +143,10 @@ module Xmi
       end
     end
 
-    class SparxElementExtendedProperties < Shale::Mapper
-      attribute :tagged, Shale::Type::String
-      attribute :package_name, Shale::Type::String
-      attribute :virtual_inheritance, Shale::Type::Integer
+    class SparxElementExtendedProperties < Lutaml::Model::Serializable
+      attribute :tagged, :string
+      attribute :package_name, :string
+      attribute :virtual_inheritance, :integer
 
       xml do
         root "extendedProperties"
@@ -157,10 +157,10 @@ module Xmi
       end
     end
 
-    class SparxElementPackageProperties < Shale::Mapper
-      attribute :version, Shale::Type::String
-      attribute :xmiver, Shale::Type::String
-      attribute :tpos, Shale::Type::String
+    class SparxElementPackageProperties < Lutaml::Model::Serializable
+      attribute :version, :string
+      attribute :xmiver, :string
+      attribute :tpos, :string
 
       xml do
         root "packagedproperties"
@@ -171,8 +171,8 @@ module Xmi
       end
     end
 
-    class SparxElementPaths < Shale::Mapper
-      attribute :xmlpath, Shale::Type::String
+    class SparxElementPaths < Lutaml::Model::Serializable
+      attribute :xmlpath, :string
 
       xml do
         root "paths"
@@ -181,11 +181,11 @@ module Xmi
       end
     end
 
-    class SparxElementTimes < Shale::Mapper
-      attribute :created, Shale::Type::String
-      attribute :modified, Shale::Type::String
-      attribute :last_load_date, Shale::Type::String
-      attribute :last_save_date, Shale::Type::String
+    class SparxElementTimes < Lutaml::Model::Serializable
+      attribute :created, :string
+      attribute :modified, :string
+      attribute :last_load_date, :string
+      attribute :last_save_date, :string
 
       xml do
         root "times"
@@ -197,14 +197,14 @@ module Xmi
       end
     end
 
-    class SparxElementFlags < Shale::Mapper
-      attribute :is_controlled, Shale::Type::Integer
-      attribute :is_protected, Shale::Type::Integer
-      attribute :batch_save, Shale::Type::Integer
-      attribute :batch_load, Shale::Type::Integer
-      attribute :used_td, Shale::Type::Integer
-      attribute :log_xml, Shale::Type::Integer
-      attribute :package_flags, Shale::Type::String
+    class SparxElementFlags < Lutaml::Model::Serializable
+      attribute :is_controlled, :integer
+      attribute :is_protected, :integer
+      attribute :batch_save, :integer
+      attribute :batch_load, :integer
+      attribute :used_td, :integer
+      attribute :log_xml, :integer
+      attribute :package_flags, :string
 
       xml do
         root "flags"
@@ -219,11 +219,11 @@ module Xmi
       end
     end
 
-    class SparxElementAssociation < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :start, Shale::Type::String
-      attribute :end, Shale::Type::String
-      attribute :name, Shale::Type::String, default: -> { "Association" }
+    class SparxElementAssociation < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :start, :string
+      attribute :end, :string
+      attribute :name, :string, default: -> { "Association" }
 
       xml do
         root "Association"
@@ -235,7 +235,7 @@ module Xmi
     end
 
     class SparxElementGeneralization < SparxElementAssociation
-      attribute :name, Shale::Type::String, default: -> { "Generalization" }
+      attribute :name, :string, default: -> { "Generalization" }
 
       xml do
         root "Generalization"
@@ -247,7 +247,7 @@ module Xmi
     end
 
     class SparxElementAggregation < SparxElementAssociation
-      attribute :name, Shale::Type::String, default: -> { "Aggregation" }
+      attribute :name, :string, default: -> { "Aggregation" }
 
       xml do
         root "Aggregation"
@@ -259,7 +259,7 @@ module Xmi
     end
 
     class SparxElementNoteLink < SparxElementAssociation
-      attribute :name, Shale::Type::String, default: -> { "NoteLink" }
+      attribute :name, :string, default: -> { "NoteLink" }
 
       xml do
         root "NoteLink"
@@ -270,8 +270,8 @@ module Xmi
       end
     end
 
-    class SparxElementStyleex < Shale::Mapper
-      attribute :value, Shale::Type::String
+    class SparxElementStyleex < Lutaml::Model::Serializable
+      attribute :value, :string
 
       xml do
         root "styleex"
@@ -280,9 +280,9 @@ module Xmi
       end
     end
 
-    class SparxElementBounds < Shale::Mapper
-      attribute :lower, Shale::Type::Integer
-      attribute :upper, Shale::Type::Integer
+    class SparxElementBounds < Lutaml::Model::Serializable
+      attribute :lower, :integer
+      attribute :upper, :integer
 
       xml do
         root "bounds"
@@ -292,8 +292,8 @@ module Xmi
       end
     end
 
-    class SparxElementStereotype < Shale::Mapper
-      attribute :stereotype, Shale::Type::String
+    class SparxElementStereotype < Lutaml::Model::Serializable
+      attribute :stereotype, :string
 
       xml do
         root "stereotype"
@@ -302,9 +302,9 @@ module Xmi
       end
     end
 
-    class SparxElementContainment < Shale::Mapper
-      attribute :containment, Shale::Type::String
-      attribute :position, Shale::Type::Integer
+    class SparxElementContainment < Lutaml::Model::Serializable
+      attribute :containment, :string
+      attribute :position, :integer
 
       xml do
         root "containment"
@@ -314,9 +314,9 @@ module Xmi
       end
     end
 
-    class SparxElementCoords < Shale::Mapper
-      attribute :ordered, Shale::Type::Integer
-      attribute :scale, Shale::Type::Integer
+    class SparxElementCoords < Lutaml::Model::Serializable
+      attribute :ordered, :integer
+      attribute :scale, :integer
 
       xml do
         root "coords"
@@ -326,15 +326,15 @@ module Xmi
       end
     end
 
-    class SparxElementAttribute < Shale::Mapper
-      attribute :idref, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :scope, Shale::Type::String
-      attribute :initial, Shale::Type::String
+    class SparxElementAttribute < Lutaml::Model::Serializable
+      attribute :idref, :string
+      attribute :name, :string
+      attribute :scope, :string
+      attribute :initial, :string
       attribute :documentation, SparxElementDocumentation
-      attribute :options, Shale::Type::String
-      attribute :style, Shale::Type::String
-      attribute :tags, Shale::Type::String, collection: true
+      attribute :options, :string
+      attribute :style, :string
+      attribute :tags, :string, collection: true
       attribute :model, SparxElementModel
       attribute :properties, SparxElementProperties
       attribute :coords, SparxElementCoords
@@ -367,7 +367,7 @@ module Xmi
       end
     end
 
-    class SparxElementAttributes < Shale::Mapper
+    class SparxElementAttributes < Lutaml::Model::Serializable
       attribute :attribute, SparxElementAttribute, collection: true
 
       xml do
@@ -377,7 +377,7 @@ module Xmi
       end
     end
 
-    class SparxElementLinks < Shale::Mapper
+    class SparxElementLinks < Lutaml::Model::Serializable
       attribute :association, SparxElementAssociation, collection: true
       attribute :generalization, SparxElementGeneralization, collection: true
       attribute :note_link, SparxElementNoteLink, collection: true
@@ -391,11 +391,11 @@ module Xmi
       end
     end
 
-    class SparxElement < Shale::Mapper
-      attribute :idref, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :scope, Shale::Type::String
+    class SparxElement < Lutaml::Model::Serializable
+      attribute :idref, :string
+      attribute :type, :string
+      attribute :name, :string
+      attribute :scope, :string
       attribute :model, SparxElementModel
       attribute :properties, SparxElementProperties
       attribute :project, SparxElementProject
@@ -436,7 +436,7 @@ module Xmi
       end
     end
 
-    class SparxElements < Shale::Mapper
+    class SparxElements < Lutaml::Model::Serializable
       attribute :element, SparxElement, collection: true
 
       xml do
@@ -446,10 +446,10 @@ module Xmi
       end
     end
 
-    class SparxConnectorModel < Shale::Mapper
-      attribute :ea_localid, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :name, Shale::Type::String
+    class SparxConnectorModel < Lutaml::Model::Serializable
+      attribute :ea_localid, :string
+      attribute :type, :string
+      attribute :name, :string
 
       xml do
         map_attribute "ea_localid", to: :ea_localid
@@ -458,10 +458,10 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndRole < Shale::Mapper
-      attribute :name, Shale::Type::String
-      attribute :visibility, Shale::Type::String
-      attribute :target_scope, Shale::Type::String
+    class SparxConnectorEndRole < Lutaml::Model::Serializable
+      attribute :name, :string
+      attribute :visibility, :string
+      attribute :target_scope, :string
 
       xml do
         root "role"
@@ -472,10 +472,10 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndType < Shale::Mapper
-      attribute :aggregation, Shale::Type::String
-      attribute :multiplicity, Shale::Type::String
-      attribute :containment, Shale::Type::String
+    class SparxConnectorEndType < Lutaml::Model::Serializable
+      attribute :aggregation, :string
+      attribute :multiplicity, :string
+      attribute :containment, :string
 
       xml do
         root "type"
@@ -486,9 +486,9 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndModifiers < Shale::Mapper
-      attribute :is_ordered, Shale::Type::Boolean
-      attribute :is_navigable, Shale::Type::Boolean
+    class SparxConnectorEndModifiers < Lutaml::Model::Serializable
+      attribute :is_ordered, :boolean
+      attribute :is_navigable, :boolean
 
       xml do
         root "type"
@@ -498,11 +498,11 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndConstraint < Shale::Mapper
-      attribute :name, Shale::Type::String
-      attribute :type, Shale::Type::String
-      attribute :weight, Shale::Type::Float
-      attribute :status, Shale::Type::String
+    class SparxConnectorEndConstraint < Lutaml::Model::Serializable
+      attribute :name, :string
+      attribute :type, :string
+      attribute :weight, :float
+      attribute :status, :string
 
       xml do
         root "constraint"
@@ -514,7 +514,7 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndConstraints < Shale::Mapper
+    class SparxConnectorEndConstraints < Lutaml::Model::Serializable
       attribute :constraint, SparxConnectorEndConstraint, collection: true
       xml do
         root "constraints"
@@ -523,8 +523,8 @@ module Xmi
       end
     end
 
-    class SparxConnectorEndStyle < Shale::Mapper
-      attribute :value, Shale::Type::String
+    class SparxConnectorEndStyle < Lutaml::Model::Serializable
+      attribute :value, :string
 
       xml do
         root "style"
@@ -536,21 +536,21 @@ module Xmi
     module SparxConnectorEnd
       def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
-          attribute :idref, Shale::Type::String
+          attribute :idref, :string
           attribute :model, SparxConnectorModel
           attribute :role, SparxConnectorEndRole
           attribute :type, SparxConnectorEndType
           attribute :constraints, SparxConnectorEndConstraints
           attribute :modifiers, SparxConnectorEndModifiers
           attribute :style, SparxConnectorEndStyle
-          attribute :documentation, Shale::Type::String
+          attribute :documentation, :string
           attribute :xrefs, SparxElementXrefs
           attribute :tags, SparxElementTags
         end
       end
     end
 
-    class SparxConnectorSource < Shale::Mapper
+    class SparxConnectorSource < Lutaml::Model::Serializable
       include SparxConnectorEnd
 
       xml do
@@ -570,7 +570,7 @@ module Xmi
       end
     end
 
-    class SparxConnectorTarget < Shale::Mapper
+    class SparxConnectorTarget < Lutaml::Model::Serializable
       include SparxConnectorEnd
 
       xml do
@@ -590,9 +590,9 @@ module Xmi
       end
     end
 
-    class SparxConnectorProperties < Shale::Mapper
-      attribute :ea_type, Shale::Type::String
-      attribute :direction, Shale::Type::String
+    class SparxConnectorProperties < Lutaml::Model::Serializable
+      attribute :ea_type, :string
+      attribute :direction, :string
 
       xml do
         root "properties"
@@ -602,13 +602,13 @@ module Xmi
       end
     end
 
-    class SparxConnectorAppearance < Shale::Mapper
-      attribute :linemode, Shale::Type::Integer
-      attribute :linecolor, Shale::Type::Integer
-      attribute :linewidth, Shale::Type::Integer
-      attribute :seqno, Shale::Type::Integer
-      attribute :headStyle, Shale::Type::Integer
-      attribute :lineStyle, Shale::Type::Integer
+    class SparxConnectorAppearance < Lutaml::Model::Serializable
+      attribute :linemode, :integer
+      attribute :linecolor, :integer
+      attribute :linewidth, :integer
+      attribute :seqno, :integer
+      attribute :headStyle, :integer
+      attribute :lineStyle, :integer
 
       xml do
         root "appearance"
@@ -622,13 +622,13 @@ module Xmi
       end
     end
 
-    class SparxConnectorLabels < Shale::Mapper
-      attribute :rb, Shale::Type::String
-      attribute :lb, Shale::Type::String
-      attribute :mb, Shale::Type::String
-      attribute :rt, Shale::Type::String
-      attribute :lt, Shale::Type::String
-      attribute :mt, Shale::Type::String
+    class SparxConnectorLabels < Lutaml::Model::Serializable
+      attribute :rb, :string
+      attribute :lb, :string
+      attribute :mb, :string
+      attribute :rt, :string
+      attribute :lt, :string
+      attribute :mt, :string
 
       xml do
         root "labels"
@@ -642,8 +642,8 @@ module Xmi
       end
     end
 
-    class SparxConnector < Shale::Mapper
-      attribute :idref, Shale::Type::String
+    class SparxConnector < Lutaml::Model::Serializable
+      attribute :idref, :string
       attribute :source, SparxConnectorSource
       attribute :target, SparxConnectorTarget
       attribute :model, SparxConnectorModel
@@ -675,7 +675,7 @@ module Xmi
       end
     end
 
-    class SparxConnectors < Shale::Mapper
+    class SparxConnectors < Lutaml::Model::Serializable
       attribute :connector, SparxConnector, collection: true
       xml do
         root "connectors"
@@ -684,7 +684,7 @@ module Xmi
       end
     end
 
-    class SparxPrimitiveTypes < Shale::Mapper
+    class SparxPrimitiveTypes < Lutaml::Model::Serializable
       attribute :packaged_element, Uml::PackagedElement, collection: true
 
       xml do
@@ -694,7 +694,7 @@ module Xmi
       end
     end
 
-    class SparxProfiles < Shale::Mapper
+    class SparxProfiles < Lutaml::Model::Serializable
       attribute :profile, Uml::Profile, collection: true
 
       xml do
@@ -706,11 +706,11 @@ module Xmi
       end
     end
 
-    class SparxDiagramElement < Shale::Mapper
-      attribute :geometry, Shale::Type::String
-      attribute :subject, Shale::Type::String
-      attribute :seqno, Shale::Type::Integer
-      attribute :style, Shale::Type::String
+    class SparxDiagramElement < Lutaml::Model::Serializable
+      attribute :geometry, :string
+      attribute :subject, :string
+      attribute :seqno, :integer
+      attribute :style, :string
 
       xml do
         root "element"
@@ -722,7 +722,7 @@ module Xmi
       end
     end
 
-    class SparxDiagramElements < Shale::Mapper
+    class SparxDiagramElements < Lutaml::Model::Serializable
       attribute :element, SparxDiagramElement, collection: true
       xml do
         root "elements"
@@ -731,10 +731,10 @@ module Xmi
       end
     end
 
-    class SparxDiagramModel < Shale::Mapper
-      attribute :package, Shale::Type::String
-      attribute :local_id, Shale::Type::String
-      attribute :owner, Shale::Type::String
+    class SparxDiagramModel < Lutaml::Model::Serializable
+      attribute :package, :string
+      attribute :local_id, :string
+      attribute :owner, :string
 
       xml do
         root "model"
@@ -745,7 +745,7 @@ module Xmi
       end
     end
 
-    class SparxDiagramStyle < Shale::Mapper
+    class SparxDiagramStyle < Lutaml::Model::Serializable
       attribute :value, SparxDiagramElement
 
       xml do
@@ -753,8 +753,8 @@ module Xmi
       end
     end
 
-    class SparxDiagram < Shale::Mapper
-      attribute :id, Shale::Type::String
+    class SparxDiagram < Lutaml::Model::Serializable
+      attribute :id, :string
       attribute :model, SparxDiagramModel
       attribute :properties, SparxElementProperties
       attribute :project, SparxElementProject
@@ -784,7 +784,7 @@ module Xmi
       end
     end
 
-    class SparxDiagrams < Shale::Mapper
+    class SparxDiagrams < Lutaml::Model::Serializable
       attribute :diagram, SparxDiagram, collection: true
 
       xml do
@@ -794,10 +794,10 @@ module Xmi
       end
     end
 
-    class SparxEAStub < Shale::Mapper
-      attribute :id, Shale::Type::String
-      attribute :name, Shale::Type::String
-      attribute :uml_type, Shale::Type::String
+    class SparxEAStub < Lutaml::Model::Serializable
+      attribute :id, :string
+      attribute :name, :string
+      attribute :uml_type, :string
 
       xml do
         root "diagrams"
@@ -811,14 +811,14 @@ module Xmi
     module SparxExtensionAttributes
       def self.included(klass) # rubocop:disable Metrics/MethodLength
         klass.class_eval do
-          attribute :id, Shale::Type::String
-          attribute :label, Shale::Type::String
-          attribute :uuid, Shale::Type::String
-          attribute :href, Shale::Type::String
-          attribute :idref, Shale::Type::String
-          attribute :type, Shale::Type::String
-          attribute :extender, Shale::Type::String
-          attribute :extender_id, Shale::Type::String
+          attribute :id, :string
+          attribute :label, :string
+          attribute :uuid, :string
+          attribute :href, :string
+          attribute :idref, :string
+          attribute :type, :string
+          attribute :extender, :string
+          attribute :extender_id, :string
           attribute :elements, SparxElements
           attribute :connectors, SparxConnectors
           attribute :primitive_types, SparxPrimitiveTypes
@@ -828,7 +828,7 @@ module Xmi
       end
     end
 
-    class SparxExtension < Shale::Mapper
+    class SparxExtension < Lutaml::Model::Serializable
       include SparxExtensionAttributes
       attribute :profiles, SparxProfiles
 
@@ -853,9 +853,9 @@ module Xmi
       end
     end
 
-    class SparxSysPhS < Shale::Mapper
-      attribute :base_package, Shale::Type::String
-      attribute :name, Shale::Type::String
+    class SparxSysPhS < Lutaml::Model::Serializable
+      attribute :base_package, :string
+      attribute :name, :string
 
       xml do
         root "ModelicaParameter"
@@ -866,9 +866,9 @@ module Xmi
       end
     end
 
-    class SparxCustomProfilePublicationDate < Shale::Mapper
-      attribute :base_package, Shale::Type::String
-      attribute :publication_date, Shale::Type::String
+    class SparxCustomProfilePublicationDate < Lutaml::Model::Serializable
+      attribute :base_package, :string
+      attribute :publication_date, :string
 
       xml do
         root "publicationDate"
@@ -879,9 +879,9 @@ module Xmi
       end
     end
 
-    class SparxCustomProfileEdition < Shale::Mapper
-      attribute :base_package, Shale::Type::String
-      attribute :edition, Shale::Type::String
+    class SparxCustomProfileEdition < Lutaml::Model::Serializable
+      attribute :base_package, :string
+      attribute :edition, :string
 
       xml do
         root "edition"
@@ -892,9 +892,9 @@ module Xmi
       end
     end
 
-    class SparxCustomProfileNumber < Shale::Mapper
-      attribute :base_package, Shale::Type::String
-      attribute :number, Shale::Type::String
+    class SparxCustomProfileNumber < Lutaml::Model::Serializable
+      attribute :base_package, :string
+      attribute :number, :string
 
       xml do
         root "number"
@@ -905,9 +905,9 @@ module Xmi
       end
     end
 
-    class SparxCustomProfileYearVersion < Shale::Mapper
-      attribute :base_package, Shale::Type::String
-      attribute :year_version, Shale::Type::String
+    class SparxCustomProfileYearVersion < Lutaml::Model::Serializable
+      attribute :base_package, :string
+      attribute :year_version, :string
 
       xml do
         root "yearVersion"

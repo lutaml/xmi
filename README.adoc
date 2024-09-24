@@ -74,6 +74,86 @@ Xmi::EaRoot.output_rb_file('path/to/output_file.rb')
 
 This approach allows you to save the dynamically generated Ruby code to a file for further use.
 
+=== Create Extension XML File
+
+If you would like to create an extension, which allows to be loaded later, you
+can create an extension XML file.
+
+For example, you would like to create an extension:
+
+- A Module named `Mymodule`.
+- A class named `Klass` under this module.
+- The class `Klass` has two attributes: `base_apply_attribute` and `tag`.
+
+First, you create an extension XML file `mymodule.xml` as the following:
+
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<MYMODULE version="1.0">
+  <UMLProfiles>
+    <UMLProfile profiletype="uml2">
+      <Documentation name="MYMODULE" version="1.0"
+      URI="http://www.test.com/profiles/MYMODULE/1.0" />
+      <Content>
+        <Stereotypes>
+          <Stereotype name="klass">
+            <AppliesTo>
+              <Apply type="ApplyAttribute" />
+            </AppliesTo>
+            <TaggedValues>
+              <Tag name="tag" type="String" description="" unit="" values="" default=""/>
+            </TaggedValues>
+          </Stereotype>
+        </Stereotypes>
+        <TaggedValueTypes />
+        <ViewDefinitions />
+        <Metamodel />
+      </Content>
+    </UMLProfile>
+  </UMLProfiles>
+</MYMODULE>
+----
+
+- The attribute `name` in the `Documentation` defines the module name.
+- The attribute `URI` in the `Documentation` defines the namespace.
+- The attribute `version` in the `Documentation` defines the version.
+- The attribute `name` in the `Stereotype` defines the class name.
+- The attribute `type` in the `Apply` defines the attribute name with prefix `base_`.
+- The attribute `name` in the `Tag` defines the attribute name.
+
+To load the extension, you can use the following code:
+
+[source,ruby]
+----
+mymodule_xml = "mymodule.xml"
+Xmi::EaRoot.load_extension(mymodule_xml)
+----
+
+After you load the extension, a class `Klass` have been generated in the module
+`Mymodule`.
+
+[source,ruby]
+----
+module Xmi
+  class EaRoot
+    module Mymodule
+      class Klass < Shale::Mapper
+        attribute :base_apply_attribute, Shale::Type::String
+        attribute :tag, Shale::Type::String
+
+        xml do
+          root "import"
+
+          map_attribute "base_ApplyAttribute", to: :base_apply_attribute
+          map_attribute "tag", to: :tag
+        end
+      end
+    end
+  end
+end
+----
+
 == Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

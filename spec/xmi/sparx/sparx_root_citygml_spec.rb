@@ -122,14 +122,27 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
 
         it "should contains original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
+            mappings = Xmi::Sparx::SparxRoot
+                       .mappings_for(:xml).elements.map do |e|
+              ns = e.namespace || e.default_namespace
+              "#{ns}:#{e.name}"
+            end
+
+            expect(mappings).to include(element_key)
           end
         end
 
         it "should contains new xml mapping" do
           expected_citygml_keys.each do |k|
             element_key = "http://www.sparxsystems.com/profiles/CityGML/1.0:#{k}"
-            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
+
+            mappings = Xmi::Sparx::SparxRoot
+                       .mappings_for(:xml).elements.map do |e|
+              ns = e.namespace || e.default_namespace
+              "#{ns}:#{e.name}"
+            end
+
+            expect(mappings).to include(element_key)
           end
         end
 

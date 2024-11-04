@@ -107,7 +107,13 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
 
         it "should contains original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
+            mappings = Xmi::Sparx::SparxRoot
+                       .mappings_for(:xml).elements.map do |e|
+              ns = e.namespace || e.default_namespace
+              "#{ns}:#{e.name}"
+            end
+
+            expect(mappings).to include(element_key)
           end
         end
 
@@ -116,7 +122,13 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
             next if k == :GI_Element
 
             element_key = "https://standards.isotc211.org/19103/-/2/uml-profile:#{k}"
-            expect(Xmi::Sparx::SparxRoot.mappings_for(:xml).elements).to have_key(element_key)
+            mappings = Xmi::Sparx::SparxRoot
+                       .mappings_for(:xml).elements.map do |e|
+              ns = e.namespace || e.default_namespace
+              "#{ns}:#{e.name}"
+            end
+
+            expect(mappings).to include(element_key)
           end
         end
 

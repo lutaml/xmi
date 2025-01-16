@@ -129,7 +129,7 @@ module Xmi
 
       xml do
         root "tags"
-        map_element "tag", to: :tags
+        map_element "tag", to: :tags, namespace: nil, prefix: nil
       end
     end
 
@@ -351,19 +351,19 @@ module Xmi
         map_attribute "name", to: :name
         map_attribute "scope", to: :scope
 
-        map_element "initial", to: :initial
-        map_element "options", to: :options
-        map_element "style", to: :style
-        map_element "tags", to: :tags
-        map_element "documentation", to: :documentation
-        map_element "model", to: :model
-        map_element "properties", to: :properties
-        map_element "coords", to: :coords
-        map_element "containment", to: :containment
-        map_element "stereotype", to: :stereotype
-        map_element "bounds", to: :bounds
-        map_element "styleex", to: :styleex
-        map_element "xrefs", to: :xrefs
+        map_element "initial", to: :initial, namespace: nil, prefix: nil
+        map_element "options", to: :options, namespace: nil, prefix: nil
+        map_element "style", to: :style, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, namespace: nil, prefix: nil
+        map_element "model", to: :model, namespace: nil, prefix: nil
+        map_element "properties", to: :properties, namespace: nil, prefix: nil
+        map_element "coords", to: :coords, namespace: nil, prefix: nil
+        map_element "containment", to: :containment, namespace: nil, prefix: nil
+        map_element "stereotype", to: :stereotype, namespace: nil, prefix: nil
+        map_element "bounds", to: :bounds, namespace: nil, prefix: nil
+        map_element "styleex", to: :styleex, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, namespace: nil, prefix: nil
       end
     end
 
@@ -373,7 +373,7 @@ module Xmi
       xml do
         root "attributes"
 
-        map_element "attribute", to: :attribute
+        map_element "attribute", to: :attribute, namespace: nil, prefix: nil
       end
     end
 
@@ -385,9 +385,9 @@ module Xmi
       xml do
         root "links"
 
-        map_element "Association", to: :association
-        map_element "Generalization", to: :generalization
-        map_element "NoteLink", to: :note_link
+        map_element "Association", to: :association, namespace: nil, prefix: nil
+        map_element "Generalization", to: :generalization, namespace: nil, prefix: nil
+        map_element "NoteLink", to: :note_link, namespace: nil, prefix: nil
       end
     end
 
@@ -419,20 +419,20 @@ module Xmi
         map_attribute "name", to: :name
         map_attribute "scope", to: :scope
 
-        map_element "model", to: :model
-        map_element "properties", to: :properties
-        map_element "project", to: :project
-        map_element "code", to: :code
-        map_element "style", to: :style
-        map_element "tags", to: :tags
-        map_element "xrefs", to: :xrefs
+        map_element "model", to: :model, namespace: nil, prefix: nil
+        map_element "properties", to: :properties, namespace: nil, prefix: nil
+        map_element "project", to: :project, namespace: nil, prefix: nil
+        map_element "code", to: :code, namespace: nil, prefix: nil
+        map_element "style", to: :style, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, namespace: nil, prefix: nil
         map_element "extendedProperties", to: :extended_properties, namespace: nil, prefix: nil
-        map_element "packageproperties", to: :package_properties
-        map_element "paths", to: :paths
-        map_element "times", to: :times
-        map_element "flags", to: :flags
-        map_element "links", to: :links
-        map_element "attributes", to: :attributes
+        map_element "packageproperties", to: :package_properties, namespace: nil, prefix: nil
+        map_element "paths", to: :paths, namespace: nil, prefix: nil
+        map_element "times", to: :times, namespace: nil, prefix: nil
+        map_element "flags", to: :flags, namespace: nil, prefix: nil
+        map_element "links", to: :links, namespace: nil, prefix: nil
+        map_element "attributes", to: :attributes, namespace: nil, prefix: nil
       end
     end
 
@@ -442,7 +442,7 @@ module Xmi
       xml do
         root "elements"
 
-        map_element "element", to: :element
+        map_element "element", to: :element, namespace: nil, prefix: nil
       end
     end
 
@@ -519,7 +519,7 @@ module Xmi
       xml do
         root "constraints"
 
-        map_element "constraint", to: :constraint
+        map_element "constraint", to: :constraint, namespace: nil, prefix: nil
       end
     end
 
@@ -558,15 +558,15 @@ module Xmi
 
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
-        map_element "model", to: :model, render_nil: true
-        map_element "role", to: :role, render_nil: true
-        map_element "type", to: :type, render_nil: true
-        map_element "constraints", to: :constraints, render_nil: true
-        map_element "modifiers", to: :modifiers, render_nil: true
-        map_element "style", to: :style, render_nil: true
-        map_element "documentation", to: :documentation, render_nil: true
-        map_element "xrefs", to: :xrefs, render_nil: true
-        map_element "tags", to: :tags, render_nil: true
+        map_element "model", to: :model, render_nil: true, namespace: nil, prefix: nil
+        map_element "role", to: :role, render_nil: true, namespace: nil, prefix: nil
+        map_element "type", to: :type, render_nil: true, namespace: nil, prefix: nil
+        map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
+        map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
+        map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
     end
 
@@ -578,15 +578,15 @@ module Xmi
 
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
-        map_element "model", to: :model, render_nil: true
-        map_element "role", to: :role, render_nil: true
-        map_element "type", to: :type, render_nil: true
-        map_element "constraints", to: :constraints, render_nil: true
-        map_element "modifiers", to: :modifiers, render_nil: true
-        map_element "style", to: :style, render_nil: true
-        map_element "documentation", to: :documentation, render_nil: true
-        map_element "xrefs", to: :xrefs, render_nil: true
-        map_element "tags", to: :tags, render_nil: true
+        map_element "model", to: :model, render_nil: true, namespace: nil, prefix: nil
+        map_element "role", to: :role, render_nil: true, namespace: nil, prefix: nil
+        map_element "type", to: :type, render_nil: true, namespace: nil, prefix: nil
+        map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
+        map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
+        map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
     end
 
@@ -661,17 +661,17 @@ module Xmi
 
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
-        map_element "source", to: :source
-        map_element "target", to: :target
-        map_element "model", to: :model
-        map_element "properties", to: :properties
-        map_element "documentation", to: :documentation, render_nil: true
-        map_element "appearance", to: :appearance
-        map_element "labels", to: :labels, render_nil: true
-        map_element "extendedProperties", to: :extended_properties
-        map_element "style", to: :style, render_nil: true
-        map_element "xrefs", to: :xrefs, render_nil: true
-        map_element "tags", to: :tags, render_nil: true
+        map_element "source", to: :source, namespace: nil, prefix: nil
+        map_element "target", to: :target, namespace: nil, prefix: nil
+        map_element "model", to: :model, namespace: nil, prefix: nil
+        map_element "properties", to: :properties, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "appearance", to: :appearance, namespace: nil, prefix: nil
+        map_element "labels", to: :labels, render_nil: true, namespace: nil, prefix: nil
+        map_element "extendedProperties", to: :extended_properties, namespace: nil, prefix: nil
+        map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
     end
 
@@ -680,7 +680,7 @@ module Xmi
       xml do
         root "connectors"
 
-        map_element "connector", to: :connector
+        map_element "connector", to: :connector, namespace: nil, prefix: nil
       end
     end
 
@@ -690,7 +690,7 @@ module Xmi
       xml do
         root "primitivetypes"
 
-        map_element "packagedElement", to: :packaged_element
+        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
       end
     end
 
@@ -727,7 +727,7 @@ module Xmi
       xml do
         root "elements"
 
-        map_element "element", to: :element
+        map_element "element", to: :element, namespace: nil, prefix: nil
       end
     end
 
@@ -771,16 +771,16 @@ module Xmi
 
         map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
-        map_element "model", to: :model
-        map_element "properties", to: :properties
-        map_element "project", to: :project
-        map_element "style1", to: :style1, render_nil: true
-        map_element "style2", to: :style2, render_nil: true
-        map_element "swimlanes", to: :swimlanes, render_nil: true
-        map_element "matrixitems", to: :matrixitems, render_nil: true
-        map_element "extendedProperties", to: :extended_properties, render_nil: true
-        map_element "xrefs", to: :xrefs, render_nil: true
-        map_element "elements", to: :elements
+        map_element "model", to: :model, namespace: nil, prefix: nil
+        map_element "properties", to: :properties, namespace: nil, prefix: nil
+        map_element "project", to: :project, namespace: nil, prefix: nil
+        map_element "style1", to: :style1, render_nil: true, namespace: nil, prefix: nil
+        map_element "style2", to: :style2, render_nil: true, namespace: nil, prefix: nil
+        map_element "swimlanes", to: :swimlanes, render_nil: true, namespace: nil, prefix: nil
+        map_element "matrixitems", to: :matrixitems, render_nil: true, namespace: nil, prefix: nil
+        map_element "extendedProperties", to: :extended_properties, render_nil: true, namespace: nil, prefix: nil
+        map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
+        map_element "elements", to: :elements, namespace: nil, prefix: nil
       end
     end
 
@@ -790,7 +790,7 @@ module Xmi
       xml do
         root "diagrams"
 
-        map_element "diagram", to: :diagram
+        map_element "diagram", to: :diagram, namespace: nil, prefix: nil
       end
     end
 
@@ -800,11 +800,11 @@ module Xmi
       attribute :uml_type, :string
 
       xml do
-        root "diagrams"
+        root "EAStub"
 
         map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
-        map_attribute "name", to: :name
-        map_attribute "UMLType", to: :uml_type
+        map_attribute "name", to: :name, namespace: nil, prefix: nil
+        map_attribute "UMLType", to: :uml_type, namespace: nil, prefix: nil
       end
     end
 
@@ -844,12 +844,12 @@ module Xmi
         map_attribute "extender", to: :extender
         map_attribute "extenderID", to: :extender_id
 
-        map_element "elements", to: :elements
-        map_element "connectors", to: :connectors
-        map_element "primitivetypes", to: :primitive_types
-        map_element "profiles", to: :profiles
-        map_element "diagrams", to: :diagrams
-        map_element "EAStub", to: :ea_stub
+        map_element "elements", to: :elements, namespace: nil, prefix: nil
+        map_element "connectors", to: :connectors, namespace: nil, prefix: nil
+        map_element "primitivetypes", to: :primitive_types, namespace: nil, prefix: nil
+        map_element "profiles", to: :profiles, namespace: nil, prefix: nil
+        map_element "diagrams", to: :diagrams, namespace: nil, prefix: nil
+        map_element "EAStub", to: :ea_stub, namespace: nil, prefix: nil
       end
     end
 

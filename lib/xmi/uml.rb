@@ -115,7 +115,7 @@ module Xmi
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
-        map_element "type", to: :uml_type
+        map_element "type", to: :uml_type, namespace: nil, prefix: nil
       end
     end
 
@@ -146,9 +146,9 @@ module Xmi
         map_attribute "name", to: :name
         map_attribute "isDerived", to: :is_derived
 
-        map_element "type", to: :uml_type
-        map_element "upperValue", to: :upper_value
-        map_element "lowerValue", to: :lower_value
+        map_element "type", to: :uml_type, namespace: nil, prefix: nil
+        map_element "upperValue", to: :upper_value, namespace: nil, prefix: nil
+        map_element "lowerValue", to: :lower_value, namespace: nil, prefix: nil
       end
     end
 
@@ -169,9 +169,9 @@ module Xmi
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "direction", to: :direction
 
-        map_element "upperValue", to: :upper_value
-        map_element "lowerValue", to: :lower_value
-        map_element "defaultValue", to: :default_value
+        map_element "upperValue", to: :upper_value, namespace: nil, prefix: nil
+        map_element "lowerValue", to: :lower_value, namespace: nil, prefix: nil
+        map_element "defaultValue", to: :default_value, namespace: nil, prefix: nil
       end
     end
 
@@ -199,7 +199,7 @@ module Xmi
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_element "specification", to: :specification
+        map_element "specification", to: :specification, namespace: nil, prefix: nil
       end
     end
 
@@ -214,9 +214,9 @@ module Xmi
         root "ownedOperation"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
-        map_element "ownedParameter", to: :owned_parameter
-        map_element "precondition", to: :precondition
-        map_element "type", to: :uml_type
+        map_element "ownedParameter", to: :owned_parameter, namespace: nil, prefix: nil
+        map_element "precondition", to: :precondition, namespace: nil, prefix: nil
+        map_element "type", to: :uml_type, namespace: nil, prefix: nil
       end
     end
 
@@ -241,15 +241,13 @@ module Xmi
         root "ownedComment"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
         map_attribute "body", to: :body_attribute
         map_attribute "annotatedElement", to: :annotated_attribute
 
         map_element "annotatedElement", to: :annotated_element, prefix: nil, namespace: nil
-        map_element "body", to: :body_element
+        map_element "body", to: :body_element, namespace: nil, prefix: nil
       end
     end
 
@@ -313,14 +311,14 @@ module Xmi
         map_attribute "supplier", to: :supplier
         map_attribute "client", to: :client
 
-        map_element "generalization", to: :generalization
-        map_element "ownedComment", to: :owned_comment
-        map_element "ownedEnd", to: :owned_end
-        map_element "ownedLiteral", to: :owned_literal
-        map_element "ownedAttribute", to: :owned_attribute
-        map_element "ownedOperation", to: :owned_operation
-        map_element "packagedElement", to: :packaged_element
-        map_element "memberEnd", to: :member_ends
+        map_element "generalization", to: :generalization, namespace: nil, prefix: nil
+        map_element "ownedComment", to: :owned_comment, namespace: nil, prefix: nil
+        map_element "ownedEnd", to: :owned_end, namespace: nil, prefix: nil
+        map_element "ownedLiteral", to: :owned_literal, namespace: nil, prefix: nil
+        map_element "ownedAttribute", to: :owned_attribute, namespace: nil, prefix: nil
+        map_element "ownedOperation", to: :owned_operation, namespace: nil, prefix: nil
+        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
+        map_element "memberEnd", to: :member_ends, namespace: nil, prefix: nil
       end
     end
 
@@ -379,11 +377,11 @@ module Xmi
         map_attribute "text", to: :text
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element
-        map_element "bounds", to: :bounds
-        map_element "source", to: :source
-        map_element "target", to: :target
-        map_element "waypoint", to: :waypoint
+        map_element "ownedElement", to: :owned_element, namespace: nil, prefix: nil
+        map_element "bounds", to: :bounds, namespace: nil, prefix: nil
+        map_element "source", to: :source, namespace: nil, prefix: nil
+        map_element "target", to: :target, namespace: nil, prefix: nil
+        map_element "waypoint", to: :waypoint, namespace: nil, prefix: nil
       end
     end
 
@@ -438,7 +436,7 @@ module Xmi
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
 
-        map_element "appliedProfile", to: :applied_profile
+        map_element "appliedProfile", to: :applied_profile, namespace: nil, prefix: nil
       end
     end
 
@@ -534,9 +532,9 @@ module Xmi
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
-        map_element "ownedComment", to: :owned_comment
+        map_element "ownedComment", to: :owned_comment, namespace: nil, prefix: nil
         map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
-        map_element "packagedElement", to: :packaged_element
+        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
       end
     end
   end

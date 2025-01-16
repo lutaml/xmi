@@ -7,6 +7,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
     context "when parsing from XML with XMI 2013 and UML 2016 (ISO 6709 Edition 2.xml)" do # rubocop:disable Metrics/BlockLength
       let(:xml) { File.new(fixtures_path("ISO 6709 Edition 2.xml")) }
       let(:xml_output) { xmi_root_model.to_xml }
+      let(:xml_doc) { Nokogiri::XML(xml_output) }
 
       subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
@@ -611,10 +612,17 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
             expect(xml_output).to have_xpath(pa[:path])
 
             if pa[:attr]
-              expect(xml_output).to have_xpath(pa[:path]).with_attr(
-                pa[:attr].transform_values do |v|
+              nodes = xml_doc.xpath(pa[:path]).first.attribute_nodes
+              h = {}
+              nodes.each do |a|
+                name = a.namespace ? "#{a.namespace.prefix}:#{a.name}" : a.name
+                h[name] = a.value
+              end
+
+              expect(h).to eq(
+                pa[:attr].transform_values! { |v|
                   Nokogiri::XML.fragment(v).text
-                end
+                }
               )
             end
 
@@ -625,6 +633,18 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
     end
 
     context "when parsing from XML with XMI 2013 and UML 2016 (large_test.xmi)" do
+      let(:citygml_definition_xml) do
+        File.new(fixtures_path("CityGML_MDG_Technology.xml"))
+      end
+
+      before do
+        Xmi::EaRoot.load_extension(citygml_definition_xml)
+      end
+
+      after do
+        Xmi::EaRoot.send(:remove_const, "Citygml")
+      end
+
       let(:xml) { File.new(fixtures_path("large_test.xmi")) }
       let(:xml_output) { xmi_root_model.to_xml }
 

@@ -6,9 +6,11 @@ module Xmi
   class EaRoot
     module Gml
       class ApplicationSchema < Lutaml::Model::Serializable
+        # prefix altered_ is prepended to xmlns to avoid conflict with
+        # reserved keyword
         attribute :version, :string
         attribute :xsd_document, :string
-        attribute :xmlns, :string
+        attribute :altered_xmlns, :string
         attribute :target_namespace, :string
         attribute :base_package, :string
 
@@ -17,7 +19,7 @@ module Xmi
 
           map_attribute "version", to: :version
           map_attribute "xsdDocument", to: :xsd_document
-          map_attribute "xmlns", to: :xmlns
+          map_attribute "altered_xmlns", to: :altered_xmlns
           map_attribute "targetNamespace", to: :target_namespace
           map_attribute "base_Package", to: :base_package
         end

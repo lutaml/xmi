@@ -943,12 +943,14 @@ module Xmi
     class SparxRoot < Root
       include SparxRootAttributes
       attribute :extension, SparxExtension
+      attribute :model, Uml::UmlModel
 
       class << self
         def parse_xml(xml_content)
           xml_content = fix_encoding(xml_content)
           xml_content = replace_xmlns(xml_content)
           xml_content = replace_relative_ns(xml_content)
+          xml_content = replace_ea_xmlns(xml_content)
 
           from_xml(xml_content)
         end
@@ -981,20 +983,27 @@ module Xmi
             '<\1xmlns="\3" targetNamespace="\3"\4>'
           )
         end
+
+        def replace_ea_xmlns(xml_content)
+          xml_content
+            .gsub(
+              /<GML:ApplicationSchema(.*)xmlns="(.*)"(.*)>/,
+              '<GML:ApplicationSchema\1altered_xmlns="\2"\3>'
+            )
+            .gsub(
+              /<CityGML:ApplicationSchema(.*)xmlns="(.*)"(.*)>/,
+              '<CityGML:ApplicationSchema\1altered_xmlns="\2"\3>'
+            )
+        end
       end
 
       @@default_mapping = <<-MAP # rubocop:disable Style/ClassVars
       root "XMI"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 
-      map_attribute "id", to: :id
-      map_attribute "label", to: :label
-      map_attribute "uuid", to: :uuid
-      map_attribute "href", to: :href
-      map_attribute "idref", to: :idref
-      map_attribute "type", to: :type
-
-      map_element "Extension", to: :extension
+      map_element "Extension", to: :extension,
+                               namespace: "http://www.omg.org/spec/XMI/20131001",
+                               prefix: "xmi"
       map_element "publicationDate", to: :publication_date,
                                      namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
                                      prefix: "thecustomprofile"
@@ -1037,6 +1046,10 @@ module Xmi
       map_element "property", to: :gml_property,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
                             prefix: "GML"
+
+      map_element "Model", to: :model,
+                           namespace: "http://www.omg.org/spec/UML/20131001",
+                           prefix: "uml"
       MAP
 
       @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars

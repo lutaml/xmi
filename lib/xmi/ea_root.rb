@@ -148,7 +148,8 @@ module Xmi
       end
 
       def get_tag_name(tag)
-        tag.attribute_nodes.find { |attr| attr.name == "name" }.value
+        tag_name = tag.attribute_nodes.find { |attr| attr.name == "name" }.value
+        tag_name == "xmlns" ? "altered_xmlns" : tag_name
       end
 
       def gen_tags(node)

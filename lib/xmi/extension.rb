@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require "shale"
-
 module Xmi
   class Extension < Lutaml::Model::Serializable
     attribute :id, :string

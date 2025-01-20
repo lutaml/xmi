@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "lutaml-model"
   spec.add_runtime_dependency "nokogiri"
-  # spec.add_runtime_dependency "shale"
 
   spec.add_development_dependency "pry", "~> 0.12.2"
   spec.add_development_dependency "rake", "~> 13.0"

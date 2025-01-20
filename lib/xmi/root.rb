@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require "shale"
 require_relative "documentation"
 require_relative "uml"
 

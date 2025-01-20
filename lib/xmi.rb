@@ -1,21 +1,5 @@
 # frozen_string_literal: true
 
-# require "shale"
-
-# unless Shale.xml_adapter
-#   require "shale/adapter/nokogiri"
-#   Shale.xml_adapter = Shale::Adapter::Nokogiri
-# end
-
-# # add a function to check type
-# module Shale
-#   class Mapper
-#     def type?(test_type)
-#       !!type ? type == test_type : false
-#     end
-#   end
-# end
-
 require "lutaml/model"
 require "lutaml/model/xml_adapter/nokogiri_adapter"
 # require "lutaml/model/json_adapter/standard_json_adapter"

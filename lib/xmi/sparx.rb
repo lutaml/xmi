@@ -940,7 +940,7 @@ module Xmi
       end
     end
 
-    class SparxRoot < Root
+    class SparxRoot < Root # rubocop:disable Metrics/ClassLength
       include SparxRootAttributes
       attribute :extension, SparxExtension
       attribute :model, Uml::UmlModel

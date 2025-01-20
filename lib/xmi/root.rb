@@ -5,7 +5,7 @@ require_relative "uml"
 
 module Xmi
   module RootAttributes
-    def self.included(klass)
+    def self.included(klass) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       klass.class_eval do
         attribute :id, :string
         attribute :label, :string
@@ -34,7 +34,7 @@ module Xmi
     include RootAttributes
     attribute :model, Uml::UmlModel
 
-    xml do
+    xml do # rubocop:disable Metrics/BlockLength
       root "XMI"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require "shale"
-
 require_relative "difference"
 require_relative "extension"
 

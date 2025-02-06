@@ -41,6 +41,7 @@ module Xmi
           attribute :id, :string
           attribute :association, :string
           attribute :name, :string
+          attribute :type_attr, :string
           attribute :uml_type, Uml::Type
           attribute :member_end, MemberEnd
           attribute :lower, :integer
@@ -61,10 +62,11 @@ module Xmi
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
-        map_attribute "type", to: :uml_type
+        map_attribute "type", to: :type_attr, namespace: nil, prefix: nil
         map_attribute "lower", to: :lower
         map_attribute "upper", to: :upper
         map_attribute "isComposite", to: :is_composite
+        map_element "type", to: :uml_type, namespace: nil, prefix: nil
       end
     end
 

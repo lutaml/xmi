@@ -746,7 +746,7 @@ module Xmi
     end
 
     class SparxDiagramStyle < Lutaml::Model::Serializable
-      attribute :value, SparxDiagramElement
+      attribute :value, :string
 
       xml do
         map_attribute "value", to: :value

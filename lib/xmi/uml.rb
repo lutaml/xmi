@@ -43,7 +43,7 @@ module Xmi
           attribute :name, :string
           attribute :type_attr, :string
           attribute :uml_type, Uml::Type
-          attribute :member_end, MemberEnd
+          attribute :member_end, :string
           attribute :lower, :integer
           attribute :upper, :integer
           attribute :is_composite, :boolean
@@ -467,7 +467,6 @@ module Xmi
       xml do
         root "packageImport"
 
-        map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
 
         map_element "importedPackage", to: :imported_package, namespace: nil, prefix: nil

@@ -564,7 +564,7 @@ module Xmi
         map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
         map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
         map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, namespace: nil, prefix: nil, value_map: { to: { nil: :empty, empty: :empty } }
         map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
         map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
@@ -584,7 +584,7 @@ module Xmi
         map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
         map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
         map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, prefix: nil, value_map: { to: { nil: :empty, empty: :empty } }
         map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
         map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
@@ -665,7 +665,7 @@ module Xmi
         map_element "target", to: :target, namespace: nil, prefix: nil
         map_element "model", to: :model, namespace: nil, prefix: nil
         map_element "properties", to: :properties, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, render_nil: true, namespace: nil, prefix: nil
+        map_element "documentation", to: :documentation, namespace: nil, prefix: nil, value_map: { to: { nil: :empty, empty: :empty } }
         map_element "appearance", to: :appearance, namespace: nil, prefix: nil
         map_element "labels", to: :labels, render_nil: true, namespace: nil, prefix: nil
         map_element "extendedProperties", to: :extended_properties, namespace: nil, prefix: nil

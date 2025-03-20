@@ -129,7 +129,19 @@ module Xmi
 
       xml do
         root "tags"
-        map_element "tag", to: :tags, namespace: nil, prefix: nil
+        map_element "tag", to: :tags, namespace: nil, prefix: nil,
+                           value_map: {
+                             from: {
+                               nil: :empty,
+                               empty: :empty,
+                               omitted: :empty
+                             },
+                             to: {
+                               nil: :empty,
+                               empty: :empty,
+                               omitted: :empty
+                             }
+                           }
       end
     end
 
@@ -344,7 +356,7 @@ module Xmi
       attribute :styleex, SparxElementStyleex
       attribute :xrefs, SparxElementXrefs
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "attribute"
 
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
@@ -354,8 +366,21 @@ module Xmi
         map_element "initial", to: :initial, namespace: nil, prefix: nil
         map_element "options", to: :options, namespace: nil, prefix: nil
         map_element "style", to: :style, namespace: nil, prefix: nil
-        map_element "tags", to: :tags, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, namespace: nil, prefix: nil
+        map_element "tags", to: :tags, namespace: nil, prefix: nil,
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
+        map_element "documentation", to: :documentation, namespace: nil,
+                                     prefix: nil
         map_element "model", to: :model, namespace: nil, prefix: nil
         map_element "properties", to: :properties, namespace: nil, prefix: nil
         map_element "coords", to: :coords, namespace: nil, prefix: nil
@@ -373,7 +398,19 @@ module Xmi
       xml do
         root "attributes"
 
-        map_element "attribute", to: :attribute, namespace: nil, prefix: nil
+        map_element "attribute", to: :attribute, namespace: nil, prefix: nil,
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       end
     end
 
@@ -382,12 +419,50 @@ module Xmi
       attribute :generalization, SparxElementGeneralization, collection: true
       attribute :note_link, SparxElementNoteLink, collection: true
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "links"
 
-        map_element "Association", to: :association, namespace: nil, prefix: nil
-        map_element "Generalization", to: :generalization, namespace: nil, prefix: nil
-        map_element "NoteLink", to: :note_link, namespace: nil, prefix: nil
+        map_element "Association", to: :association, namespace: nil,
+                                   prefix: nil,
+                                   value_map: {
+                                     from: {
+                                       nil: :empty,
+                                       empty: :empty,
+                                       omitted: :empty
+                                     },
+                                     to: {
+                                       nil: :empty,
+                                       empty: :empty,
+                                       omitted: :empty
+                                     }
+                                   }
+        map_element "Generalization", to: :generalization, namespace: nil,
+                                      prefix: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+        map_element "NoteLink", to: :note_link, namespace: nil, prefix: nil,
+                                value_map: {
+                                  from: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  },
+                                  to: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  }
+                                }
       end
     end
 
@@ -442,7 +517,19 @@ module Xmi
       xml do
         root "elements"
 
-        map_element "element", to: :element, namespace: nil, prefix: nil
+        map_element "element", to: :element, namespace: nil, prefix: nil,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
       end
     end
 
@@ -519,7 +606,19 @@ module Xmi
       xml do
         root "constraints"
 
-        map_element "constraint", to: :constraint, namespace: nil, prefix: nil
+        map_element "constraint", to: :constraint, namespace: nil, prefix: nil,
+                                  value_map: {
+                                    from: {
+                                      nil: :empty,
+                                      empty: :empty,
+                                      omitted: :empty
+                                    },
+                                    to: {
+                                      nil: :empty,
+                                      empty: :empty,
+                                      omitted: :empty
+                                    }
+                                  }
       end
     end
 
@@ -564,8 +663,20 @@ module Xmi
         map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
         map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
         map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, namespace: nil, prefix: nil,
-                                     value_map: { to: { nil: :empty, empty: :empty } }
+        map_element "documentation", to: :documentation, namespace: nil,
+                                     prefix: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
         map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
         map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
@@ -585,7 +696,19 @@ module Xmi
         map_element "constraints", to: :constraints, render_nil: true, namespace: nil, prefix: nil
         map_element "modifiers", to: :modifiers, render_nil: true, namespace: nil, prefix: nil
         map_element "style", to: :style, render_nil: true, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, prefix: nil, value_map: { to: { nil: :empty, empty: :empty } }
+        map_element "documentation", to: :documentation, prefix: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
         map_element "xrefs", to: :xrefs, render_nil: true, namespace: nil, prefix: nil
         map_element "tags", to: :tags, render_nil: true, namespace: nil, prefix: nil
       end
@@ -657,7 +780,7 @@ module Xmi
       attribute :tags, SparxElementTags
       attribute :xrefs, SparxElementXrefs
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "element"
 
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
@@ -666,8 +789,20 @@ module Xmi
         map_element "target", to: :target, namespace: nil, prefix: nil
         map_element "model", to: :model, namespace: nil, prefix: nil
         map_element "properties", to: :properties, namespace: nil, prefix: nil
-        map_element "documentation", to: :documentation, namespace: nil, prefix: nil,
-                                     value_map: { to: { nil: :empty, empty: :empty } }
+        map_element "documentation", to: :documentation, namespace: nil,
+                                     prefix: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
         map_element "appearance", to: :appearance, namespace: nil, prefix: nil
         map_element "labels", to: :labels, render_nil: true, namespace: nil, prefix: nil
         map_element "extendedProperties", to: :extended_properties, namespace: nil, prefix: nil
@@ -682,7 +817,19 @@ module Xmi
       xml do
         root "connectors"
 
-        map_element "connector", to: :connector, namespace: nil, prefix: nil
+        map_element "connector", to: :connector, namespace: nil, prefix: nil,
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       end
     end
 
@@ -692,7 +839,20 @@ module Xmi
       xml do
         root "primitivetypes"
 
-        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
+        map_element "packagedElement", to: :packaged_element, namespace: nil,
+                                       prefix: nil,
+                                       value_map: {
+                                         from: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         },
+                                         to: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         }
+                                       }
       end
     end
 
@@ -704,7 +864,19 @@ module Xmi
 
         map_element "Profile", to: :profile,
                                namespace: "http://www.omg.org/spec/UML/20131001",
-                               prefix: "uml"
+                               prefix: "uml",
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
       end
     end
 
@@ -729,7 +901,19 @@ module Xmi
       xml do
         root "elements"
 
-        map_element "element", to: :element, namespace: nil, prefix: nil
+        map_element "element", to: :element, namespace: nil, prefix: nil,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                 }
+                               }
       end
     end
 
@@ -792,7 +976,19 @@ module Xmi
       xml do
         root "diagrams"
 
-        map_element "diagram", to: :diagram, namespace: nil, prefix: nil
+        map_element "diagram", to: :diagram, namespace: nil, prefix: nil,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
       end
     end
 
@@ -834,7 +1030,7 @@ module Xmi
       include SparxExtensionAttributes
       attribute :profiles, SparxProfiles
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "Extension"
 
         map_attribute "id", to: :id, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
@@ -851,7 +1047,19 @@ module Xmi
         map_element "primitivetypes", to: :primitive_types, namespace: nil, prefix: nil
         map_element "profiles", to: :profiles, namespace: nil, prefix: nil
         map_element "diagrams", to: :diagrams, namespace: nil, prefix: nil
-        map_element "EAStub", to: :ea_stub, namespace: nil, prefix: nil
+        map_element "EAStub", to: :ea_stub, namespace: nil, prefix: nil,
+                              value_map: {
+                                from: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                },
+                                to: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                }
+                              }
       end
     end
 
@@ -1023,31 +1231,139 @@ module Xmi
                                        prefix: "SysPhS"
       map_element "import", to: :eauml_import,
                             namespace: "http://www.sparxsystems.com/profiles/EAUML/1.0",
-                            prefix: "EAUML"
+                            prefix: "EAUML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "ApplicationSchema", to: :gml_application_schema,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "CodeList", to: :gml_code_list,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "DataType", to: :gml_data_type,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "Union", to: :gml_union,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "Enumeration", to: :gml_enumeration,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "Type", to: :gml_type,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "FeatureType", to: :gml_feature_type,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "property", to: :gml_property,
                             namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
-                            prefix: "GML"
+                            prefix: "GML",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
 
       map_element "Model", to: :model,
                            namespace: "http://www.omg.org/spec/UML/20131001",

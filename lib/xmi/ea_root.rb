@@ -43,7 +43,11 @@ module Xmi
       map_element "#ELEMENT_NAME#",
                   to: :#ELEMENT_METHOD#,
                   namespace: "#NAMESPACE#",
-                  prefix: "#PREFIX#"
+                  prefix: "#PREFIX#",
+                  value_map: {
+                    from: { nil: :empty, empty: :empty, omitted: :empty },
+                    to: { nil: :empty, empty: :empty, omitted: :empty }
+                  }
     TEXT
 
     class << self

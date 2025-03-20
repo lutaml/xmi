@@ -30,7 +30,7 @@ module Xmi
     end
   end
 
-  class Root < Lutaml::Model::Serializable
+  class Root < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
     include RootAttributes
     attribute :model, Uml::UmlModel
 
@@ -51,40 +51,184 @@ module Xmi
                            prefix: "uml"
       map_element "Bibliography", to: :bibliography,
                                   namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                  prefix: "thecustomprofile"
+                                  prefix: "thecustomprofile",
+                                  value_map: {
+                                    from: {
+                                      nil: :empty,
+                                      empty: :empty,
+                                      omitted: :empty
+                                    },
+                                    to: {
+                                      nil: :empty,
+                                      empty: :empty,
+                                      omitted: :empty
+                                    }
+                                  }
       map_element "BasicDoc", to: :basic_doc,
                               namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile"
+                              prefix: "thecustomprofile",
+                              value_map: {
+                                from: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                },
+                                to: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                }
+                              }
       map_element "enumeration", to: :enumeration,
                                  namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile"
+                                 prefix: "thecustomprofile",
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       map_element "OCL", to: :ocl,
                          namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                         prefix: "thecustomprofile"
+                         prefix: "thecustomprofile",
+                         value_map: {
+                           from: {
+                             nil: :empty,
+                             empty: :empty,
+                             omitted: :empty
+                           },
+                           to: {
+                             nil: :empty,
+                             empty: :empty,
+                             omitted: :empty
+                           }
+                         }
       map_element "invariant", to: :invariant,
                                namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                               prefix: "thecustomprofile"
+                               prefix: "thecustomprofile",
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
       map_element "publicationDate", to: :publication_date,
                                      namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                     prefix: "thecustomprofile"
+                                     prefix: "thecustomprofile",
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
       map_element "edition", to: :edition,
                              namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                             prefix: "thecustomprofile"
+                             prefix: "thecustomprofile",
+                             value_map: {
+                               from: {
+                                 nil: :empty,
+                                 empty: :empty,
+                                 omitted: :empty
+                               },
+                               to: {
+                                 nil: :empty,
+                                 empty: :empty,
+                                 omitted: :empty
+                               }
+                             }
       map_element "number", to: :number,
                             namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                            prefix: "thecustomprofile"
+                            prefix: "thecustomprofile",
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       map_element "yearVersion", to: :year_version,
                                  namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile"
+                                 prefix: "thecustomprofile",
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       map_element "informative", to: :informative,
                                  namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile"
+                                 prefix: "thecustomprofile",
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       map_element "persistence", to: :persistence,
                                  namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile"
+                                 prefix: "thecustomprofile",
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       map_element "Abstract", to: :abstract,
                               namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile"
+                              prefix: "thecustomprofile",
+                              value_map: {
+                                from: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                },
+                                to: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                }
+                              }
     end
   end
 end

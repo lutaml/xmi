@@ -3,7 +3,7 @@
 require_relative "extension"
 
 module Xmi
-  class Documentation < Lutaml::Model::Serializable
+  class Documentation < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
     attribute :id, :string
     attribute :label, :string
     attribute :uuid, :string
@@ -21,7 +21,7 @@ module Xmi
     attribute :timestamp, :time, collection: true
     attribute :extension, Extension, collection: true
 
-    xml do
+    xml do # rubocop:disable Metrics/BlockLength
       root "Documentation"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
 
@@ -35,13 +35,99 @@ module Xmi
       map_attribute "exporterVersion", to: :exporter_version
       map_attribute "exporterID", to: :exporter_id
 
-      map_element "contact", to: :contact, prefix: nil, namespace: nil
-      map_element "longDescription", to: :long_description, prefix: nil, namespace: nil
-      map_element "shortDescription", to: :short_description, prefix: nil, namespace: nil
-      map_element "notice", to: :notice, prefix: nil, namespace: nil
-      map_element "owner", to: :owner, prefix: nil, namespace: nil
-      map_element "timestamp", to: :timestamp, prefix: nil, namespace: nil
-      map_element "Extension", to: :extension
+      map_element "contact", to: :contact, prefix: nil, namespace: nil,
+                             value_map: {
+                               from: {
+                                 nil: :empty,
+                                 empty: :empty,
+                                 omitted: :empty
+                               },
+                               to: {
+                                 nil: :empty,
+                                 empty: :empty,
+                                 omitted: :empty
+                               }
+                             }
+      map_element "longDescription", to: :long_description, prefix: nil,
+                                     namespace: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
+      map_element "shortDescription", to: :short_description, prefix: nil,
+                                      namespace: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+      map_element "notice", to: :notice, prefix: nil, namespace: nil,
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
+      map_element "owner", to: :owner, prefix: nil, namespace: nil,
+                           value_map: {
+                             from: {
+                               nil: :empty,
+                               empty: :empty,
+                               omitted: :empty
+                             },
+                             to: {
+                               nil: :empty,
+                               empty: :empty,
+                               omitted: :empty
+                             }
+                           }
+      map_element "timestamp", to: :timestamp, prefix: nil, namespace: nil,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
+      map_element "Extension", to: :extension,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
     end
   end
 end

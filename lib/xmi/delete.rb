@@ -16,7 +16,7 @@ module Xmi
     attribute :difference, Difference, collection: true
     attribute :extension, Extension, collection: true
 
-    xml do
+    xml do # rubocop:disable Metrics/BlockLength
       root "Delete"
       namespace "http://www.omg.org/spec/XMI/20131001", "xmlns"
 
@@ -28,8 +28,32 @@ module Xmi
       map_attribute "type", to: :type, prefix: "xmlns", namespace: "http://www.omg.org/spec/XMI/20131001"
       map_attribute "target", to: :target
       map_attribute "container", to: :container
-      map_element "difference", to: :difference, prefix: nil, namespace: nil
-      map_element "Extension", to: :extension
+      map_element "difference", to: :difference, prefix: nil, namespace: nil,
+                                value_map: {
+                                  from: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  },
+                                  to: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  }
+                                }
+      map_element "Extension", to: :extension,
+                               value_map: {
+                                 from: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 },
+                                 to: {
+                                   nil: :empty,
+                                   empty: :empty,
+                                   omitted: :empty
+                                 }
+                               }
     end
   end
 end

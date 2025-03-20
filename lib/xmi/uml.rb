@@ -212,13 +212,39 @@ module Xmi
       attribute :precondition, Precondition
       attribute :uml_type, Uml::Type, collection: true
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "ownedOperation"
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
-        map_element "ownedParameter", to: :owned_parameter, namespace: nil, prefix: nil
-        map_element "precondition", to: :precondition, namespace: nil, prefix: nil
-        map_element "type", to: :uml_type, namespace: nil, prefix: nil
+        map_element "ownedParameter", to: :owned_parameter, namespace: nil,
+                                      prefix: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+        map_element "precondition", to: :precondition, namespace: nil,
+                                    prefix: nil
+        map_element "type", to: :uml_type, namespace: nil, prefix: nil,
+                            value_map: {
+                              from: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              },
+                              to: {
+                                nil: :empty,
+                                empty: :empty,
+                                omitted: :empty
+                              }
+                            }
       end
     end
 
@@ -293,7 +319,7 @@ module Xmi
       end
     end
 
-    class PackagedElement < Lutaml::Model::Serializable
+    class PackagedElement < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
       include PackagedElementAttributes
       attribute :packaged_element, PackagedElement, collection: true
       attribute :owned_end, OwnedEnd, collection: true
@@ -301,7 +327,7 @@ module Xmi
       attribute :owned_comment, OwnedComment, collection: true
       attribute :generalization, AssociationGeneralization, collection: true
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "packagedElement"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -313,14 +339,116 @@ module Xmi
         map_attribute "supplier", to: :supplier
         map_attribute "client", to: :client
 
-        map_element "generalization", to: :generalization, namespace: nil, prefix: nil
-        map_element "ownedComment", to: :owned_comment, namespace: nil, prefix: nil
-        map_element "ownedEnd", to: :owned_end, namespace: nil, prefix: nil
-        map_element "ownedLiteral", to: :owned_literal, namespace: nil, prefix: nil
-        map_element "ownedAttribute", to: :owned_attribute, namespace: nil, prefix: nil
-        map_element "ownedOperation", to: :owned_operation, namespace: nil, prefix: nil
-        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
-        map_element "memberEnd", to: :member_ends, namespace: nil, prefix: nil
+        map_element "generalization", to: :generalization, namespace: nil,
+                                      prefix: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+        map_element "ownedComment", to: :owned_comment, namespace: nil,
+                                    prefix: nil,
+                                    value_map: {
+                                      from: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      },
+                                      to: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      }
+                                    }
+        map_element "ownedEnd", to: :owned_end, namespace: nil, prefix: nil,
+                                value_map: {
+                                  from: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  },
+                                  to: {
+                                    nil: :empty,
+                                    empty: :empty,
+                                    omitted: :empty
+                                  }
+                                }
+        map_element "ownedLiteral", to: :owned_literal, namespace: nil,
+                                    prefix: nil,
+                                    value_map: {
+                                      from: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      },
+                                      to: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      }
+                                    }
+        map_element "ownedAttribute", to: :owned_attribute, namespace: nil,
+                                      prefix: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+        map_element "ownedOperation", to: :owned_operation, namespace: nil,
+                                      prefix: nil,
+                                      value_map: {
+                                        from: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        },
+                                        to: {
+                                          nil: :empty,
+                                          empty: :empty,
+                                          omitted: :empty
+                                        }
+                                      }
+        map_element "packagedElement", to: :packaged_element, namespace: nil,
+                                       prefix: nil,
+                                       value_map: {
+                                         from: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         },
+                                         to: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         }
+                                       }
+        map_element "memberEnd", to: :member_ends, namespace: nil, prefix: nil,
+                                 value_map: {
+                                   from: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   },
+                                   to: {
+                                     nil: :empty,
+                                     empty: :empty,
+                                     omitted: :empty
+                                   }
+                                 }
       end
     end
 
@@ -371,7 +499,7 @@ module Xmi
       attribute :target, :string
       attribute :waypoint, Waypoint
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "ownedElement"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -379,8 +507,33 @@ module Xmi
         map_attribute "text", to: :text
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element, namespace: nil, prefix: nil
-        map_element "bounds", to: :bounds, namespace: nil, prefix: nil
+        map_element "ownedElement", to: :owned_element, namespace: nil,
+                                    prefix: nil,
+                                    value_map: {
+                                      from: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      },
+                                      to: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      }
+                                    }
+        map_element "bounds", to: :bounds, namespace: nil, prefix: nil,
+                              value_map: {
+                                from: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                },
+                                to: {
+                                  nil: :empty,
+                                  empty: :empty,
+                                  omitted: :empty
+                                }
+                              }
         map_element "source", to: :source, namespace: nil, prefix: nil
         map_element "target", to: :target, namespace: nil, prefix: nil
         map_element "waypoint", to: :waypoint, namespace: nil, prefix: nil
@@ -411,7 +564,20 @@ module Xmi
         map_attribute "isFrame", to: :is_frame
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element, namespace: nil, prefix: nil
+        map_element "ownedElement", to: :owned_element, namespace: nil,
+                                    prefix: nil,
+                                    value_map: {
+                                      from: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      },
+                                      to: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      }
+                                    }
       end
     end
 
@@ -489,17 +655,56 @@ module Xmi
       attribute :package_import, PackageImport, collection: true
       attribute :diagram, Diagram
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "Model"
         namespace "http://www.omg.org/spec/UML/20131001", "uml"
 
         map_attribute "type", to: :type, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
         map_attribute "name", to: :name
 
-        map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
-        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
+        map_element "packageImport", to: :package_import, namespace: nil,
+                                     prefix: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
+        map_element "packagedElement", to: :packaged_element, namespace: nil,
+                                       prefix: nil,
+                                       value_map: {
+                                         from: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         },
+                                         to: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         }
+                                       }
         map_element "Diagram", to: :diagram, namespace: "http://www.omg.org/spec/UML/20131001/UMLDI", prefix: "umldi"
-        map_element "profileApplication", to: :profile_application, namespace: nil, prefix: nil
+        map_element "profileApplication", to: :profile_application,
+                                          namespace: nil, prefix: nil,
+                                          value_map: {
+                                            from: {
+                                              nil: :empty,
+                                              empty: :empty,
+                                              omitted: :empty
+                                            },
+                                            to: {
+                                              nil: :empty,
+                                              empty: :empty,
+                                              omitted: :empty
+                                            }
+                                          }
       end
     end
 
@@ -525,7 +730,7 @@ module Xmi
       include ProfileAttributes
       attribute :owned_comment, OwnedComment, collection: true
 
-      xml do
+      xml do # rubocop:disable Metrics/BlockLength
         root "Profile"
 
         map_attribute "id", to: :id, namespace: "http://www.omg.org/spec/XMI/20131001", prefix: "xmi"
@@ -533,9 +738,48 @@ module Xmi
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
-        map_element "ownedComment", to: :owned_comment, namespace: nil, prefix: nil
-        map_element "packageImport", to: :package_import, namespace: nil, prefix: nil
-        map_element "packagedElement", to: :packaged_element, namespace: nil, prefix: nil
+        map_element "ownedComment", to: :owned_comment, namespace: nil,
+                                    prefix: nil,
+                                    value_map: {
+                                      from: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      },
+                                      to: {
+                                        nil: :empty,
+                                        empty: :empty,
+                                        omitted: :empty
+                                      }
+                                    }
+        map_element "packageImport", to: :package_import, namespace: nil,
+                                     prefix: nil,
+                                     value_map: {
+                                       from: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       },
+                                       to: {
+                                         nil: :empty,
+                                         empty: :empty,
+                                         omitted: :empty
+                                       }
+                                     }
+        map_element "packagedElement", to: :packaged_element, namespace: nil,
+                                       prefix: nil,
+                                       value_map: {
+                                         from: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         },
+                                         to: {
+                                           nil: :empty,
+                                           empty: :empty,
+                                           omitted: :empty
+                                         }
+                                       }
       end
     end
   end

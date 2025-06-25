@@ -642,7 +642,7 @@ module Xmi
           attribute :constraints, SparxConnectorEndConstraints
           attribute :modifiers, SparxConnectorEndModifiers
           attribute :style, SparxConnectorEndStyle
-          attribute :documentation, :string
+          attribute :documentation, SparxElementDocumentation
           attribute :xrefs, SparxElementXrefs
           attribute :tags, SparxElementTags
         end

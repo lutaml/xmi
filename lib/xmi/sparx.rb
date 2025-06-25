@@ -767,6 +767,7 @@ module Xmi
     end
 
     class SparxConnector < Lutaml::Model::Serializable
+      attribute :name, :string
       attribute :idref, :string
       attribute :source, SparxConnectorSource
       attribute :target, SparxConnectorTarget
@@ -783,6 +784,7 @@ module Xmi
       xml do # rubocop:disable Metrics/BlockLength
         root "element"
 
+        map_attribute "name", to: :name
         map_attribute "idref", to: :idref, prefix: "xmi", namespace: "http://www.omg.org/spec/XMI/20131001"
 
         map_element "source", to: :source, namespace: nil, prefix: nil

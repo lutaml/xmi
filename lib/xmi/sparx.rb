@@ -483,7 +483,7 @@ module Xmi
       attribute :paths, SparxElementPaths
       attribute :times, SparxElementTimes
       attribute :flags, SparxElementFlags
-      attribute :links, SparxElementLinks
+      attribute :links, SparxElementLinks, collection: true
       attribute :attributes, SparxElementAttributes
 
       xml do

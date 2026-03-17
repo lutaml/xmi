@@ -4,54 +4,55 @@ require_relative "documentation"
 require_relative "uml"
 
 module Xmi
-  module RootAttributes
-    def self.included(klass) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-      klass.class_eval do
-        attribute :id, :string
-        attribute :label, :string
-        attribute :uuid, :string
-        attribute :href, :string
-        attribute :idref, :string
-        attribute :type, :string
-        attribute :documentation, Documentation
-        attribute :bibliography, TheCustomProfile::Bibliography, collection: true
-        attribute :basic_doc, TheCustomProfile::BasicDoc, collection: true
-        attribute :enumeration, TheCustomProfile::Enumeration, collection: true
-        attribute :ocl, TheCustomProfile::Ocl, collection: true
-        attribute :invariant, TheCustomProfile::Invariant, collection: true
-        attribute :publication_date, TheCustomProfile::PublicationDate, collection: true
-        attribute :edition, TheCustomProfile::Edition, collection: true
-        attribute :number, TheCustomProfile::Number, collection: true
-        attribute :year_version, TheCustomProfile::YearVersion, collection: true
-        attribute :informative, TheCustomProfile::Informative, collection: true
-        attribute :persistence, TheCustomProfile::Persistence, collection: true
-        attribute :abstract, TheCustomProfile::Abstract, collection: true
-      end
-    end
-  end
-
   class Root < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
-    include RootAttributes
+    attribute :id, ::Xmi::Type::XmiId
+    attribute :label, ::Xmi::Type::XmiLabel
+    attribute :uuid, ::Xmi::Type::XmiUuid
+    attribute :href, :string
+    attribute :idref, ::Xmi::Type::XmiIdRef
+    attribute :type, ::Xmi::Type::XmiType
+    attribute :documentation, Documentation
+    attribute :bibliography, CustomProfile::Bibliography, collection: true
+    attribute :basic_doc, CustomProfile::BasicDoc, collection: true
+    attribute :enumeration, CustomProfile::Enumeration, collection: true
+    attribute :ocl, CustomProfile::Ocl, collection: true
+    attribute :invariant, CustomProfile::Invariant, collection: true
+    attribute :publication_date, CustomProfile::PublicationDate, collection: true
+    attribute :edition, CustomProfile::Edition, collection: true
+    attribute :number, CustomProfile::Number, collection: true
+    attribute :year_version, CustomProfile::YearVersion, collection: true
+    attribute :informative, CustomProfile::Informative, collection: true
+    attribute :persistence, CustomProfile::Persistence, collection: true
+    attribute :abstract, CustomProfile::Abstract, collection: true
+
     attribute :model, Uml::UmlModel
 
     xml do # rubocop:disable Metrics/BlockLength
       root "XMI"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
+      namespace ::Xmi::Namespace::Omg::Xmi
+      namespace_scope [
+        ::Xmi::Namespace::Omg::Xmi,
+        ::Xmi::Namespace::Omg::Uml,
+        ::Xmi::Namespace::Omg::UmlDi,
+        ::Xmi::Namespace::Omg::UmlDc,
+        ::Xmi::Namespace::Sparx::Extension,
+        ::Xmi::Namespace::Sparx::Gml,
+        ::Xmi::Namespace::Sparx::CustomProfile,
+        ::Xmi::Namespace::Sparx::SysPhS,
+        ::Xmi::Namespace::Sparx::EaUml,
+        ::Xmi::Namespace::Sparx::CityGml
+      ]
 
       map_attribute "id", to: :id
       map_attribute "label", to: :label
       map_attribute "uuid", to: :uuid
-      map_attribute "href", to: :href, namespace: nil, prefix: nil
+      map_attribute "href", to: :href
       map_attribute "idref", to: :idref
       map_attribute "type", to: :type
 
       map_element "Documentation", to: :documentation
-      map_element "Model", to: :model,
-                           namespace: "http://www.omg.org/spec/UML/20131001",
-                           prefix: "uml"
+      map_element "Model", to: :model
       map_element "Bibliography", to: :bibliography,
-                                  namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                  prefix: "thecustomprofile",
                                   value_map: {
                                     from: {
                                       nil: :empty,
@@ -65,8 +66,6 @@ module Xmi
                                     }
                                   }
       map_element "BasicDoc", to: :basic_doc,
-                              namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile",
                               value_map: {
                                 from: {
                                   nil: :empty,
@@ -80,8 +79,6 @@ module Xmi
                                 }
                               }
       map_element "enumeration", to: :enumeration,
-                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile",
                                  value_map: {
                                    from: {
                                      nil: :empty,
@@ -95,8 +92,6 @@ module Xmi
                                    }
                                  }
       map_element "OCL", to: :ocl,
-                         namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                         prefix: "thecustomprofile",
                          value_map: {
                            from: {
                              nil: :empty,
@@ -110,8 +105,6 @@ module Xmi
                            }
                          }
       map_element "invariant", to: :invariant,
-                               namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                               prefix: "thecustomprofile",
                                value_map: {
                                  from: {
                                    nil: :empty,
@@ -125,8 +118,6 @@ module Xmi
                                  }
                                }
       map_element "publicationDate", to: :publication_date,
-                                     namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                     prefix: "thecustomprofile",
                                      value_map: {
                                        from: {
                                          nil: :empty,
@@ -140,8 +131,6 @@ module Xmi
                                        }
                                      }
       map_element "edition", to: :edition,
-                             namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                             prefix: "thecustomprofile",
                              value_map: {
                                from: {
                                  nil: :empty,
@@ -155,8 +144,6 @@ module Xmi
                                }
                              }
       map_element "number", to: :number,
-                            namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                            prefix: "thecustomprofile",
                             value_map: {
                               from: {
                                 nil: :empty,
@@ -170,8 +157,6 @@ module Xmi
                               }
                             }
       map_element "yearVersion", to: :year_version,
-                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile",
                                  value_map: {
                                    from: {
                                      nil: :empty,
@@ -185,8 +170,6 @@ module Xmi
                                    }
                                  }
       map_element "informative", to: :informative,
-                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile",
                                  value_map: {
                                    from: {
                                      nil: :empty,
@@ -200,8 +183,6 @@ module Xmi
                                    }
                                  }
       map_element "persistence", to: :persistence,
-                                 namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                                 prefix: "thecustomprofile",
                                  value_map: {
                                    from: {
                                      nil: :empty,
@@ -215,8 +196,6 @@ module Xmi
                                    }
                                  }
       map_element "Abstract", to: :abstract,
-                              namespace: "http://www.sparxsystems.com/profiles/thecustomprofile/1.0",
-                              prefix: "thecustomprofile",
                               value_map: {
                                 from: {
                                   nil: :empty,

@@ -3,13 +3,13 @@
 require_relative "extension"
 
 module Xmi
-  class Documentation < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
-    attribute :id, :string
-    attribute :label, :string
-    attribute :uuid, :string
+  class Documentation < Lutaml::Model::Serializable
+    attribute :id, ::Xmi::Type::XmiId
+    attribute :label, ::Xmi::Type::XmiLabel
+    attribute :uuid, ::Xmi::Type::XmiUuid
     attribute :href, :string
-    attribute :idref, :string
-    attribute :type, :string
+    attribute :idref, ::Xmi::Type::XmiIdRef
+    attribute :type, ::Xmi::Type::XmiType
     attribute :contact, :string, collection: true
     attribute :exporter, :string
     attribute :exporter_version, :string
@@ -23,7 +23,7 @@ module Xmi
 
     xml do # rubocop:disable Metrics/BlockLength
       root "Documentation"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
+      namespace ::Xmi::Namespace::Omg::Xmi
 
       map_attribute "id", to: :id
       map_attribute "label", to: :label
@@ -35,7 +35,7 @@ module Xmi
       map_attribute "exporterVersion", to: :exporter_version
       map_attribute "exporterID", to: :exporter_id
 
-      map_element "contact", to: :contact, prefix: nil, namespace: nil,
+      map_element "contact", to: :contact,
                              value_map: {
                                from: {
                                  nil: :empty,
@@ -48,8 +48,7 @@ module Xmi
                                  omitted: :empty
                                }
                              }
-      map_element "longDescription", to: :long_description, prefix: nil,
-                                     namespace: nil,
+      map_element "longDescription", to: :long_description,
                                      value_map: {
                                        from: {
                                          nil: :empty,
@@ -62,8 +61,7 @@ module Xmi
                                          omitted: :empty
                                        }
                                      }
-      map_element "shortDescription", to: :short_description, prefix: nil,
-                                      namespace: nil,
+      map_element "shortDescription", to: :short_description,
                                       value_map: {
                                         from: {
                                           nil: :empty,
@@ -76,7 +74,7 @@ module Xmi
                                           omitted: :empty
                                         }
                                       }
-      map_element "notice", to: :notice, prefix: nil, namespace: nil,
+      map_element "notice", to: :notice,
                             value_map: {
                               from: {
                                 nil: :empty,
@@ -89,7 +87,7 @@ module Xmi
                                 omitted: :empty
                               }
                             }
-      map_element "owner", to: :owner, prefix: nil, namespace: nil,
+      map_element "owner", to: :owner,
                            value_map: {
                              from: {
                                nil: :empty,
@@ -102,7 +100,7 @@ module Xmi
                                omitted: :empty
                              }
                            }
-      map_element "timestamp", to: :timestamp, prefix: nil, namespace: nil,
+      map_element "timestamp", to: :timestamp,
                                value_map: {
                                  from: {
                                    nil: :empty,

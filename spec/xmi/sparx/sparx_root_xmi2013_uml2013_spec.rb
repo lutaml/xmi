@@ -2,9 +2,9 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
-  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
-    context "when parsing from XML with XMI 2013 and UML 2013" do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::SparxRoot do
+  context ".parse_xml" do
+    context "when parsing from XML with XMI 2013 and UML 2013" do
       let(:xml) { File.new(fixtures_path("ea-xmi-2.5.1.xmi")) }
 
       subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
@@ -37,9 +37,9 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       end
 
       it "should contains Extension" do
-        expect(xmi_root_model.extension).to be_instance_of(Xmi::Sparx::SparxExtension)
+        expect(xmi_root_model.extension).to be_instance_of(Xmi::Sparx::Extension)
         expect(xmi_root_model.extension.extender).to eq("Enterprise Architect")
-        expect(xmi_root_model.extension.profiles).to be_instance_of(Xmi::Sparx::SparxProfiles)
+        expect(xmi_root_model.extension.profiles).to be_instance_of(Xmi::Sparx::CustomProfile::Profiles)
         expect(xmi_root_model.extension.profiles.profile).to be_instance_of(Array)
         expect(xmi_root_model.extension.profiles.profile.first).to be_instance_of(Xmi::Uml::Profile)
         expect(xmi_root_model.extension.profiles.profile.first.name).to eq("thecustomprofile")

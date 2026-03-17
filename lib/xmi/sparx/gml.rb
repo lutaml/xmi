@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-Dir[File.join(__dir__, "ea_extensions", "*.rb")].each { |file| require file }
-
 module Xmi
-  class EaRoot
+  module Sparx
     module Gml
       class ApplicationSchema < Lutaml::Model::Serializable
         # prefix altered_ is prepended to xmlns to avoid conflict with
@@ -16,6 +14,7 @@ module Xmi
 
         xml do
           root "ApplicationSchema"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "version", to: :version
           map_attribute "xsdDocument", to: :xsd_document
@@ -32,6 +31,7 @@ module Xmi
 
         xml do
           root "CodeList"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "asDictionary", to: :as_dictionary
           map_attribute "defaultCodeSpace", to: :default_code_space
@@ -46,6 +46,7 @@ module Xmi
 
         xml do
           root "DataType"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "isCollection", to: :is_collection
           map_attribute "noPropertyType", to: :no_property_type
@@ -60,6 +61,7 @@ module Xmi
 
         xml do
           root "Union"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "isCollection", to: :is_collection
           map_attribute "noPropertyType", to: :no_property_type
@@ -72,6 +74,7 @@ module Xmi
 
         xml do
           root "Enumeration"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "base_Enumeration", to: :base_enumeration
         end
@@ -84,6 +87,7 @@ module Xmi
 
         xml do
           root "Type"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "isCollection", to: :is_collection
           map_attribute "noPropertyType", to: :no_property_type
@@ -99,6 +103,7 @@ module Xmi
 
         xml do
           root "FeatureType"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "isCollection", to: :is_collection
           map_attribute "noPropertyType", to: :no_property_type
@@ -115,6 +120,7 @@ module Xmi
 
         xml do
           root "property"
+          namespace ::Xmi::Namespace::Sparx::Gml
 
           map_attribute "sequenceNumber", to: :sequence_number
           map_attribute "base_Property", to: :base_property

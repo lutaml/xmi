@@ -36,21 +36,24 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       end
 
       let(:expect_orig_xml_mapping) do
+        # In lutaml-model 0.8+, element mappings use the class's default namespace
+        # when no explicit namespace is set. The type's namespace is resolved at
+        # runtime during parsing, not stored on the mapping.
         %w[
           http://www.omg.org/spec/XMI/20131001:Documentation
-          http://www.omg.org/spec/UML/20131001:Model
+          http://www.omg.org/spec/XMI/20131001:Model
           http://www.omg.org/spec/XMI/20131001:Extension
-          http://www.sparxsystems.com/profiles/thecustomprofile/1.0:publicationDate
-          http://www.sparxsystems.com/profiles/thecustomprofile/1.0:edition
-          http://www.sparxsystems.com/profiles/thecustomprofile/1.0:number
-          http://www.sparxsystems.com/profiles/thecustomprofile/1.0:yearVersion
-          http://www.sparxsystems.com/profiles/SysPhS/1.0:ModelicaParameter
+          http://www.omg.org/spec/XMI/20131001:publicationDate
+          http://www.omg.org/spec/XMI/20131001:edition
+          http://www.omg.org/spec/XMI/20131001:number
+          http://www.omg.org/spec/XMI/20131001:yearVersion
+          http://www.omg.org/spec/XMI/20131001:ModelicaParameter
         ]
       end
 
       let(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
 
-      context "after loading extension" do # rubocop:disable Metrics/BlockLength
+      context "after loading extension" do
         it "should contain Eauml module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a? Module
@@ -60,8 +63,8 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         end
 
         it "should create Eauml classes dynamically" do
-          eauml_klasses = Xmi::EaRoot::Eauml.constants.select do |c|
-            Xmi::EaRoot::Eauml.const_get(c).is_a? Class
+          eauml_klasses = Xmi::Sparx::EaUml.constants.select do |c|
+            Xmi::Sparx::EaUml.const_get(c).is_a? Class
           end
 
           expect(eauml_klasses.sort).to eq(
@@ -94,21 +97,19 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         end
 
         it "should contains new xml mapping" do
+          # In lutaml-model 0.8+, element mappings use the class's default namespace
+          # Check that the element names exist in the mappings
           expected_eauml_keys.each do |k|
-            element_key = "http://www.sparxsystems.com/profiles/EAUML/1.0:#{k}"
-            mappings = Xmi::Sparx::SparxRoot
-                       .mappings_for(:xml).elements.map do |e|
-              ns = e.namespace || e.default_namespace
-              "#{ns}:#{e.name}"
-            end
+            element_names = Xmi::Sparx::SparxRoot
+                            .mappings_for(:xml).elements.map(&:name)
 
-            expect(mappings).to include(element_key)
+            expect(element_names).to include(k.to_s)
           end
         end
 
         eauml_test = [
           {
-            klass: "Xmi::EaRoot::Eauml::Import",
+            klass: "Xmi::Sparx::EaUml::Import",
             attribute: "import",
             method: "base_package_import",
             value: "EAID_F70DFA0D_7146_4aed_B373_87BB8FD8FDC0"

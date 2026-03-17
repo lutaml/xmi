@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Xmi
-  module TheCustomProfile
+  module CustomProfile
     class Bibliography < Lutaml::Model::Serializable
       attribute :base_class, :string
 
       xml do
-        root "Bibliography"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "Bibliography"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Class", to: :base_class
       end
@@ -17,8 +17,8 @@ module Xmi
       attribute :base_class, :string
 
       xml do
-        root "BasicDoc"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "BasicDoc"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Class", to: :base_class
       end
@@ -28,8 +28,8 @@ module Xmi
       attribute :base_enumeration, :string
 
       xml do
-        root "enumeration"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "enumeration"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Enumeration", to: :base_enumeration
       end
@@ -39,8 +39,8 @@ module Xmi
       attribute :base_constraint, :string
 
       xml do
-        root "OCL"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "OCL"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Constraint", to: :base_constraint
       end
@@ -50,8 +50,8 @@ module Xmi
       attribute :base_constraint, :string
 
       xml do
-        root "invariant"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "invariant"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Constraint", to: :base_constraint
       end
@@ -62,8 +62,8 @@ module Xmi
       attribute :publication_date, :string
 
       xml do
-        root "publicationDate"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "publicationDate"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Package", to: :base_package
         map_attribute "publicationDate", to: :publication_date
@@ -75,8 +75,8 @@ module Xmi
       attribute :edition, :string
 
       xml do
-        root "edition"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "edition"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Package", to: :base_package
         map_attribute "edition", to: :edition
@@ -88,8 +88,8 @@ module Xmi
       attribute :number, :string
 
       xml do
-        root "number"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "number"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Package", to: :base_package
         map_attribute "number", to: :number
@@ -101,8 +101,8 @@ module Xmi
       attribute :year_version, :string
 
       xml do
-        root "yearVersion"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "yearVersion"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Package", to: :base_package
         map_attribute "yearVersion", to: :year_version
@@ -113,8 +113,8 @@ module Xmi
       attribute :base_package, :string
 
       xml do
-        root "informative"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "informative"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Package", to: :base_package
       end
@@ -126,8 +126,8 @@ module Xmi
       attribute :persistence, :string
 
       xml do
-        root "persistence"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "persistence"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Class", to: :base_class
         map_attribute "base_Enumeration", to: :base_enumeration
@@ -139,8 +139,8 @@ module Xmi
       attribute :base_class, :string
 
       xml do
-        root "Abstract"
-        namespace "http://www.sparxsystems.com/profiles/thecustomprofile/1.0", "thecustomprofile"
+        element "Abstract"
+        namespace ::Xmi::Namespace::Sparx::CustomProfile
 
         map_attribute "base_Class", to: :base_class
       end

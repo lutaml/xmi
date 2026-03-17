@@ -37,7 +37,7 @@ To convert XMI file into Ruby objects, run:
 ----
 xml = "path/to/your/file.xmi"
 xml_content = File.read(xml)
-xmi_root_model = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+xmi_root_model = Xmi::Sparx::Root.parse_xml(xml_content)
 ----
 
 This method takes the path to an XMI file and generate the Ruby objects.
@@ -52,12 +52,12 @@ Xmi::EaRoot.load_extension("path/to/your/extension.xml")
 
 xml = "path/to/your/file.xmi"
 xml_content = File.read(xml)
-xmi_root_model = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+xmi_root_model = Xmi::Sparx::Root.parse_xml(xml_content)
 ----
 
 `Xmi::EaRoot.load_extension` takes the path to an XML file and generate the
 Ruby classes and modules defined in XML file dynamically.
-Then, you can generate Ruby objects by `Xmi::Sparx::SparxRoot.parse_xml`.
+Then, you can generate Ruby objects by `Xmi::Sparx::Root.parse_xml`.
 
 === Output Classes and Modules Generated from Extension into Ruby Files
 
@@ -153,6 +153,169 @@ module Xmi
   end
 end
 ----
+
+== Namespace Architecture
+
+=== General
+
+The XMI library normalizes all input namespace versions to a canonical version
+(20131001) before parsing. This allows the library to handle XMI files with
+different namespace versions (2011, 2013, 2016) using a single set of model
+classes.
+
+=== Namespace Normalization
+
+The normalization is performed by [`SparxRoot.replace_xmlns`](lib/xmi/sparx.rb:1158) which rewrites
+namespace URIs in the input XML:
+
+.Example of namespace normalization
+====
+[source,xml]
+----
+<!-- Input XMI with various namespace versions -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
+         xmlns:uml="http://www.omg.org/spec/UML/20161101">
+  <!-- content -->
+</xmi:XMI>
+
+<!-- After normalization, becomes -->
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+         xmlns:uml="http://www.omg.org/spec/UML/20131001">
+  <!-- content -->
+</xmi:XMI>
+----
+====
+
+=== Namespace Classes
+
+Namespace classes are defined in [`lib/xmi/namespace/omg.rb`](lib/xmi/namespace/omg.rb:1):
+
+* **Version-specific classes**: `Xmi20110701`, `Uml20131001`, etc.
+* **Version-agnostic aliases**: `Xmi`, `Uml`, `UmlDi`, `UmlDc`
+
+The aliases inherit from the 20131001 versions (the normalized version):
+
+.Alias class definitions
+====
+[source,ruby]
+----
+class Xmi < Xmi20131001; end
+class Uml < Uml20131001; end
+class UmlDi < UmlDi20131001; end
+class UmlDc < UmlDc20131001; end
+----
+====
+
+This allows models to use clean namespace references without worrying about
+specific versions:
+
+.Using namespace aliases in model definitions
+====
+[source,ruby]
+----
+class MyModel < Lutaml::Model::Serializable
+  xml do
+    root "Model"
+    namespace ::Xmi::Namespace::Omg::Uml
+    namespace_scope [
+      ::Xmi::Namespace::Omg::Xmi,
+      ::Xmi::Namespace::Omg::Uml,
+      ::Xmi::Namespace::Omg::UmlDi,
+    ]
+  end
+end
+----
+====
+
+
+=== Namespace-Qualified Mapping Declaration
+
+All element and attribute mappings explicitly declare their namespace to ensure
+proper XML parsing and serialization. This is required even when types have
+`xml_namespace` declared.
+
+.Element mapping with namespace
+====
+[source,ruby]
+----
+xml do
+  root "Model"
+  namespace ::Xmi::Namespace::Omg::Uml
+
+  # Element mapping with explicit namespace
+  map_element "packagedElement", to: :packaged_element,
+              namespace: "http://www.omg.org/spec/UML/20131001",
+              prefix: "uml"
+end
+----
+====
+
+=== Attribute Namespace Handling
+
+For attributes with namespace prefixes in XML (e.g., `<uml:Model xmi:id="...">`),
+both `namespace:` and `prefix:` parameters are required in `map_attribute`, even
+when the attribute type has `xml_namespace` declared.
+
+.Attribute mapping with namespace prefix
+====
+[source,ruby]
+----
+xml do
+  root "Model"
+  namespace ::Xmi::Namespace::Omg::Uml
+
+  # XMI-typed attribute with explicit namespace declaration
+  map_attribute "id", to: :id,
+                namespace: "http://www.omg.org/spec/XMI/20131001",
+                prefix: "xmi"
+  
+  # Regular attribute without namespace prefix
+  map_attribute "name", to: :name
+end
+----
+
+Without explicit namespace declarations in `map_attribute`, attributes with
+namespace prefixes will parse as `nil`.
+====
+
+=== Sparx Systems Namespaces
+
+Sparx-specific namespaces are defined in [`lib/xmi/namespace/sparx.rb`](lib/xmi/namespace/sparx.rb:1):
+
+* **SysPhS** - System Physical Systems profile
+* **GML** - Geography Markup Language profile
+* **EaUml** - Enterprise Architect UML extensions
+* **CustomProfile** - Custom profile support
+* **CityGML** - City Geography Markup Language
+
+.Using Sparx namespaces
+====
+[source,ruby]
+----
+xml do
+  root "ModelicaParameter"
+  namespace ::Xmi::Namespace::Sparx::SysPhS
+
+  map_attribute "base_Package", to: :base_package
+  map_attribute "name", to: :name
+end
+----
+====
+
+=== Extension Namespaces
+
+Dynamically loaded extensions (via [`EaRoot.load_extension`](lib/xmi/ea_root.rb:54)) also use
+namespace-qualified mappings:
+
+.Extension with namespace mapping
+====
+[source,ruby]
+----
+map_element "ApplicationSchema", to: :gml_application_schema,
+            namespace: "http://www.sparxsystems.com/profiles/GML/1.0",
+            prefix: "GML"
+----
+====
 
 === Limitation
 

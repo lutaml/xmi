@@ -2,18 +2,18 @@
 
 module Xmi
   class Extension < Lutaml::Model::Serializable
-    attribute :id, :string
-    attribute :label, :string
-    attribute :uuid, :string
+    attribute :id, ::Xmi::Type::XmiId
+    attribute :label, ::Xmi::Type::XmiLabel
+    attribute :uuid, ::Xmi::Type::XmiUuid
     attribute :href, :string
-    attribute :idref, :string
-    attribute :type, :string
+    attribute :idref, ::Xmi::Type::XmiIdRef
+    attribute :type, ::Xmi::Type::XmiType
     attribute :extender, :string
     attribute :extender_id, :string
 
     xml do
       root "Extension"
-      namespace "http://www.omg.org/spec/XMI/20131001", "xmi"
+      namespace ::Xmi::Namespace::Omg::Xmi
 
       map_attribute "id", to: :id
       map_attribute "label", to: :label

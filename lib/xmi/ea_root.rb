@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-Dir[File.join(__dir__, "extensions", "*.rb")].each { |file| require file }
-
 require "nokogiri"
 
 module Xmi
@@ -27,6 +25,7 @@ module Xmi
     XML_MAPPING = <<~TEXT
               xml do
                 root "#ROOT_TAG#"
+                namespace #NAMESPACE_CLASS#
       #MAP_ATTRIBUTES#
               end
     TEXT
@@ -42,8 +41,6 @@ module Xmi
     MAP_ELEMENT = <<~TEXT
       map_element "#ELEMENT_NAME#",
                   to: :#ELEMENT_METHOD#,
-                  namespace: "#NAMESPACE#",
-                  prefix: "#PREFIX#",
                   value_map: {
                     from: { nil: :empty, empty: :empty, omitted: :empty },
                     to: { nil: :empty, empty: :empty, omitted: :empty }
@@ -70,7 +67,7 @@ module Xmi
         update_model_xml_mappings(map_elements, Xmi::Sparx::SparxRoot)
       end
 
-      def construct_xml_mappings(new_klasses, module_name) # rubocop:disable Metrics/MethodLength
+      def construct_xml_mappings(new_klasses, module_name)
         map_elements = []
         new_klasses.each do |klass|
           next unless Xmi::EaRoot.const_get(module_name).const_get(klass)
@@ -168,7 +165,7 @@ module Xmi
         [attributes_lines, tags]
       end
 
-      def gen_abstract_klass # rubocop:disable Metrics/MethodLength
+      def gen_abstract_klass
         unless @abstract_klass_node
           @abstract_tags = []
           return ""
@@ -201,7 +198,7 @@ module Xmi
         [apply_types_lines, apply_types_nodes]
       end
 
-      def gen_generic_klass(node, from_klass = nil) # rubocop:disable Metrics/MethodLength
+      def gen_generic_klass(node, from_klass = nil)
         node_name = get_klass_name_from_node(node)
         attributes_lines, map_attributes_lines = gen_klass_tags(node)
         apply_types_lines, apply_types_nodes = gen_apply_types(node)
@@ -229,7 +226,7 @@ module Xmi
         map_attributes_lines
       end
 
-      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes) # rubocop:disable Metrics/MethodLength
+      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes)
         unless apply_types_nodes.empty?
           attributes_lines += apply_types_lines
           apply_types_nodes.each do |n|
@@ -260,10 +257,44 @@ module Xmi
       end
 
       def replace_xml_mapping(node_name, map_attributes_lines)
+        # Look up namespace class by URI, or generate a new one if not found
+        ns_class = find_or_create_namespace_class
+
         XML_MAPPING
           .gsub("#ROOT_TAG#", node_name)
+          .gsub("#NAMESPACE_CLASS#", ns_class)
           .gsub("#MAP_ATTRIBUTES#", "\n#{map_attributes_lines.rstrip}")
           .rstrip
+      end
+
+      def find_or_create_namespace_class
+        uri = @def_namespace[:uri]
+        prefix = @def_namespace[:name]
+
+        # Try to find existing namespace class in registry
+        existing_class = NamespaceRegistry.resolve(uri)
+        return existing_class.name if existing_class
+
+        # Generate a new namespace class
+        # Format: Xmi::Namespace::Dynamic::{ModuleName}
+        module_name = @module_name
+        ns_class_name = "Xmi::Namespace::Dynamic::#{module_name}"
+
+        # Check if already defined
+        return ns_class_name if Object.const_defined?(ns_class_name)
+
+        # Create the namespace class
+        Namespace.ensure_dynamic_namespace_module_exists!
+        ns_class = Class.new(Lutaml::Xml::Namespace) do
+          define_singleton_method(:uri) { uri }
+          define_singleton_method(:prefix_default) { prefix }
+        end
+        Namespace::Dynamic.const_set(module_name, ns_class)
+
+        # Register in namespace registry
+        NamespaceRegistry.register(uri, ns_class)
+
+        ns_class_name
       end
 
       def replace_klass_template(node_name, attributes_lines, xml_mapping,

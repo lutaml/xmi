@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
 require "lutaml/model"
-require "lutaml/model/xml_adapter/nokogiri_adapter"
-# require "lutaml/model/json_adapter/standard_json_adapter"
-# require "lutaml/model/yaml_adapter/standard_yaml_adapter"
+require "lutaml/xml"
 
-Lutaml::Model::Config.configure do |config|
-  config.xml_adapter = Lutaml::Model::XmlAdapter::NokogiriAdapter
-  # config.yaml_adapter = Lutaml::Model::YamlAdapter::StandardYamlAdapter
-  # config.json_adapter = Lutaml::Model::JsonAdapter::StandardJsonAdapter
-end
+# Configure XML adapter
+Lutaml::Model::Config.xml_adapter_type = :nokogiri
 
 module Lutaml
   module Model
@@ -22,11 +17,19 @@ module Lutaml
 end
 
 require_relative "xmi/version"
+require_relative "xmi/namespace"
+require_relative "xmi/namespace/dynamic"
+require_relative "xmi/type"
+require_relative "xmi/namespace_detector"
+require_relative "xmi/namespace_registry"
 
 module Xmi
   class Error < StandardError; end
   # Your code goes here...
 end
+
+# Bootstrap the namespace registry
+Xmi::NamespaceRegistry.bootstrap!
 
 require_relative "xmi/add"
 require_relative "xmi/delete"
@@ -36,6 +39,11 @@ require_relative "xmi/extension"
 require_relative "xmi/replace"
 require_relative "xmi/ea_root"
 require_relative "xmi/uml"
-require_relative "xmi/the_custom_profile"
+require_relative "xmi/custom_profile"
 require_relative "xmi/root"
 require_relative "xmi/sparx"
+
+# Backward compatibility aliases - Gml moved to Xmi::Sparx::Gml
+Xmi::EaRoot::Gml = Xmi::Sparx::Gml
+# Backward compatibility aliases - Eauml moved to Xmi::Sparx::EaUml
+Xmi::EaRoot::Eauml = Xmi::Sparx::EaUml

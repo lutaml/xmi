@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
   context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA UML extension on demand" do # rubocop:disable Metrics/BlockLength
-      let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default-with-eauml.xmi")) }
+      let(:xml_content) { cached_fixture("xmi-v2-4-2-default-with-eauml.xmi") }
       let(:expected_eauml_klasses) do
         %i[
           Import
@@ -51,7 +51,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         ]
       end
 
-      let(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
+      let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "after loading extension" do
         it "should contain Eauml module" do

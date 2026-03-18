@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "nokogiri"
+require "set"
 
 module Xmi
   class EaRoot # rubocop:disable Metrics/ClassLength
@@ -48,10 +49,58 @@ module Xmi
     TEXT
 
     class << self
+      # Load an EA extension from an XML file.
+      #
+      # @param xml_path [String] Path to the MDG extension XML file
+      # @return [void]
+      # @raise [ArgumentError] If the extension is already loaded
       def load_extension(xml_path)
         @content = gen_content(xml_path)
+        extension_id = @module_name
+
+        if loaded_extensions.key?(extension_id)
+          raise ArgumentError,
+                "Extension '#{extension_id}' is already loaded from " \
+                "'#{loaded_extensions[extension_id]}'. " \
+                "Call unload_extension('#{extension_id}') first if you want to reload it."
+        end
+
         Object.class_eval @content
-        update_mappings(@module_name)
+        update_mappings(extension_id)
+        loaded_extensions[extension_id] = xml_path
+      end
+
+      # Unload an extension by removing its module and clearing tracking.
+      #
+      # This allows the extension to be loaded again, which is useful for
+      # testing scenarios that need to reload extensions.
+      #
+      # @param extension_id [String, Symbol] The extension module name (e.g., "Citygml")
+      # @return [void]
+      def unload_extension(extension_id)
+        extension_id = extension_id.to_s.capitalize
+
+        if const_defined?(extension_id)
+          remove_const(extension_id)
+        end
+
+        loaded_extensions.delete(extension_id)
+      end
+
+      # Check if an extension is currently loaded.
+      #
+      # @param extension_id [String, Symbol] The extension module name
+      # @return [Boolean]
+      def extension_loaded?(extension_id)
+        extension_id = extension_id.to_s.capitalize
+        loaded_extensions.key?(extension_id)
+      end
+
+      # List all currently loaded extensions.
+      #
+      # @return [Hash<String, String>] Map of extension_id => xml_path
+      def loaded_extensions
+        @loaded_extensions ||= {}
       end
 
       def output_rb_file(output_rb_path)
@@ -96,16 +145,22 @@ module Xmi
         end
       end
 
+      # Add extension element mappings to SparxRoot.
+      #
+      # Only adds NEW mappings for the extension elements. Does NOT re-evaluate
+      # the base mappings, which avoids duplicate mapping accumulation.
+      #
+      # @param map_elements [Array<String>] Array of map_element code strings
+      # @param sparx_root [Class] The SparxRoot class to update
       def update_model_xml_mappings(map_elements, sparx_root)
-        new_mapping = sparx_root.class_variable_get("@@default_mapping")
-        new_mapping += map_elements.join("\n")
-        sparx_root.class_variable_set("@@mapping", new_mapping) # rubocop:disable Style/ClassVars
+        return if map_elements.empty?
 
-        new_mapping_block = proc do
-          eval sparx_root.class_variable_get("@@mapping") # rubocop:disable Security/Eval
+        # Only add the NEW extension element mappings.
+        # Do NOT re-evaluate base mappings to avoid duplicates.
+        extension_block = proc do
+          map_elements.each { |element_code| instance_eval(element_code) }
         end
-        new_mapping = proc { xml(&new_mapping_block) }
-        sparx_root.class_eval(&new_mapping)
+        sparx_root.class_eval { xml(&extension_block) }
       end
 
       def all_new_klasses(module_name)

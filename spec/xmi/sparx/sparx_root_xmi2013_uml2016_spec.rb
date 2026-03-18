@@ -5,12 +5,12 @@ require "spec_helper"
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
   context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "when parsing from XML with XMI 2013 and UML 2016 (ISO 6709 Edition 2.xml)" do
-      let(:xml) { File.new(fixtures_path("ISO 6709 Edition 2.xml")) }
+      let(:xml_content) { cached_fixture("ISO 6709 Edition 2.xml") }
       let(:xml_output) { xmi_root_model.to_xml }
       let(:moxml_context) { Moxml.new }
       let(:xml_doc) { moxml_context.parse(xml_output) }
 
-      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
+      subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 
@@ -90,22 +90,20 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
     end
 
     context "when parsing from XML with XMI 2013 and UML 2016 (large_test.xmi)" do
-      let(:citygml_definition_xml) do
-        File.new(fixtures_path("CityGML_MDG_Technology.xml"))
-      end
+      let(:citygml_definition_xml) { fixtures_path("CityGML_MDG_Technology.xml") }
 
       before do
         Xmi::EaRoot.load_extension(citygml_definition_xml)
       end
 
       after do
-        Xmi::EaRoot.send(:remove_const, "Citygml")
+        Xmi::EaRoot.unload_extension("Citygml")
       end
 
-      let(:xml) { File.new(fixtures_path("large_test.xmi")) }
+      let(:xml_content) { cached_fixture("large_test.xmi") }
       let(:xml_output) { xmi_root_model.to_xml }
 
-      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
+      subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 

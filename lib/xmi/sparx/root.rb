@@ -33,13 +33,11 @@ module Xmi
         #
         # @see #fix_encoding
         # @see #normalize_omg_namespace_versions
-        # @see #resolve_relative_namespaces
-        # @see #rename_ea_xmlns_attribute
+        # @see #preprocess_xml
         def parse_xml(xml_content)
           xml_content = fix_encoding(xml_content)
           xml_content = normalize_omg_namespace_versions(xml_content)
-          xml_content = resolve_relative_namespaces(xml_content)
-          xml_content = rename_ea_xmlns_attribute(xml_content)
+          xml_content = preprocess_xml(xml_content)
 
           from_xml(xml_content)
         end
@@ -84,18 +82,21 @@ module Xmi
         #   xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
         #   xmlns:uml="http://www.omg.org/spec/UML/20131001"
         def normalize_omg_namespace_versions(xml_content)
-          xml_content
-            .gsub(%r{xmlns:xmi="http://www.omg.org/spec/XMI/\d{8}},
-                  "xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001")
-            .gsub(%r{xmlns:uml="http://www.omg.org/spec/UML/\d{8}},
-                  "xmlns:uml=\"http://www.omg.org/spec/UML/20131001")
-            .gsub(%r{xmlns:umldc="http://www.omg.org/spec/UML/\d{8}},
-                  "xmlns:umldc=\"http://www.omg.org/spec/UML/20131001")
-            .gsub(%r{xmlns:umldi="http://www.omg.org/spec/UML/\d{8}},
-                  "xmlns:umldi=\"http://www.omg.org/spec/UML/20131001")
+          # Single-pass replacement for all OMG namespace version normalizations
+          # This avoids creating 4 intermediate string copies
+          xml_content.gsub(
+            %r{xmlns:(xmi|uml|umldc|umldi)="http://www\.omg\.org/spec/(XMI|UML)/\d{8}}
+          ) do
+            "xmlns:#{$1}=\"http://www.omg.org/spec/#{$2}/20131001"
+          end
         end
 
-        # Resolve relative namespace URIs using targetNamespace.
+        # Perform all Nokogiri-based preprocessing in a single parse pass.
+        #
+        # This method combines resolve_relative_namespaces and rename_ea_xmlns_attribute
+        # into a single Nokogiri parse/modify/serialize cycle for better performance.
+        #
+        # == Resolve Relative Namespaces
         #
         # Some EA-generated XMI files define XML Schema elements with a
         # relative `xmlns` attribute value instead of an absolute URI.
@@ -105,27 +106,16 @@ module Xmi
         # This method replaces relative xmlns values with the corresponding
         # targetNamespace value to ensure proper namespace resolution.
         #
-        # @param xml_content [String] The XML content
-        # @return [String] The XML content with resolved namespace URIs
-        #
         # @example Resolution
         #   # Before:
         #   <xs:schema xmlns="relative-path" targetNamespace="http://example.org/ns">
         #
         #   # After:
         #   <xs:schema xmlns="http://example.org/ns" targetNamespace="http://example.org/ns">
-        def resolve_relative_namespaces(xml_content)
-          with_nokogiri_doc(xml_content) do |doc|
-            doc.xpath("//*[@xmlns and @targetNamespace]").each do |element|
-              target_ns = element["targetNamespace"]
-              element["xmlns"] = target_ns if target_ns
-            end
-          end
-        end
-
-        # Rename the 'xmlns' attribute to 'altered_xmlns' on EA-specific elements.
         #
-        # == Background: Enterprise Architect's Misuse of the xmlns Attribute
+        # == Rename EA's xmlns Attribute
+        #
+        # === Background: Enterprise Architect's Misuse of the xmlns Attribute
         #
         # In standard XML, the `xmlns` attribute has special meaning—it declares
         # the default namespace for an element and its descendants. The XML
@@ -137,13 +127,13 @@ module Xmi
         # declarations. This is a violation of XML conventions and creates
         # parsing conflicts.
         #
-        # == Affected Elements
+        # === Affected Elements
         #
         # This quirk has been observed on:
         # - `GML:ApplicationSchema` (Geography Markup Language profile)
         # - `CityGML:ApplicationSchema` (City Geography Markup Language profile)
         #
-        # == The Conflict
+        # === The Conflict
         #
         # Lutaml::Model, like most XML libraries, treats `xmlns` as a reserved
         # keyword for namespace handling. When an element has an attribute
@@ -152,14 +142,11 @@ module Xmi
         # - Fail to expose it as a regular attribute
         # - Cause errors during serialization
         #
-        # == The Solution
+        # === The Solution
         #
         # This method renames the `xmlns` attribute to `altered_xmlns` before
         # parsing. The corresponding model classes (e.g., `Gml::ApplicationSchema`)
         # define an `altered_xmlns` attribute to receive this value.
-        #
-        # @param xml_content [String] The XML content
-        # @return [String] The XML content with renamed xmlns attributes
         #
         # @example
         #   # Before (EA-generated):
@@ -168,34 +155,31 @@ module Xmi
         #   # After preprocessing:
         #   <GML:ApplicationSchema altered_xmlns="http://some-value" targetNamespace="...">
         #
+        # @param xml_content [String] The XML content
+        # @return [String] The preprocessed XML content
+        #
         # @see Xmi::Sparx::Gml::ApplicationSchema#altered_xmlns
-        def rename_ea_xmlns_attribute(xml_content)
-          with_nokogiri_doc(xml_content) do |doc|
-            # Handle GML:ApplicationSchema elements
-            doc.xpath("//GML:ApplicationSchema[@xmlns]", "GML" => "http://www.sparxsystems.com/profiles/GML/1.0").each do |element|
-              element["altered_xmlns"] = element["xmlns"]
-              element.delete("xmlns")
-            end
-
-            # Handle CityGML:ApplicationSchema elements
-            doc.xpath("//CityGML:ApplicationSchema[@xmlns]", "CityGML" => "http://www.sparxsystems.com/profiles/CityGML/1.0").each do |element|
-              element["altered_xmlns"] = element["xmlns"]
-              element.delete("xmlns")
-            end
-          end
-        end
-
-        # Helper method for Nokogiri XML document processing.
-        #
-        # Yields a Nokogiri document for modification, then serializes it
-        # back to XML without the XML declaration.
-        #
-        # @param xml_content [String] The XML content to process
-        # @yield [Nokogiri::XML::Document] The parsed document for modification
-        # @return [String] The serialized XML without declaration
-        def with_nokogiri_doc(xml_content)
+        def preprocess_xml(xml_content)
           doc = Nokogiri::XML(xml_content, nil, nil, Nokogiri::XML::ParseOptions::DEFAULT_XML)
-          yield doc
+
+          # Resolve relative namespace URIs using targetNamespace
+          doc.xpath("//*[@xmlns and @targetNamespace]").each do |element|
+            target_ns = element["targetNamespace"]
+            element["xmlns"] = target_ns if target_ns
+          end
+
+          # Rename EA's misuse of xmlns as data attribute on GML:ApplicationSchema
+          doc.xpath("//GML:ApplicationSchema[@xmlns]", "GML" => "http://www.sparxsystems.com/profiles/GML/1.0").each do |element|
+            element["altered_xmlns"] = element["xmlns"]
+            element.delete("xmlns")
+          end
+
+          # Rename EA's misuse of xmlns as data attribute on CityGML:ApplicationSchema
+          doc.xpath("//CityGML:ApplicationSchema[@xmlns]", "CityGML" => "http://www.sparxsystems.com/profiles/CityGML/1.0").each do |element|
+            element["altered_xmlns"] = element["xmlns"]
+            element.delete("xmlns")
+          end
+
           save_options = Nokogiri::XML::Node::SaveOptions::NO_DECLARATION | Nokogiri::XML::Node::SaveOptions::AS_XML
           doc.to_xml(encoding: "UTF-8", save_with: save_options)
         end

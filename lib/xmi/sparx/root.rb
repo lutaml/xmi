@@ -52,20 +52,22 @@ module Xmi
         end
 
         def replace_relative_ns(xml_content)
+          # Use non-greedy quantifiers and negated character classes to avoid ReDoS
           xml_content.gsub(
-            /<(.*)xmlns="(.*)" targetNamespace="(.*)"(.*)>/,
+            /<([^>]+?)xmlns="([^"]*)" targetNamespace="([^"]*)"([^>]*)>/,
             '<\1xmlns="\3" targetNamespace="\3"\4>'
           )
         end
 
         def replace_ea_xmlns(xml_content)
+          # Use non-greedy quantifiers and negated character classes to avoid ReDoS
           xml_content
             .gsub(
-              /<GML:ApplicationSchema(.*)xmlns="(.*)"(.*)>/,
+              /<GML:ApplicationSchema([^>]+?)xmlns="([^"]*)"([^>]*)>/,
               '<GML:ApplicationSchema\1altered_xmlns="\2"\3>'
             )
             .gsub(
-              /<CityGML:ApplicationSchema(.*)xmlns="(.*)"(.*)>/,
+              /<CityGML:ApplicationSchema([^>]+?)xmlns="([^"]*)"([^>]*)>/,
               '<CityGML:ApplicationSchema\1altered_xmlns="\2"\3>'
             )
         end

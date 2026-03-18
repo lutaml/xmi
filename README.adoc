@@ -6,6 +6,13 @@ This Ruby object mapper is a module designed to convert XMI (XML Metadata Interc
 
 == Installation
 
+=== Requirements
+
+* Ruby 3.0 or later
+* lutaml-model 0.8.0 or later (for `Lutaml::Xml::Namespace` support)
+
+=== Installing the gem
+
 Add this line to your application's Gemfile:
 
 [source,ruby]
@@ -199,10 +206,15 @@ The aliases inherit from the 20131001 versions (the normalized version):
 ====
 [source,ruby]
 ----
-class Xmi < Xmi20131001; end
-class Uml < Uml20131001; end
-class UmlDi < UmlDi20131001; end
-class UmlDc < UmlDc20131001; end
+class Xmi < Lutaml::Xml::Namespace
+  uri "http://www.omg.org/spec/XMI/20131001"
+  prefix_default "xmi"
+end
+
+class Uml < Lutaml::Xml::Namespace
+  uri "http://www.omg.org/spec/UML/20131001"
+  prefix_default "uml"
+end
 ----
 ====
 

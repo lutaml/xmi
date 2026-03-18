@@ -5,8 +5,8 @@ require "spec_helper"
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
   context ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA MDG extension on demand" do # rubocop:disable Metrics/BlockLength
-      let(:xml) { File.new(fixtures_path("xmi-v2-4-2-default.xmi")) }
-      let(:mdg_definition_xml) { File.new(fixtures_path("ISO19103MDG v1.0.0-beta.xml")) }
+      let(:xml_content) { cached_fixture("xmi-v2-4-2-default.xmi") }
+      let(:mdg_definition_xml) { fixtures_path("ISO19103MDG v1.0.0-beta.xml") }
       let(:expected_mdg_klasses) do
         %i[
           AbstractSchema
@@ -57,7 +57,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         ]
       end
 
-      let(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
+      let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "before loading extension" do
         it "should not contain Mdg module" do
@@ -75,7 +75,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         end
 
         after do
-          Xmi::EaRoot.send(:remove_const, "Iso19103")
+          Xmi::EaRoot.unload_extension("Iso19103")
         end
 
         it "should contain Mdg module" do

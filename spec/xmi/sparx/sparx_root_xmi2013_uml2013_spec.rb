@@ -5,9 +5,9 @@ require "spec_helper"
 RSpec.describe Xmi::Sparx::SparxRoot do
   context ".parse_xml" do
     context "when parsing from XML with XMI 2013 and UML 2013" do
-      let(:xml) { File.new(fixtures_path("ea-xmi-2.5.1.xmi")) }
+      let(:xml_content) { cached_fixture("ea-xmi-2.5.1.xmi") }
 
-      subject(:xmi_root_model) { described_class.parse_xml(File.read(xml)) }
+      subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       it { is_expected.to be_instance_of(Xmi::Sparx::SparxRoot) }
 

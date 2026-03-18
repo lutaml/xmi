@@ -80,9 +80,7 @@ module Xmi
       def unload_extension(extension_id)
         extension_id = extension_id.to_s.capitalize
 
-        if const_defined?(extension_id)
-          remove_const(extension_id)
-        end
+        remove_const(extension_id) if const_defined?(extension_id)
 
         loaded_extensions.delete(extension_id)
       end

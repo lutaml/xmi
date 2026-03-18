@@ -87,7 +87,7 @@ module Xmi
           xml_content.gsub(
             %r{xmlns:(xmi|uml|umldc|umldi)="http://www\.omg\.org/spec/(XMI|UML)/\d{8}}
           ) do
-            "xmlns:#{$1}=\"http://www.omg.org/spec/#{$2}/20131001"
+            "xmlns:#{::Regexp.last_match(1)}=\"http://www.omg.org/spec/#{::Regexp.last_match(2)}/20131001"
           end
         end
 
@@ -169,13 +169,17 @@ module Xmi
           end
 
           # Rename EA's misuse of xmlns as data attribute on GML:ApplicationSchema
-          doc.xpath("//GML:ApplicationSchema[@xmlns]", "GML" => "http://www.sparxsystems.com/profiles/GML/1.0").each do |element|
+          doc.xpath("//GML:ApplicationSchema[@xmlns]",
+                    "GML" => "http://www.sparxsystems.com/profiles/GML/1.0")
+             .each do |element|
             element["altered_xmlns"] = element["xmlns"]
             element.delete("xmlns")
           end
 
           # Rename EA's misuse of xmlns as data attribute on CityGML:ApplicationSchema
-          doc.xpath("//CityGML:ApplicationSchema[@xmlns]", "CityGML" => "http://www.sparxsystems.com/profiles/CityGML/1.0").each do |element|
+          doc.xpath("//CityGML:ApplicationSchema[@xmlns]",
+                    "CityGML" => "http://www.sparxsystems.com/profiles/CityGML/1.0")
+             .each do |element|
             element["altered_xmlns"] = element["xmlns"]
             element.delete("xmlns")
           end

@@ -19,14 +19,12 @@ def fixtures_path(path)
   File.join(File.expand_path("./fixtures", __dir__), path)
 end
 
-# Cache for fixture file contents to avoid repeated disk I/O
-FIXTURE_CONTENT_CACHE = {}
-
 # Read a fixture file and cache the content.
 # This avoids repeated disk reads for the same fixture across tests.
 #
 # @param path [String] The relative path to the fixture file
 # @return [String] The file content
 def cached_fixture(path)
-  FIXTURE_CONTENT_CACHE[path] ||= File.read(fixtures_path(path))
+  @fixture_content_cache ||= {}
+  @fixture_content_cache[path] ||= File.read(fixtures_path(path))
 end

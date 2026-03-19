@@ -214,33 +214,9 @@ module Xmi
         root "ownedOperation"
         map_attribute "id", to: :id
         map_attribute "name", to: :name
-        map_element "ownedParameter", to: :owned_parameter,
-                                      value_map: {
-                                        from: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        },
-                                        to: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        }
-                                      }
+        map_element "ownedParameter", to: :owned_parameter, value_map: VALUE_MAP
         map_element "precondition", to: :precondition
-        map_element "type", to: :uml_type,
-                            value_map: {
-                              from: {
-                                nil: :empty,
-                                empty: :empty,
-                                omitted: :empty
-                              },
-                              to: {
-                                nil: :empty,
-                                empty: :empty,
-                                omitted: :empty
-                              }
-                            }
+        map_element "type", to: :uml_type, value_map: VALUE_MAP
       end
     end
 
@@ -283,7 +259,7 @@ module Xmi
       end
     end
 
-    class PackagedElement < Lutaml::Model::Serializable # rubocop:disable Metrics/ClassLength
+    class PackagedElement < Lutaml::Model::Serializable
       attribute :type, ::Xmi::Type::XmiType
       attribute :id, ::Xmi::Type::XmiId
       attribute :name, :string
@@ -302,7 +278,7 @@ module Xmi
       attribute :owned_comment, OwnedComment, collection: true
       attribute :generalization, AssociationGeneralization, collection: true
 
-      xml do # rubocop:disable Metrics/BlockLength
+      xml do
         root "packagedElement"
         namespace ::Xmi::Namespace::Omg::Uml
 
@@ -315,110 +291,14 @@ module Xmi
         map_attribute "supplier", to: :supplier
         map_attribute "client", to: :client
 
-        map_element "generalization", to: :generalization,
-                                      value_map: {
-                                        from: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        },
-                                        to: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        }
-                                      }
-        map_element "ownedComment", to: :owned_comment,
-                                    value_map: {
-                                      from: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      },
-                                      to: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      }
-                                    }
-        map_element "ownedEnd", to: :owned_end,
-                                value_map: {
-                                  from: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  },
-                                  to: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  }
-                                }
-        map_element "ownedLiteral", to: :owned_literal,
-                                    value_map: {
-                                      from: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      },
-                                      to: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      }
-                                    }
-        map_element "ownedAttribute", to: :owned_attribute,
-                                      value_map: {
-                                        from: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        },
-                                        to: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        }
-                                      }
-        map_element "ownedOperation", to: :owned_operation,
-                                      value_map: {
-                                        from: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        },
-                                        to: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        }
-                                      }
-        map_element "packagedElement", to: :packaged_element,
-                                       value_map: {
-                                         from: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         },
-                                         to: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         }
-                                       }
-        map_element "memberEnd", to: :member_ends,
-                                 value_map: {
-                                   from: {
-                                     nil: :empty,
-                                     empty: :empty,
-                                     omitted: :empty
-                                   },
-                                   to: {
-                                     nil: :empty,
-                                     empty: :empty,
-                                     omitted: :empty
-                                   }
-                                 }
+        map_element "generalization", to: :generalization, value_map: VALUE_MAP
+        map_element "ownedComment", to: :owned_comment, value_map: VALUE_MAP
+        map_element "ownedEnd", to: :owned_end, value_map: VALUE_MAP
+        map_element "ownedLiteral", to: :owned_literal, value_map: VALUE_MAP
+        map_element "ownedAttribute", to: :owned_attribute, value_map: VALUE_MAP
+        map_element "ownedOperation", to: :owned_operation, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
+        map_element "memberEnd", to: :member_ends, value_map: VALUE_MAP
       end
     end
 
@@ -480,32 +360,8 @@ module Xmi
         map_attribute "text", to: :text
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element,
-                                    value_map: {
-                                      from: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      },
-                                      to: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      }
-                                    }
-        map_element "bounds", to: :bounds,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
+        map_element "ownedElement", to: :owned_element, value_map: VALUE_MAP
+        map_element "bounds", to: :bounds, value_map: VALUE_MAP
         map_element "source", to: :source
         map_element "target", to: :target
         map_element "waypoint", to: :waypoint
@@ -528,19 +384,7 @@ module Xmi
         map_attribute "isFrame", to: :is_frame
         map_attribute "modelElement", to: :model_element
 
-        map_element "ownedElement", to: :owned_element,
-                                    value_map: {
-                                      from: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      },
-                                      to: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      }
-                                    }
+        map_element "ownedElement", to: :owned_element, value_map: VALUE_MAP
       end
     end
 
@@ -613,46 +457,10 @@ module Xmi
         map_attribute "type", to: :type
         map_attribute "name", to: :name
 
-        map_element "packageImport", to: :package_import,
-                                     value_map: {
-                                       from: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       },
-                                       to: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       }
-                                     }
-        map_element "packagedElement", to: :packaged_element,
-                                       value_map: {
-                                         from: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         },
-                                         to: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         }
-                                       }
+        map_element "packageImport", to: :package_import, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
         map_element "Diagram", to: :diagram
-        map_element "profileApplication", to: :profile_application,
-                                          value_map: {
-                                            from: {
-                                              nil: :empty,
-                                              empty: :empty,
-                                              omitted: :empty
-                                            },
-                                            to: {
-                                              nil: :empty,
-                                              empty: :empty,
-                                              omitted: :empty
-                                            }
-                                          }
+        map_element "profileApplication", to: :profile_application, value_map: VALUE_MAP
       end
     end
 
@@ -686,45 +494,9 @@ module Xmi
         map_attribute "metamodelReference", to: :metamodel_reference
         map_attribute "nsPrefix", to: :ns_prefix
 
-        map_element "ownedComment", to: :owned_comment,
-                                    value_map: {
-                                      from: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      },
-                                      to: {
-                                        nil: :empty,
-                                        empty: :empty,
-                                        omitted: :empty
-                                      }
-                                    }
-        map_element "packageImport", to: :package_import,
-                                     value_map: {
-                                       from: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       },
-                                       to: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       }
-                                     }
-        map_element "packagedElement", to: :packaged_element,
-                                       value_map: {
-                                         from: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         },
-                                         to: {
-                                           nil: :empty,
-                                           empty: :empty,
-                                           omitted: :empty
-                                         }
-                                       }
+        map_element "ownedComment", to: :owned_comment, value_map: VALUE_MAP
+        map_element "packageImport", to: :package_import, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
       end
     end
   end

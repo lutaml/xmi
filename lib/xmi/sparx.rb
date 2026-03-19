@@ -2,11 +2,9 @@
 
 module Xmi
   module Sparx
-    # Common value_map for Sparx elements
-    VALUE_MAP = {
-      from: { nil: :empty, empty: :empty, omitted: :empty },
-      to: { nil: :empty, empty: :empty, omitted: :empty }
-    }.freeze
+    # Reference to shared VALUE_MAP defined in Xmi module
+    # This is used for handling nil, empty, and omitted values consistently
+    VALUE_MAP = ::Xmi::VALUE_MAP
 
     # Autoload declarations - Ruby handles dependency order automatically
     autoload :Element, "xmi/sparx/element"

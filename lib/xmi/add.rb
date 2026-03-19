@@ -32,32 +32,8 @@ module Xmi
       map_attribute "container", to: :container
       map_attribute "position", to: :position
       map_attribute "addition", to: :addition
-      map_element "difference", to: :difference,
-                                value_map: {
-                                  from: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  },
-                                  to: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  }
-                                }
-      map_element "Extension", to: :extension,
-                               value_map: {
-                                 from: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 },
-                                 to: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 }
-                               }
+      map_element "difference", to: :difference, value_map: VALUE_MAP
+      map_element "Extension", to: :extension, value_map: VALUE_MAP
     end
   end
 end

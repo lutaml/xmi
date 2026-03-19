@@ -42,10 +42,7 @@ module Xmi
     MAP_ELEMENT = <<~TEXT
       map_element "#ELEMENT_NAME#",
                   to: :#ELEMENT_METHOD#,
-                  value_map: {
-                    from: { nil: :empty, empty: :empty, omitted: :empty },
-                    to: { nil: :empty, empty: :empty, omitted: :empty }
-                  }
+                  value_map: Xmi::VALUE_MAP
     TEXT
 
     class << self

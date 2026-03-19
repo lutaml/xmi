@@ -21,7 +21,7 @@ module Xmi
     attribute :timestamp, :time, collection: true
     attribute :extension, Extension, collection: true
 
-    xml do # rubocop:disable Metrics/BlockLength
+    xml do
       root "Documentation"
       namespace ::Xmi::Namespace::Omg::Xmi
 
@@ -35,97 +35,13 @@ module Xmi
       map_attribute "exporterVersion", to: :exporter_version
       map_attribute "exporterID", to: :exporter_id
 
-      map_element "contact", to: :contact,
-                             value_map: {
-                               from: {
-                                 nil: :empty,
-                                 empty: :empty,
-                                 omitted: :empty
-                               },
-                               to: {
-                                 nil: :empty,
-                                 empty: :empty,
-                                 omitted: :empty
-                               }
-                             }
-      map_element "longDescription", to: :long_description,
-                                     value_map: {
-                                       from: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       },
-                                       to: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty
-                                       }
-                                     }
-      map_element "shortDescription", to: :short_description,
-                                      value_map: {
-                                        from: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        },
-                                        to: {
-                                          nil: :empty,
-                                          empty: :empty,
-                                          omitted: :empty
-                                        }
-                                      }
-      map_element "notice", to: :notice,
-                            value_map: {
-                              from: {
-                                nil: :empty,
-                                empty: :empty,
-                                omitted: :empty
-                              },
-                              to: {
-                                nil: :empty,
-                                empty: :empty,
-                                omitted: :empty
-                              }
-                            }
-      map_element "owner", to: :owner,
-                           value_map: {
-                             from: {
-                               nil: :empty,
-                               empty: :empty,
-                               omitted: :empty
-                             },
-                             to: {
-                               nil: :empty,
-                               empty: :empty,
-                               omitted: :empty
-                             }
-                           }
-      map_element "timestamp", to: :timestamp,
-                               value_map: {
-                                 from: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 },
-                                 to: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 }
-                               }
-      map_element "Extension", to: :extension,
-                               value_map: {
-                                 from: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 },
-                                 to: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 }
-                               }
+      map_element "contact", to: :contact, value_map: VALUE_MAP
+      map_element "longDescription", to: :long_description, value_map: VALUE_MAP
+      map_element "shortDescription", to: :short_description, value_map: VALUE_MAP
+      map_element "notice", to: :notice, value_map: VALUE_MAP
+      map_element "owner", to: :owner, value_map: VALUE_MAP
+      map_element "timestamp", to: :timestamp, value_map: VALUE_MAP
+      map_element "Extension", to: :extension, value_map: VALUE_MAP
     end
   end
 end

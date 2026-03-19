@@ -25,7 +25,13 @@ require_relative "xmi/namespace_registry"
 
 module Xmi
   class Error < StandardError; end
-  # Your code goes here...
+
+  # Shared value_map for XMI elements
+  # Used to handle nil, empty, and omitted values consistently
+  VALUE_MAP = {
+    from: { nil: :empty, empty: :empty, omitted: :empty },
+    to: { nil: :empty, empty: :empty, omitted: :empty }
+  }.freeze
 end
 
 # Bootstrap the namespace registry

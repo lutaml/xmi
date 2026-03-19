@@ -4,7 +4,7 @@ require "nokogiri"
 
 module Xmi
   module Sparx
-    class SparxRoot < Root # rubocop:disable Metrics/ClassLength
+    class SparxRoot < Root
       attribute :modelica_parameter, SysPhS
 
       attribute :eauml_import, EaUml::Import, collection: true
@@ -205,123 +205,15 @@ module Xmi
 
         map_element "Extension", to: :extension
         map_element "ModelicaParameter", to: :modelica_parameter
-        map_element "import", to: :eauml_import,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "ApplicationSchema", to: :gml_application_schema,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "CodeList", to: :gml_code_list,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "DataType", to: :gml_data_type,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "Union", to: :gml_union,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "Enumeration", to: :gml_enumeration,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "Type", to: :gml_type,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "FeatureType", to: :gml_feature_type,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
-        map_element "property", to: :gml_property,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty
-                                }
-                              }
+        map_element "import", to: :eauml_import, value_map: VALUE_MAP
+        map_element "ApplicationSchema", to: :gml_application_schema, value_map: VALUE_MAP
+        map_element "CodeList", to: :gml_code_list, value_map: VALUE_MAP
+        map_element "DataType", to: :gml_data_type, value_map: VALUE_MAP
+        map_element "Union", to: :gml_union, value_map: VALUE_MAP
+        map_element "Enumeration", to: :gml_enumeration, value_map: VALUE_MAP
+        map_element "Type", to: :gml_type, value_map: VALUE_MAP
+        map_element "FeatureType", to: :gml_feature_type, value_map: VALUE_MAP
+        map_element "property", to: :gml_property, value_map: VALUE_MAP
       MAP
 
       @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars

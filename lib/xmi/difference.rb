@@ -27,32 +27,8 @@ module Xmi
       map_attribute "type", to: :type
       map_attribute "target", to: :target
       map_attribute "container", to: :container
-      map_element "difference", to: :difference,
-                                value_map: {
-                                  from: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  },
-                                  to: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty
-                                  }
-                                }
-      map_element "Extension", to: :extension,
-                               value_map: {
-                                 from: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 },
-                                 to: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty
-                                 }
-                               }
+      map_element "difference", to: :difference, value_map: VALUE_MAP
+      map_element "Extension", to: :extension, value_map: VALUE_MAP
     end
   end
 end

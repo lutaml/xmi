@@ -38,7 +38,7 @@ module Xmi
     # @param xml_content [String] The XML content to parse
     # @return [Hash<String, String>] A hash mapping prefixes to namespace URIs
     def self.extract_namespace_uris(xml_content)
-      doc = Nokogiri::XML(xml_content, &:strict)
+      doc = Nokogiri::XML(xml_content, &:noent)
       doc.collect_namespaces
     rescue Nokogiri::XML::SyntaxError
       {}

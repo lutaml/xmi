@@ -37,6 +37,13 @@ end
 # Bootstrap the namespace registry
 Xmi::NamespaceRegistry.bootstrap!
 
+# Version infrastructure
+require_relative "xmi/versioned"
+require_relative "xmi/version_registry"
+require_relative "xmi/v20110701"
+require_relative "xmi/v20131001"
+require_relative "xmi/v20161101"
+
 require_relative "xmi/add"
 require_relative "xmi/delete"
 require_relative "xmi/difference"
@@ -49,7 +56,58 @@ require_relative "xmi/custom_profile"
 require_relative "xmi/root"
 require_relative "xmi/sparx"
 
-# Backward compatibility aliases - Gml moved to Xmi::Sparx::Gml
-Xmi::EaRoot::Gml = Xmi::Sparx::Gml
-# Backward compatibility aliases - Eauml moved to Xmi::Sparx::EaUml
-Xmi::EaRoot::Eauml = Xmi::Sparx::EaUml
+# Unified parsing API
+require_relative "xmi/parsing"
+
+module Xmi
+  class << self
+    # @api public
+    # Initialize all version registers
+    #
+    # Call this during gem initialization or before first use.
+    #
+    # @return [void]
+    def init_versioning!
+      return if @versioning_initialized
+
+      # Initialize versions in order (newest depends on older)
+      V20110701.init_models!
+      V20131001.init_models!
+      V20161101.init_models!
+
+      @versioning_initialized = true
+    end
+
+    # @api public
+    # Parse XMI with automatic version detection
+    #
+    # @param xml_content [String] XML content
+    # @return [Root] Parsed XMI document
+    def parse(xml_content)
+      init_versioning!
+      VersionRegistry.parse_with_detected_version(xml_content, Root)
+    end
+
+    # @api public
+    # Parse XMI with a specific version register
+    #
+    # @param xml_content [String] XML content
+    # @param version [String] Version string (e.g., "20131001")
+    # @return [Root] Parsed XMI document
+    def parse_with_version(xml_content, version)
+      init_versioning!
+      register = VersionRegistry.register_for_version(version)
+      raise ArgumentError, "Unknown version: #{version}" unless register
+
+      Root.from_xml(xml_content, register: register)
+    end
+
+    # @api public
+    # Check if versioning has been initialized
+    #
+    # @return [Boolean]
+    def versioning_initialized?
+      @versioning_initialized || false
+    end
+  end
+end

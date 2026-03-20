@@ -54,12 +54,12 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "after loading extension" do
-        it "contains Eauml module" do
-          ea_modules = Xmi::EaRoot.constants.select do |c|
-            Xmi::EaRoot.const_get(c).is_a? Module
+        it "should contain EaUml module in Sparx namespace" do
+          sparx_modules = Xmi::Sparx.constants.select do |c|
+            Xmi::Sparx.const_get(c).is_a? Module
           end
 
-          expect(ea_modules).not_to be_empty
+          expect(sparx_modules).to include(:EaUml)
         end
 
         it "creates Eauml classes dynamically" do

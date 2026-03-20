@@ -2,6 +2,7 @@
 
 require "xmi"
 require "canon"
+require_relative "fixtures"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -18,5 +18,6 @@ module Xmi
     autoload :SysPhS, "xmi/sparx/sys_ph_s"
     autoload :Extension, "xmi/sparx/extension"
     autoload :SparxRoot, "xmi/sparx/root"
+    autoload :SparxMappings, "xmi/sparx/mappings"
   end
 end

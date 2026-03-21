@@ -16,7 +16,8 @@ class ViewElement < Shale::Mapper
   attribute :xmi_idref, Shale::Type::Value
   attribute :xmi_extension, XMIextension, collection: true
   attribute :view_element_model, ViewElementmodel, collection: true
-  attribute :view_element_presentation, ViewElementpresentation, collection: true
+  attribute :view_element_presentation, ViewElementpresentation,
+            collection: true
 
   xml do
     root "ViewElement"

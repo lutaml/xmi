@@ -37,7 +37,8 @@ module Xmi
 
       map_element "contact", to: :contact, value_map: VALUE_MAP
       map_element "longDescription", to: :long_description, value_map: VALUE_MAP
-      map_element "shortDescription", to: :short_description, value_map: VALUE_MAP
+      map_element "shortDescription", to: :short_description,
+                                      value_map: VALUE_MAP
       map_element "notice", to: :notice, value_map: VALUE_MAP
       map_element "owner", to: :owner, value_map: VALUE_MAP
       map_element "timestamp", to: :timestamp, value_map: VALUE_MAP

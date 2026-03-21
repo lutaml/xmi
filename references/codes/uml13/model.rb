@@ -58,27 +58,38 @@ class Model < Shale::Mapper
   attribute :xmi_idref, Shale::Type::Value
   attribute :model_element_name, ModelElementname, collection: true
   attribute :model_element_visibility, ModelElementvisibility, collection: true
-  attribute :generalizable_element_is_root, GeneralizableElementisRoot, collection: true
-  attribute :generalizable_element_is_leaf, GeneralizableElementisLeaf, collection: true
-  attribute :generalizable_element_is_abstract, GeneralizableElementisAbstract, collection: true
+  attribute :generalizable_element_is_root, GeneralizableElementisRoot,
+            collection: true
+  attribute :generalizable_element_is_leaf, GeneralizableElementisLeaf,
+            collection: true
+  attribute :generalizable_element_is_abstract, GeneralizableElementisAbstract,
+            collection: true
   attribute :xmi_extension, XMIextension, collection: true
   attribute :model_element_binding, ModelElementbinding, collection: true
   attribute :model_element_template, ModelElementtemplate, collection: true
-  attribute :model_element_template_parameter, ModelElementtemplateParameter, collection: true
-  attribute :model_element_implementation, ModelElementimplementation, collection: true
+  attribute :model_element_template_parameter, ModelElementtemplateParameter,
+            collection: true
+  attribute :model_element_implementation, ModelElementimplementation,
+            collection: true
   attribute :model_element_view, ModelElementview, collection: true
-  attribute :model_element_presentation, ModelElementpresentation, collection: true
+  attribute :model_element_presentation, ModelElementpresentation,
+            collection: true
   attribute :model_element_namespace, ModelElementnamespace, collection: true
   attribute :model_element_constraint, ModelElementconstraint, collection: true
-  attribute :model_element_requirement, ModelElementrequirement, collection: true
+  attribute :model_element_requirement, ModelElementrequirement,
+            collection: true
   attribute :model_element_provision, ModelElementprovision, collection: true
   attribute :model_element_stereotype, ModelElementstereotype, collection: true
-  attribute :model_element_collaboration, ModelElementcollaboration, collection: true
+  attribute :model_element_collaboration, ModelElementcollaboration,
+            collection: true
   attribute :model_element_behavior, ModelElementbehavior, collection: true
   attribute :model_element_partition, ModelElementpartition, collection: true
-  attribute :generalizable_element_generalization, GeneralizableElementgeneralization, collection: true
-  attribute :generalizable_element_specialization, GeneralizableElementspecialization, collection: true
-  attribute :model_element_tagged_value, ModelElementtaggedValue, collection: true
+  attribute :generalizable_element_generalization,
+            GeneralizableElementgeneralization, collection: true
+  attribute :generalizable_element_specialization,
+            GeneralizableElementspecialization, collection: true
+  attribute :model_element_tagged_value, ModelElementtaggedValue,
+            collection: true
   attribute :namespace_owned_element, NamespaceownedElement, collection: true
 
   xml do
@@ -101,7 +112,8 @@ class Model < Shale::Mapper
     map_attribute "requirement", to: :requirement
     map_attribute "provision", to: :provision
     map_attribute "stereotype", to: :stereotype
-    map_attribute "ModelElement.elementReference", to: :model_element_element_reference
+    map_attribute "ModelElement.elementReference",
+                  to: :model_element_element_reference
     map_attribute "collaboration", to: :collaboration
     map_attribute "behavior", to: :behavior
     map_attribute "partition", to: :partition
@@ -115,13 +127,17 @@ class Model < Shale::Mapper
     map_attribute "xmi.idref", to: :xmi_idref
     map_element "ModelElement.name", to: :model_element_name
     map_element "ModelElement.visibility", to: :model_element_visibility
-    map_element "GeneralizableElement.isRoot", to: :generalizable_element_is_root
-    map_element "GeneralizableElement.isLeaf", to: :generalizable_element_is_leaf
-    map_element "GeneralizableElement.isAbstract", to: :generalizable_element_is_abstract
+    map_element "GeneralizableElement.isRoot",
+                to: :generalizable_element_is_root
+    map_element "GeneralizableElement.isLeaf",
+                to: :generalizable_element_is_leaf
+    map_element "GeneralizableElement.isAbstract",
+                to: :generalizable_element_is_abstract
     map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
     map_element "ModelElement.binding", to: :model_element_binding
     map_element "ModelElement.template", to: :model_element_template
-    map_element "ModelElement.templateParameter", to: :model_element_template_parameter
+    map_element "ModelElement.templateParameter",
+                to: :model_element_template_parameter
     map_element "ModelElement.implementation", to: :model_element_implementation
     map_element "ModelElement.view", to: :model_element_view
     map_element "ModelElement.presentation", to: :model_element_presentation
@@ -133,8 +149,10 @@ class Model < Shale::Mapper
     map_element "ModelElement.collaboration", to: :model_element_collaboration
     map_element "ModelElement.behavior", to: :model_element_behavior
     map_element "ModelElement.partition", to: :model_element_partition
-    map_element "GeneralizableElement.generalization", to: :generalizable_element_generalization
-    map_element "GeneralizableElement.specialization", to: :generalizable_element_specialization
+    map_element "GeneralizableElement.generalization",
+                to: :generalizable_element_generalization
+    map_element "GeneralizableElement.specialization",
+                to: :generalizable_element_specialization
     map_element "ModelElement.taggedValue", to: :model_element_tagged_value
     map_element "Namespace.ownedElement", to: :namespace_owned_element
   end

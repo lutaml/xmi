@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
-  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
+  describe ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA GML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml_content) { cached_fixture("xmi-v2-4-2-default-with-gml.xmi") }
       let(:expected_gml_klasses) do
@@ -63,7 +63,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "after loading extension" do
-        it "should contain Gml module" do
+        it "contains Gml module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a? Module
           end
@@ -71,32 +71,34 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           expect(ea_modules).not_to be_empty
         end
 
-        it "should create Gml classes dynamically" do
+        it "creates Gml classes dynamically" do
           gml_klasses = Xmi::Sparx::Gml.constants.select do |c|
             Xmi::Sparx::Gml.const_get(c).is_a? Class
           end
 
           expect(gml_klasses.sort).to eq(
-            expected_gml_klasses.map { |k| Lutaml::Model::Utils.classify(k).to_sym }
+            expected_gml_klasses.map { |k|
+              Lutaml::Model::Utils.classify(k).to_sym
+            },
           )
         end
 
-        it "should contains original attributes" do
+        it "containses original attributes" do
           expect_orig_attributes.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
-        it "should contains new attributes" do
+        it "containses new attributes" do
           expected_gml_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case("gml_#{k}").to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case("gml_#{k}").to_sym)
           end
         end
 
-        it "should contains original xml mapping" do
+        it "containses original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            mappings = Xmi::Sparx::SparxRoot
-                       .mappings_for(:xml).elements.map do |e|
+            mappings = described_class
+              .mappings_for(:xml).elements.map do |e|
               ns = e.namespace || e.default_namespace
               "#{ns}:#{e.name}"
             end
@@ -105,12 +107,12 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           end
         end
 
-        it "should contains new xml mapping" do
+        it "containses new xml mapping" do
           # In lutaml-model 0.8+, element mappings use the class's default namespace
           # Check that the element names exist in the mappings
           expected_gml_keys.each do |k|
-            element_names = Xmi::Sparx::SparxRoot
-                            .mappings_for(:xml).elements.map(&:name)
+            element_names = described_class
+              .mappings_for(:xml).elements.map(&:name)
 
             expect(element_names).to include(k.to_s)
           end
@@ -121,25 +123,25 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
             klass: "Xmi::Sparx::Gml::ApplicationSchema",
             attribute: "application_schema",
             method: "base_package",
-            value: "EAPK_511CFB07_CCBA_4005_B3CD_B18A5A29767A"
+            value: "EAPK_511CFB07_CCBA_4005_B3CD_B18A5A29767A",
           },
           {
             klass: "Xmi::Sparx::Gml::CodeList",
             attribute: "code_list",
             method: "base_class",
-            value: "EAID_65257DDE_3F0E_4c31_8026_17D78B6F4D23"
+            value: "EAID_65257DDE_3F0E_4c31_8026_17D78B6F4D23",
           },
           {
             klass: "Xmi::Sparx::Gml::Property",
             attribute: "property",
             method: "base_property",
-            value: "EAID_648276FD_A507_4d93_8253_F04D7D35A576"
-          }
+            value: "EAID_648276FD_A507_4d93_8253_F04D7D35A576",
+          },
         ]
 
         gml_test.each do |t|
-          it "should contains #{t[:klass]}" do
-            gml_method = "gml_#{t[:attribute]}".to_sym
+          it "containses #{t[:klass]}" do
+            gml_method = :"gml_#{t[:attribute]}"
             expect(xmi_root_model.send(gml_method))
               .to be_instance_of(Array)
             expect(xmi_root_model.send(gml_method).first.class.name)

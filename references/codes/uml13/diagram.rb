@@ -21,7 +21,8 @@ class Diagram < Shale::Mapper
   attribute :xmi_idref, Shale::Type::Value
   attribute :diagram_properties, DiagramProperties, collection: true
   attribute :xmi_extension, XMIextension, collection: true
-  attribute :model_element_tagged_value, ModelElementtaggedValue, collection: true
+  attribute :model_element_tagged_value, ModelElementtaggedValue,
+            collection: true
   attribute :diagram_element, Diagramelement, collection: true
   attribute :diagram_compositions, DiagramCompositions, collection: true
 

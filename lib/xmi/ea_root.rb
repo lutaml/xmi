@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "nokogiri"
-require "set"
 
 module Xmi
   class EaRoot # rubocop:disable Metrics/ClassLength
@@ -99,7 +98,7 @@ module Xmi
       end
 
       def output_rb_file(output_rb_path)
-        File.open(output_rb_path, "w") { |file| file.write(@content) }
+        File.write(output_rb_path, @content)
       end
 
       private
@@ -115,13 +114,13 @@ module Xmi
         map_elements = []
         new_klasses.each do |klass|
           next unless Xmi::EaRoot.const_get(module_name).const_get(klass)
-                                 .respond_to? :root_tag
+            .respond_to? :root_tag
 
           map_elements << MAP_ELEMENT
-                          .gsub("#ELEMENT_NAME#", Xmi::EaRoot.const_get(module_name).const_get(klass).root_tag)
-                          .gsub("#ELEMENT_METHOD#", Lutaml::Model::Utils.snake_case(klass.to_s))
-                          .gsub("#NAMESPACE#", @def_namespace[:uri])
-                          .gsub("#PREFIX#", @def_namespace[:name])
+            .gsub("#ELEMENT_NAME#", Xmi::EaRoot.const_get(module_name).const_get(klass).root_tag)
+            .gsub("#ELEMENT_METHOD#", Lutaml::Model::Utils.snake_case(klass.to_s))
+            .gsub("#NAMESPACE#", @def_namespace[:uri])
+            .gsub("#PREFIX#", @def_namespace[:name])
         end
 
         map_elements
@@ -133,8 +132,8 @@ module Xmi
           full_klass_name = "Xmi::EaRoot::#{module_name}::#{klass}"
           attr_line = "#{ATTRIBUTE_LINE.rstrip}, collection: true"
           attr_line = attr_line
-                      .gsub("#TAG_NAME#", method_name)
-                      .gsub("#ATTRIBUTE_TYPE#", full_klass_name)
+            .gsub("#TAG_NAME#", method_name)
+            .gsub("#ATTRIBUTE_TYPE#", full_klass_name)
 
           sparx_root.class_eval(attr_line)
         end
@@ -166,7 +165,7 @@ module Xmi
 
       def get_abstract_klass_node(xmi_doc)
         xmi_doc.at_xpath(
-          "//UMLProfiles//Stereotypes//Stereotype[@isAbstract='true']"
+          "//UMLProfiles//Stereotypes//Stereotype[@isAbstract='true']",
         )
       end
 
@@ -181,8 +180,8 @@ module Xmi
         method_name = Lutaml::Model::Utils.snake_case(attr_method)
 
         map_attributes = MAP_ATTRIBUTES
-                         .gsub("#ATTRIBUTE_NAME#", attr_name)
-                         .gsub("#ATTRIBUTE_METHOD#", method_name)
+          .gsub("#ATTRIBUTE_NAME#", attr_name)
+          .gsub("#ATTRIBUTE_METHOD#", method_name)
 
         "#{space_before}#{map_attributes}"
       end
@@ -192,8 +191,8 @@ module Xmi
         space_before = " " * 8
 
         attribute_line = ATTRIBUTE_LINE
-                         .gsub("#TAG_NAME#", tag_name)
-                         .gsub("#ATTRIBUTE_TYPE#", attribute_type)
+          .gsub("#TAG_NAME#", tag_name)
+          .gsub("#ATTRIBUTE_TYPE#", attribute_type)
 
         "#{space_before}#{attribute_line}"
       end
@@ -276,7 +275,8 @@ module Xmi
         map_attributes_lines
       end
 
-      def gen_klass_apply_types(attributes_lines, map_attributes_lines, apply_types_lines, apply_types_nodes)
+      def gen_klass_apply_types(attributes_lines, map_attributes_lines,
+apply_types_lines, apply_types_nodes)
         unless apply_types_nodes.empty?
           attributes_lines += apply_types_lines
           apply_types_nodes.each do |n|

@@ -388,7 +388,8 @@ module Xmi
           root "links"
 
           map_element "Association", to: :association, value_map: VALUE_MAP
-          map_element "Generalization", to: :generalization, value_map: VALUE_MAP
+          map_element "Generalization", to: :generalization,
+                                        value_map: VALUE_MAP
           map_element "NoteLink", to: :note_link, value_map: VALUE_MAP
         end
       end

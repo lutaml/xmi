@@ -15,7 +15,7 @@ module Xmi
       xmi: %r{http://www\.omg\.org/spec/XMI/(\d{8})},
       uml: %r{http://www\.omg\.org/spec/UML/(\d{8})},
       umldi: %r{http://www\.omg\.org/spec/UML/(\d{8})/UMLDI},
-      umldc: %r{http://www\.omg\.org/spec/UML/(\d{8})/UMLDC}
+      umldc: %r{http://www\.omg\.org/spec/UML/(\d{8})/UMLDC},
     }.freeze
 
     # Detect all namespace versions from XML content
@@ -29,7 +29,7 @@ module Xmi
         xmi: detect_version(namespaces, :xmi),
         uml: detect_version(namespaces, :uml),
         umldi: detect_version(namespaces, :umldi),
-        umldc: detect_version(namespaces, :umldc)
+        umldc: detect_version(namespaces, :umldc),
       }
     end
 
@@ -88,8 +88,14 @@ module Xmi
       {
         xmi: versions[:xmi] ? build_namespace_uri(:xmi, versions[:xmi]) : nil,
         uml: versions[:uml] ? build_namespace_uri(:uml, versions[:uml]) : nil,
-        umldi: versions[:umldi] ? build_namespace_uri(:umldi, versions[:umldi]) : nil,
-        umldc: versions[:umldc] ? build_namespace_uri(:umldc, versions[:umldc]) : nil
+        umldi: if versions[:umldi]
+                 build_namespace_uri(:umldi,
+                                     versions[:umldi])
+               end,
+        umldc: if versions[:umldc]
+                 build_namespace_uri(:umldc,
+                                     versions[:umldc])
+               end,
       }
     end
 
@@ -117,7 +123,7 @@ module Xmi
         versions: versions,
         uris: uris,
         raw_namespaces: raw_namespaces,
-        normalized_needed: normalization_needed?(versions)
+        normalized_needed: normalization_needed?(versions),
       }
     end
 

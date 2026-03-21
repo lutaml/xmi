@@ -57,23 +57,31 @@ class ActionSequence < Shale::Mapper
   attribute :xmi_extension, XMIextension, collection: true
   attribute :model_element_binding, ModelElementbinding, collection: true
   attribute :model_element_template, ModelElementtemplate, collection: true
-  attribute :model_element_template_parameter, ModelElementtemplateParameter, collection: true
-  attribute :model_element_implementation, ModelElementimplementation, collection: true
+  attribute :model_element_template_parameter, ModelElementtemplateParameter,
+            collection: true
+  attribute :model_element_implementation, ModelElementimplementation,
+            collection: true
   attribute :model_element_view, ModelElementview, collection: true
-  attribute :model_element_presentation, ModelElementpresentation, collection: true
+  attribute :model_element_presentation, ModelElementpresentation,
+            collection: true
   attribute :model_element_namespace, ModelElementnamespace, collection: true
   attribute :model_element_constraint, ModelElementconstraint, collection: true
-  attribute :model_element_requirement, ModelElementrequirement, collection: true
+  attribute :model_element_requirement, ModelElementrequirement,
+            collection: true
   attribute :model_element_provision, ModelElementprovision, collection: true
   attribute :model_element_stereotype, ModelElementstereotype, collection: true
-  attribute :model_element_element_reference, ModelElementelementReference, collection: true
-  attribute :model_element_collaboration, ModelElementcollaboration, collection: true
+  attribute :model_element_element_reference, ModelElementelementReference,
+            collection: true
+  attribute :model_element_collaboration, ModelElementcollaboration,
+            collection: true
   attribute :model_element_behavior, ModelElementbehavior, collection: true
   attribute :model_element_partition, ModelElementpartition, collection: true
-  attribute :action_sequence_transition, ActionSequencetransition, collection: true
+  attribute :action_sequence_transition, ActionSequencetransition,
+            collection: true
   attribute :action_sequence_state, ActionSequencestate, collection: true
   attribute :action_sequence_state2, ActionSequencestate2, collection: true
-  attribute :model_element_tagged_value, ModelElementtaggedValue, collection: true
+  attribute :model_element_tagged_value, ModelElementtaggedValue,
+            collection: true
   attribute :action_sequence_action, ActionSequenceaction, collection: true
 
   xml do
@@ -110,7 +118,8 @@ class ActionSequence < Shale::Mapper
     map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
     map_element "ModelElement.binding", to: :model_element_binding
     map_element "ModelElement.template", to: :model_element_template
-    map_element "ModelElement.templateParameter", to: :model_element_template_parameter
+    map_element "ModelElement.templateParameter",
+                to: :model_element_template_parameter
     map_element "ModelElement.implementation", to: :model_element_implementation
     map_element "ModelElement.view", to: :model_element_view
     map_element "ModelElement.presentation", to: :model_element_presentation
@@ -119,7 +128,8 @@ class ActionSequence < Shale::Mapper
     map_element "ModelElement.requirement", to: :model_element_requirement
     map_element "ModelElement.provision", to: :model_element_provision
     map_element "ModelElement.stereotype", to: :model_element_stereotype
-    map_element "ModelElement.elementReference", to: :model_element_element_reference
+    map_element "ModelElement.elementReference",
+                to: :model_element_element_reference
     map_element "ModelElement.collaboration", to: :model_element_collaboration
     map_element "ModelElement.behavior", to: :model_element_behavior
     map_element "ModelElement.partition", to: :model_element_partition

@@ -17,7 +17,8 @@ module Xmi
     attribute :enumeration, CustomProfile::Enumeration, collection: true
     attribute :ocl, CustomProfile::Ocl, collection: true
     attribute :invariant, CustomProfile::Invariant, collection: true
-    attribute :publication_date, CustomProfile::PublicationDate, collection: true
+    attribute :publication_date, CustomProfile::PublicationDate,
+              collection: true
     attribute :edition, CustomProfile::Edition, collection: true
     attribute :number, CustomProfile::Number, collection: true
     attribute :year_version, CustomProfile::YearVersion, collection: true
@@ -40,7 +41,7 @@ module Xmi
         ::Xmi::Namespace::Sparx::CustomProfile,
         ::Xmi::Namespace::Sparx::SysPhS,
         ::Xmi::Namespace::Sparx::EaUml,
-        ::Xmi::Namespace::Sparx::CityGml
+        ::Xmi::Namespace::Sparx::CityGml,
       ]
 
       map_attribute "id", to: :id

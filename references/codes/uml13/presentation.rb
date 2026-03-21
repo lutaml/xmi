@@ -20,7 +20,8 @@ class Presentation < Shale::Mapper
   attribute :presentation_style, Presentationstyle, collection: true
   attribute :xmi_extension, XMIextension, collection: true
   attribute :presentation_model, Presentationmodel, collection: true
-  attribute :presentation_view_element, PresentationviewElement, collection: true
+  attribute :presentation_view_element, PresentationviewElement,
+            collection: true
 
   xml do
     root "Presentation"

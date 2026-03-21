@@ -297,7 +297,8 @@ module Xmi
         map_element "ownedLiteral", to: :owned_literal, value_map: VALUE_MAP
         map_element "ownedAttribute", to: :owned_attribute, value_map: VALUE_MAP
         map_element "ownedOperation", to: :owned_operation, value_map: VALUE_MAP
-        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element,
+                                       value_map: VALUE_MAP
         map_element "memberEnd", to: :member_ends, value_map: VALUE_MAP
       end
     end
@@ -458,9 +459,11 @@ module Xmi
         map_attribute "name", to: :name
 
         map_element "packageImport", to: :package_import, value_map: VALUE_MAP
-        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element,
+                                       value_map: VALUE_MAP
         map_element "Diagram", to: :diagram
-        map_element "profileApplication", to: :profile_application, value_map: VALUE_MAP
+        map_element "profileApplication", to: :profile_application,
+                                          value_map: VALUE_MAP
       end
     end
 
@@ -483,6 +486,7 @@ module Xmi
 
     class Profile < Lutaml::Model::Serializable
       include ProfileAttributes
+
       attribute :owned_comment, OwnedComment, collection: true
 
       xml do
@@ -496,7 +500,8 @@ module Xmi
 
         map_element "ownedComment", to: :owned_comment, value_map: VALUE_MAP
         map_element "packageImport", to: :package_import, value_map: VALUE_MAP
-        map_element "packagedElement", to: :packaged_element, value_map: VALUE_MAP
+        map_element "packagedElement", to: :packaged_element,
+                                       value_map: VALUE_MAP
       end
     end
   end

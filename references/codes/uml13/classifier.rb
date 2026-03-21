@@ -79,37 +79,52 @@ class Classifier < Shale::Mapper
   attribute :xmi_idref, Shale::Type::Value
   attribute :model_element_name, ModelElementname, collection: true
   attribute :model_element_visibility, ModelElementvisibility, collection: true
-  attribute :generalizable_element_is_root, GeneralizableElementisRoot, collection: true
-  attribute :generalizable_element_is_leaf, GeneralizableElementisLeaf, collection: true
-  attribute :generalizable_element_is_abstract, GeneralizableElementisAbstract, collection: true
+  attribute :generalizable_element_is_root, GeneralizableElementisRoot,
+            collection: true
+  attribute :generalizable_element_is_leaf, GeneralizableElementisLeaf,
+            collection: true
+  attribute :generalizable_element_is_abstract, GeneralizableElementisAbstract,
+            collection: true
   attribute :xmi_extension, XMIextension, collection: true
   attribute :model_element_binding, ModelElementbinding, collection: true
   attribute :model_element_template, ModelElementtemplate, collection: true
-  attribute :model_element_template_parameter, ModelElementtemplateParameter, collection: true
-  attribute :model_element_implementation, ModelElementimplementation, collection: true
+  attribute :model_element_template_parameter, ModelElementtemplateParameter,
+            collection: true
+  attribute :model_element_implementation, ModelElementimplementation,
+            collection: true
   attribute :model_element_view, ModelElementview, collection: true
-  attribute :model_element_presentation, ModelElementpresentation, collection: true
+  attribute :model_element_presentation, ModelElementpresentation,
+            collection: true
   attribute :model_element_namespace, ModelElementnamespace, collection: true
   attribute :model_element_constraint, ModelElementconstraint, collection: true
-  attribute :model_element_requirement, ModelElementrequirement, collection: true
+  attribute :model_element_requirement, ModelElementrequirement,
+            collection: true
   attribute :model_element_provision, ModelElementprovision, collection: true
   attribute :model_element_stereotype, ModelElementstereotype, collection: true
-  attribute :model_element_element_reference, ModelElementelementReference, collection: true
+  attribute :model_element_element_reference, ModelElementelementReference,
+            collection: true
   attribute :model_element_behavior, ModelElementbehavior, collection: true
   attribute :model_element_partition, ModelElementpartition, collection: true
-  attribute :generalizable_element_generalization, GeneralizableElementgeneralization, collection: true
-  attribute :generalizable_element_specialization, GeneralizableElementspecialization, collection: true
+  attribute :generalizable_element_generalization,
+            GeneralizableElementgeneralization, collection: true
+  attribute :generalizable_element_specialization,
+            GeneralizableElementspecialization, collection: true
   attribute :classifier_parameter, Classifierparameter, collection: true
-  attribute :classifier_structural_feature, ClassifierstructuralFeature, collection: true
+  attribute :classifier_structural_feature, ClassifierstructuralFeature,
+            collection: true
   attribute :classifier_specification, Classifierspecification, collection: true
   attribute :classifier_realization, Classifierrealization, collection: true
-  attribute :classifier_association_end, ClassifierassociationEnd, collection: true
+  attribute :classifier_association_end, ClassifierassociationEnd,
+            collection: true
   attribute :classifier_participant, Classifierparticipant, collection: true
   attribute :classifier_create_action, ClassifiercreateAction, collection: true
   attribute :classifier_instance, Classifierinstance, collection: true
-  attribute :classifier_classifier_role, ClassifierclassifierRole, collection: true
-  attribute :classifier_classifier_in_state, ClassifierclassifierInState, collection: true
-  attribute :model_element_tagged_value, ModelElementtaggedValue, collection: true
+  attribute :classifier_classifier_role, ClassifierclassifierRole,
+            collection: true
+  attribute :classifier_classifier_in_state, ClassifierclassifierInState,
+            collection: true
+  attribute :model_element_tagged_value, ModelElementtaggedValue,
+            collection: true
   attribute :namespace_owned_element, NamespaceownedElement, collection: true
   attribute :classifier_feature, Classifierfeature, collection: true
 
@@ -157,13 +172,17 @@ class Classifier < Shale::Mapper
     map_attribute "xmi.idref", to: :xmi_idref
     map_element "ModelElement.name", to: :model_element_name
     map_element "ModelElement.visibility", to: :model_element_visibility
-    map_element "GeneralizableElement.isRoot", to: :generalizable_element_is_root
-    map_element "GeneralizableElement.isLeaf", to: :generalizable_element_is_leaf
-    map_element "GeneralizableElement.isAbstract", to: :generalizable_element_is_abstract
+    map_element "GeneralizableElement.isRoot",
+                to: :generalizable_element_is_root
+    map_element "GeneralizableElement.isLeaf",
+                to: :generalizable_element_is_leaf
+    map_element "GeneralizableElement.isAbstract",
+                to: :generalizable_element_is_abstract
     map_element "XMI.extension", to: :xmi_extension, prefix: nil, namespace: nil
     map_element "ModelElement.binding", to: :model_element_binding
     map_element "ModelElement.template", to: :model_element_template
-    map_element "ModelElement.templateParameter", to: :model_element_template_parameter
+    map_element "ModelElement.templateParameter",
+                to: :model_element_template_parameter
     map_element "ModelElement.implementation", to: :model_element_implementation
     map_element "ModelElement.view", to: :model_element_view
     map_element "ModelElement.presentation", to: :model_element_presentation
@@ -172,13 +191,17 @@ class Classifier < Shale::Mapper
     map_element "ModelElement.requirement", to: :model_element_requirement
     map_element "ModelElement.provision", to: :model_element_provision
     map_element "ModelElement.stereotype", to: :model_element_stereotype
-    map_element "ModelElement.elementReference", to: :model_element_element_reference
+    map_element "ModelElement.elementReference",
+                to: :model_element_element_reference
     map_element "ModelElement.behavior", to: :model_element_behavior
     map_element "ModelElement.partition", to: :model_element_partition
-    map_element "GeneralizableElement.generalization", to: :generalizable_element_generalization
-    map_element "GeneralizableElement.specialization", to: :generalizable_element_specialization
+    map_element "GeneralizableElement.generalization",
+                to: :generalizable_element_generalization
+    map_element "GeneralizableElement.specialization",
+                to: :generalizable_element_specialization
     map_element "Classifier.parameter", to: :classifier_parameter
-    map_element "Classifier.structuralFeature", to: :classifier_structural_feature
+    map_element "Classifier.structuralFeature",
+                to: :classifier_structural_feature
     map_element "Classifier.specification", to: :classifier_specification
     map_element "Classifier.realization", to: :classifier_realization
     map_element "Classifier.associationEnd", to: :classifier_association_end
@@ -186,7 +209,8 @@ class Classifier < Shale::Mapper
     map_element "Classifier.createAction", to: :classifier_create_action
     map_element "Classifier.instance", to: :classifier_instance
     map_element "Classifier.classifierRole", to: :classifier_classifier_role
-    map_element "Classifier.classifierInState", to: :classifier_classifier_in_state
+    map_element "Classifier.classifierInState",
+                to: :classifier_classifier_in_state
     map_element "ModelElement.taggedValue", to: :model_element_tagged_value
     map_element "Namespace.ownedElement", to: :namespace_owned_element
     map_element "Classifier.feature", to: :classifier_feature

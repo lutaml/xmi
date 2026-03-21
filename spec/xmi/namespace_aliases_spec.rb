@@ -65,7 +65,7 @@ RSpec.describe "Xmi::Namespace::Omg Aliases" do
         Class.new(Lutaml::Model::Serializable) do
           xml do
             root "test"
-            namespace ::Xmi::Namespace::Omg::Uml
+            namespace Xmi::Namespace::Omg::Uml
           end
         end
       end.not_to raise_error
@@ -76,11 +76,11 @@ RSpec.describe "Xmi::Namespace::Omg Aliases" do
         Class.new(Lutaml::Model::Serializable) do
           xml do
             root "test"
-            namespace ::Xmi::Namespace::Omg::Xmi
+            namespace Xmi::Namespace::Omg::Xmi
             namespace_scope [
-              ::Xmi::Namespace::Omg::Xmi,
-              ::Xmi::Namespace::Omg::Uml,
-              ::Xmi::Namespace::Omg::UmlDi
+              Xmi::Namespace::Omg::Xmi,
+              Xmi::Namespace::Omg::Uml,
+              Xmi::Namespace::Omg::UmlDi,
             ]
           end
         end

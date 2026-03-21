@@ -22,7 +22,8 @@ class TaggedValue < Shale::Mapper
   attribute :tagged_value_tag, TaggedValuetag, collection: true
   attribute :tagged_value_value, TaggedValuevalue, collection: true
   attribute :xmi_extension, XMIextension, collection: true
-  attribute :tagged_value_model_element, TaggedValuemodelElement, collection: true
+  attribute :tagged_value_model_element, TaggedValuemodelElement,
+            collection: true
   attribute :tagged_value_stereotype, TaggedValuestereotype, collection: true
 
   xml do

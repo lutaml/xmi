@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
-  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
+  describe ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA UML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml_content) { cached_fixture("xmi-v2-4-2-default-with-eauml.xmi") }
       let(:expected_eauml_klasses) do
@@ -54,7 +54,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "after loading extension" do
-        it "should contain Eauml module" do
+        it "contains Eauml module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a? Module
           end
@@ -62,32 +62,34 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           expect(ea_modules).not_to be_empty
         end
 
-        it "should create Eauml classes dynamically" do
+        it "creates Eauml classes dynamically" do
           eauml_klasses = Xmi::Sparx::EaUml.constants.select do |c|
             Xmi::Sparx::EaUml.const_get(c).is_a? Class
           end
 
           expect(eauml_klasses.sort).to eq(
-            expected_eauml_klasses.map { |k| Lutaml::Model::Utils.classify(k).to_sym }
+            expected_eauml_klasses.map { |k|
+              Lutaml::Model::Utils.classify(k).to_sym
+            },
           )
         end
 
-        it "should contains original attributes" do
+        it "containses original attributes" do
           expect_orig_attributes.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
-        it "should contains new attributes" do
+        it "containses new attributes" do
           expected_eauml_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case("eauml_#{k}").to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case("eauml_#{k}").to_sym)
           end
         end
 
-        it "should contains original xml mapping" do
+        it "containses original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            mappings = Xmi::Sparx::SparxRoot
-                       .mappings_for(:xml).elements.map do |e|
+            mappings = described_class
+              .mappings_for(:xml).elements.map do |e|
               ns = e.namespace || e.default_namespace
               "#{ns}:#{e.name}"
             end
@@ -96,12 +98,12 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           end
         end
 
-        it "should contains new xml mapping" do
+        it "containses new xml mapping" do
           # In lutaml-model 0.8+, element mappings use the class's default namespace
           # Check that the element names exist in the mappings
           expected_eauml_keys.each do |k|
-            element_names = Xmi::Sparx::SparxRoot
-                            .mappings_for(:xml).elements.map(&:name)
+            element_names = described_class
+              .mappings_for(:xml).elements.map(&:name)
 
             expect(element_names).to include(k.to_s)
           end
@@ -112,13 +114,13 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
             klass: "Xmi::Sparx::EaUml::Import",
             attribute: "import",
             method: "base_package_import",
-            value: "EAID_F70DFA0D_7146_4aed_B373_87BB8FD8FDC0"
-          }
+            value: "EAID_F70DFA0D_7146_4aed_B373_87BB8FD8FDC0",
+          },
         ]
 
         eauml_test.each do |t|
-          it "should contains #{t[:klass]}" do
-            eauml_method = "eauml_#{t[:attribute]}".to_sym
+          it "containses #{t[:klass]}" do
+            eauml_method = :"eauml_#{t[:attribute]}"
             expect(xmi_root_model.send(eauml_method))
               .to be_instance_of(Array)
             expect(xmi_root_model.send(eauml_method).first.class.name)

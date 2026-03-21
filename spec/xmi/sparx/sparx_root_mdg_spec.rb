@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
-  context ".parse_xml" do # rubocop:disable Metrics/BlockLength
+  describe ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA MDG extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml_content) { cached_fixture("xmi-v2-4-2-default.xmi") }
       let(:mdg_definition_xml) { fixtures_path("ISO19103MDG v1.0.0-beta.xml") }
@@ -60,7 +60,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "before loading extension" do
-        it "should not contain Mdg module" do
+        it "does not contain Mdg module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a?(Module) && c != :Gml && c != :Eauml
           end
@@ -78,7 +78,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           Xmi::EaRoot.unload_extension("Iso19103")
         end
 
-        it "should contain Mdg module" do
+        it "contains Mdg module" do
           ea_modules = Xmi::EaRoot.constants.select do |c|
             Xmi::EaRoot.const_get(c).is_a? Module
           end
@@ -86,32 +86,34 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           expect(ea_modules).not_to be_empty
         end
 
-        it "should create Mdg classes dynamically" do
+        it "creates Mdg classes dynamically" do
           mdg_klasses = Xmi::EaRoot::Iso19103.constants.select do |c|
             Xmi::EaRoot::Iso19103.const_get(c).is_a? Class
           end
 
           expect(mdg_klasses.sort).to eq(
-            expected_mdg_klasses.map { |k| Lutaml::Model::Utils.classify(k).to_sym }
+            expected_mdg_klasses.map { |k|
+              Lutaml::Model::Utils.classify(k).to_sym
+            },
           )
         end
 
-        it "should contains original attributes" do
+        it "containses original attributes" do
           expect_orig_attributes.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
-        it "should contains new attributes" do
+        it "containses new attributes" do
           expected_mdg_klasses.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
-        it "should contains original xml mapping" do
+        it "containses original xml mapping" do
           expect_orig_xml_mapping.each do |element_key|
-            mappings = Xmi::Sparx::SparxRoot
-                       .mappings_for(:xml).elements.map do |e|
+            mappings = described_class
+              .mappings_for(:xml).elements.map do |e|
               ns = e.namespace || e.default_namespace
               "#{ns}:#{e.name}"
             end
@@ -120,14 +122,14 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           end
         end
 
-        it "should contains new xml mapping" do
+        it "containses new xml mapping" do
           # In lutaml-model 0.8+, element mappings use the class's default namespace
           # Check that the element names exist in the mappings
           expected_mdg_klasses.each do |k|
             next if k == :GI_Element
 
-            element_names = Xmi::Sparx::SparxRoot
-                            .mappings_for(:xml).elements.map(&:name)
+            element_names = described_class
+              .mappings_for(:xml).elements.map(&:name)
 
             expect(element_names).to include(k.to_s)
           end
@@ -138,36 +140,36 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
             klass: "Xmi::EaRoot::Iso19103::AbstractSchema",
             attribute: "abstract_schema",
             method: "base_package",
-            value: "EAPK_63F21616_57B0_4ffc_A785_8FB5B49C27F1"
+            value: "EAPK_63F21616_57B0_4ffc_A785_8FB5B49C27F1",
           },
           {
             klass: "Xmi::EaRoot::Iso19103::GIInterface",
             attribute: "gi_interface",
             method: "base_interface",
-            value: "EAID_1EA35B7C_1E09_4fe5_B75D_515CA12171B9"
+            value: "EAID_1EA35B7C_1E09_4fe5_B75D_515CA12171B9",
           },
           {
             klass: "Xmi::EaRoot::Iso19103::GIProperty",
             attribute: "gi_property",
             method: "base_property",
-            value: "EAID_2A7400AC_F474_4063_A5B9_5C5305020D60"
+            value: "EAID_2A7400AC_F474_4063_A5B9_5C5305020D60",
           },
           {
             klass: "Xmi::EaRoot::Iso19103::GIEnumeration",
             attribute: "gi_enumeration",
             method: "base_enumeration",
-            value: "EAID_5AC15946_7E2E_4d2e_8208_300138B764C9"
+            value: "EAID_5AC15946_7E2E_4d2e_8208_300138B764C9",
           },
           {
             klass: "Xmi::EaRoot::Iso19103::GIEnumerationLiteral",
             attribute: "gi_enumeration_literal",
             method: "base_enumeration_literal",
-            value: "EAID_44EAA54D_A02D_4263_9EBF_C67721A40BAA"
-          }
+            value: "EAID_44EAA54D_A02D_4263_9EBF_C67721A40BAA",
+          },
         ]
 
         mdg_test.each do |t|
-          it "should contains #{t[:klass]}" do
+          it "containses #{t[:klass]}" do
             expect(xmi_root_model.send(t[:attribute].to_sym))
               .to be_instance_of(Array)
             expect(xmi_root_model.send(t[:attribute].to_sym).first.class.name)

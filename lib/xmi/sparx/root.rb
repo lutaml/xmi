@@ -85,7 +85,7 @@ module Xmi
           # Single-pass replacement for all OMG namespace version normalizations
           # This avoids creating 4 intermediate string copies
           xml_content.gsub(
-            %r{xmlns:(xmi|uml|umldc|umldi)="http://www\.omg\.org/spec/(XMI|UML)/\d{8}}
+            %r{xmlns:(xmi|uml|umldc|umldi)="http://www\.omg\.org/spec/(XMI|UML)/\d{8}},
           ) do
             "xmlns:#{::Regexp.last_match(1)}=\"http://www.omg.org/spec/#{::Regexp.last_match(2)}/20131001"
           end
@@ -171,7 +171,7 @@ module Xmi
           # Rename EA's misuse of xmlns as data attribute on GML:ApplicationSchema
           doc.xpath("//GML:ApplicationSchema[@xmlns]",
                     "GML" => "http://www.sparxsystems.com/profiles/GML/1.0")
-             .each do |element|
+            .each do |element|
             element["altered_xmlns"] = element["xmlns"]
             element.delete("xmlns")
           end
@@ -179,7 +179,7 @@ module Xmi
           # Rename EA's misuse of xmlns as data attribute on CityGML:ApplicationSchema
           doc.xpath("//CityGML:ApplicationSchema[@xmlns]",
                     "CityGML" => "http://www.sparxsystems.com/profiles/CityGML/1.0")
-             .each do |element|
+            .each do |element|
             element["altered_xmlns"] = element["xmlns"]
             element.delete("xmlns")
           end
@@ -219,7 +219,7 @@ module Xmi
       @@mapping ||= @@default_mapping # rubocop:disable Style/ClassVars
 
       xml do
-        eval Xmi::Sparx::SparxRoot.class_variable_get("@@mapping") # rubocop:disable Security/Eval
+        eval Xmi::Sparx::SparxRoot.class_variable_get(:@@mapping) # rubocop:disable Security/Eval
       end
     end
   end

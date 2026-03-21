@@ -30,7 +30,7 @@ module Xmi
   # Used to handle nil, empty, and omitted values consistently
   VALUE_MAP = {
     from: { nil: :empty, empty: :empty, omitted: :empty },
-    to: { nil: :empty, empty: :empty, omitted: :empty }
+    to: { nil: :empty, empty: :empty, omitted: :empty },
   }.freeze
 end
 

@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe "XMI Version Infrastructure" do
-  before do 
+  before do
     Lutaml::Model::GlobalContext.reset!
     Xmi.init_versioning!
   end

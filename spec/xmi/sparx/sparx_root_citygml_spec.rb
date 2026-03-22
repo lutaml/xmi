@@ -16,7 +16,9 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
   ].each do |variant|
     context "with #{variant[:xmi]}" do # rubocop:disable Metrics/BlockLength
       let(:xml_content) { cached_fixture(variant[:xmi]) }
-      let(:citygml_definition_xml) { fixtures_path("CityGML_MDG_Technology.xml") }
+      let(:citygml_definition_xml) do
+        fixtures_path("CityGML_MDG_Technology.xml")
+      end
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "before loading extension" do
@@ -52,26 +54,28 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           end
 
           expect(citygml_klasses.sort).to eq(
-            CityGmlShared::KLASSES.map { |k| Lutaml::Model::Utils.classify(k).to_sym }
+            CityGmlShared::KLASSES.map { |k|
+              Lutaml::Model::Utils.classify(k).to_sym
+            },
           )
         end
 
         it "contains original attributes" do
           XmiExtensionShared::ORIG_ATTRIBUTES.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
         it "contains new attributes" do
           CityGmlShared::KLASSES.each do |k|
-            expect(Xmi::Sparx::SparxRoot.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
+            expect(described_class.attributes).to have_key(Lutaml::Model::Utils.snake_case(k).to_sym)
           end
         end
 
         it "contains original xml mapping" do
           XmiExtensionShared::ORIG_XML_MAPPING.each do |element_key|
-            mappings = Xmi::Sparx::SparxRoot
-                       .mappings_for(:xml).elements.map do |e|
+            mappings = described_class
+              .mappings_for(:xml).elements.map do |e|
               ns = e.namespace || e.default_namespace
               "#{ns}:#{e.name}"
             end
@@ -82,8 +86,8 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
 
         it "contains new xml mapping" do
           CityGmlShared::KLASSES.each do |k|
-            element_names = Xmi::Sparx::SparxRoot
-                            .mappings_for(:xml).elements.map(&:name)
+            element_names = described_class
+              .mappings_for(:xml).elements.map(&:name)
 
             expect(element_names).to include(k.to_s)
           end

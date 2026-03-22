@@ -100,7 +100,10 @@ module Xmi
         # Explicit version
         if options[:version]
           reg = VersionRegistry.register_for_version(options[:version])
-          raise ArgumentError, "Unknown version: #{options[:version]}" unless reg
+          unless reg
+            raise ArgumentError,
+                  "Unknown version: #{options[:version]}"
+          end
 
           return reg
         end

@@ -95,7 +95,10 @@ module Xmi
         all_versions = [versions[:xmi], versions[:uml], versions[:umldi],
                         versions[:umldc]].compact.uniq
 
-        extend_fallback_for_mixed_namespaces(primary_register, all_versions) if all_versions.length > 1
+        if all_versions.length > 1
+          extend_fallback_for_mixed_namespaces(primary_register,
+                                               all_versions)
+        end
 
         primary_register
       end

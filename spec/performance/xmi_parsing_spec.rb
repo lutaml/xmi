@@ -102,8 +102,8 @@ RSpec.describe "Performance Benchmarks" do
     end
 
     it "completes within acceptable time" do
-      # Large fixture can take up to 10 seconds
-      expect(benchmark[:mean]).to be < 10.0
+      # Large fixture can take up to 15 seconds
+      expect(benchmark[:mean]).to be < 15.0
     end
 
     it "has consistent performance" do

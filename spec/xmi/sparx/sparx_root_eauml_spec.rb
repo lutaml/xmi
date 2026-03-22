@@ -54,7 +54,7 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
       let!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
       context "after loading extension" do
-        it "should contain EaUml module in Sparx namespace" do
+        it "contains EaUml module in Sparx namespace" do
           sparx_modules = Xmi::Sparx.constants.select do |c|
             Xmi::Sparx.const_get(c).is_a? Module
           end

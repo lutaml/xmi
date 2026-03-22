@@ -46,7 +46,8 @@ module Xmi
     #
     # @return [Lutaml::Model::Register]
     def create_register
-      reg = Lutaml::Model::Register.new(register_id, fallback: fallback_registers)
+      reg = Lutaml::Model::Register.new(register_id,
+                                        fallback: fallback_registers)
 
       # Register in GlobalRegister first
       Lutaml::Model::GlobalRegister.register(reg)
@@ -128,7 +129,9 @@ module Xmi
     #
     # @return [Class, nil]
     def uml_namespace
-      namespace_classes.find { |ns| ns.uri.include?("/UML/") && !ns.uri.include?("UMLD") }
+      namespace_classes.find do |ns|
+        ns.uri.include?("/UML/") && !ns.uri.include?("UMLD")
+      end
     end
 
     # @api public

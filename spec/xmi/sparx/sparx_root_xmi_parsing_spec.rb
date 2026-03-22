@@ -107,14 +107,16 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
           expect(model["name"]).to eq("EA_Model")
           expect(model["xmi:type"]).to eq("uml:Model")
 
-          packaged = xml_doc.xpath("//uml:Model/uml:packagedElement", namespaces).first
+          packaged = xml_doc.xpath("//uml:Model/uml:packagedElement",
+                                   namespaces).first
           expect(packaged["name"]).to eq("ISO 6709 Edition 2")
           expect(packaged["xmi:type"]).to eq("uml:Package")
 
           extension = xml_doc.xpath("//xmi:Extension", namespaces).first
           expect(extension["extender"]).to eq("Enterprise Architect")
 
-          edition = xml_doc.xpath("//thecustomprofile:edition", namespaces).first
+          edition = xml_doc.xpath("//thecustomprofile:edition",
+                                  namespaces).first
           expect(edition["edition"]).to eq("2")
           expect(edition["base_Package"]).to eq("EAPK_D235A1D4_1924_44ba_AA1E_0B0510AE9DCB")
         end
@@ -124,7 +126,9 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
     context "with large_test.xmi (XMI 20131001 + UML 20161101)" do
       subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }
 
-      let(:citygml_definition_xml) { fixtures_path("CityGML_MDG_Technology.xml") }
+      let(:citygml_definition_xml) do
+        fixtures_path("CityGML_MDG_Technology.xml")
+      end
       let(:xml_content) { cached_fixture("large_test.xmi") }
 
       it { is_expected.to be_instance_of(described_class) }

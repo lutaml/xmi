@@ -5,6 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in xmi.gemspec
 gemspec
 
+gem "benchmark-ips"
 gem "canon"
 gem "lutaml-model", github: "lutaml/lutaml-model", ref: "main"
 gem "rake"

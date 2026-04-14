@@ -194,7 +194,7 @@ module Xmi
 
       class Connector < Lutaml::Model::Serializable
         attribute :name, :string
-        attribute :idref, :string
+        attribute :idref, ::Xmi::Type::XmiIdRef
         attribute :source, Source
         attribute :target, Target
         attribute :model, Model

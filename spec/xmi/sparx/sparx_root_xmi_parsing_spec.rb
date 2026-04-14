@@ -30,6 +30,17 @@ RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
         expect(element.idref).to eq("EAID_dstA98919_831B_4182_BBC2_C2EAF17FEF60")
       end
 
+      it "contains connector idref from xmi:idref attribute" do
+        connector = xmi_root_model.extension.connectors.connector.first
+        expect(connector.idref).to eq("EAID_2CA98919_831B_4182_BBC2_C2EAF17FEF60")
+      end
+
+      it "contains source and target idref from xmi:idref attributes" do
+        connector = xmi_root_model.extension.connectors.connector.first
+        expect(connector.source.idref).to eq("EAID_C1155D80_E68B_46d5_ADE5_F5639486163D")
+        expect(connector.target.idref).to eq("EAID_D832D6D8_0518_43f7_9166_7A4E3E8605AA")
+      end
+
       it "contains memberEnd attribute in packaged_element" do
         element = xmi_root_model
           .extension.profiles.profile.first.packaged_element[1]

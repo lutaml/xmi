@@ -21,6 +21,8 @@ module Xmi
                 :connectors_by_idref, :attributes_by_idref,
                 :owned_attrs_by_type_idref
 
+    PackagedElement = ::Xmi::Uml::PackagedElement
+
     # @param root [Xmi::Sparx::SparxRoot] parsed XMI model
     def initialize(root)
       @id_name_map = {}
@@ -34,6 +36,7 @@ module Xmi
       @owned_attrs_by_type_idref = {}
 
       build(root)
+      freeze
     end
 
     # Lookup name by XMI ID
@@ -110,125 +113,131 @@ module Xmi
     private
 
     def build(root)
-      build_from_model(root)
-      build_from_extension(root.extension) if root.extension
-    end
-
-    def build_from_model(root)
       model = root.model
-      return unless model
+      if model
+        id = model.id if model.respond_to?(:id)
+        @id_name_map[id] = model.name if id && model.name
+        walk_packaged_elements(model.packaged_element, nil)
+      end
 
-      register_id_name(model)
+      ext = root.extension
+      return unless ext
 
-      # Walk main model packaged elements
-      walk_packaged_elements(model.packaged_element, nil)
+      index_extension_elements(ext.elements)
+      index_extension_connectors(ext.connectors)
+
+      primitives = ext.primitive_types
+      walk_packaged_elements(primitives.packaged_element, nil) if primitives
+
+      index_extension_profiles(ext.profiles)
     end
 
     def walk_packaged_elements(elements, parent)
       return unless elements
 
+      id_name_map = @id_name_map
+      packaged_by_id = @packaged_by_id
+      packaged_by_type = @packaged_by_type
+      upper_level_map = @upper_level_map
+      packaged_elements = @packaged_elements
+      owned_attrs_by_type = @owned_attrs_by_type_idref
+
       elements.each do |pe|
-        next unless pe.is_a?(::Xmi::Uml::PackagedElement)
+        next unless pe.is_a?(PackagedElement)
 
-        @packaged_elements << pe
-        @packaged_by_id[pe.id] = pe if pe.id
-        (@packaged_by_type[pe.type] ||= []) << pe if pe.type
-        @upper_level_map[pe.id] = parent if parent && pe.id
-        register_id_name(pe)
+        pe_id = pe.id
+        pe_type = pe.type
+        pe_name = pe.name
 
-        index_owned_attributes(pe)
-        index_owned_operations(pe)
-        index_owned_literals(pe)
+        packaged_elements << pe
+        packaged_by_id[pe_id] = pe if pe_id
+        (packaged_by_type[pe_type] ||= []) << pe if pe_type
+        upper_level_map[pe_id] = parent if parent && pe_id
+        id_name_map[pe_id] = pe_name if pe_id && pe_name
+
+        # Inline owned attribute indexing
+        attrs = pe.owned_attribute
+        if attrs && !attrs.empty?
+          attrs.each do |oa|
+            oa_id = oa.id
+            id_name_map[oa_id] = oa.name if oa_id && oa.name
+            oa_type = oa.uml_type
+            if oa.association && oa_type && oa_type.idref
+              (owned_attrs_by_type[oa_type.idref] ||= []) << oa
+            end
+          end
+        end
+
+        # Inline owned operation indexing
+        ops = pe.owned_operation
+        if ops && !ops.empty?
+          ops.each do |oo|
+            oo_id = oo.id
+            id_name_map[oo_id] = oo.name if oo_id && oo.name
+          end
+        end
+
+        # Inline owned literal indexing
+        lits = pe.owned_literal
+        if lits && !lits.empty?
+          lits.each do |ol|
+            ol_id = ol.id
+            id_name_map[ol_id] = ol.name if ol_id && ol.name
+          end
+        end
 
         # Recurse into children
         walk_packaged_elements(pe.packaged_element, pe)
       end
     end
 
-    def index_owned_attributes(pe)
-      return unless pe.owned_attribute
-
-      pe.owned_attribute.each do |oa|
-        register_id_name(oa)
-        if oa.association && oa.uml_type && oa.uml_type.idref
-          (@owned_attrs_by_type_idref[oa.uml_type.idref] ||= []) << oa
-        end
-      end
-    end
-
-    def index_owned_operations(pe)
-      return unless pe.owned_operation
-
-      pe.owned_operation.each { |oo| register_id_name(oo) }
-    end
-
-    def index_owned_literals(pe)
-      return unless pe.owned_literal
-
-      pe.owned_literal.each { |ol| register_id_name(ol) }
-    end
-
-    def build_from_extension(ext)
-      # Index elements by idref
-      elements = ext.elements
-      index_extension_elements(elements) if elements
-
-      # Index connectors by idref
-      connectors = ext.connectors
-      index_extension_connectors(connectors) if connectors
-
-      # Walk primitive types and profiles packaged elements
-      walk_packaged_elements(ext.primitive_types&.packaged_element, nil)
-      profiles = ext.profiles
-      index_extension_profiles(profiles) if profiles
-    end
-
     def index_extension_elements(elements)
-      return unless elements.respond_to?(:element)
+      return unless elements
 
-      elements.element.each do |e|
-        next unless e.idref
+      element_list = elements.element
+      return unless element_list
 
-        @elements_by_idref[e.idref] = e
+      element_list.each do |e|
+        idref = e.idref
+        next unless idref
 
-        # Register element name from properties
-        if e.properties&.name
-          @id_name_map[e.idref] = e.properties.name
-        end
+        @elements_by_idref[idref] = e
 
-        # Index child attributes
-        next unless e.attributes.respond_to?(:attribute)
+        props = e.properties
+        @id_name_map[idref] = props.name if props&.name
 
-        e.attributes.attribute.each do |a|
+        attrs_obj = e.attributes
+        next unless attrs_obj
+
+        attr_list = attrs_obj.attribute
+        next unless attr_list
+
+        attr_list.each do |a|
           @attributes_by_idref[a.idref] = a if a.idref
         end
       end
     end
 
     def index_extension_connectors(connectors)
-      return unless connectors.respond_to?(:connector)
+      return unless connectors
 
-      connectors.connector.each do |c|
+      conn_list = connectors.connector
+      return unless conn_list
+
+      conn_list.each do |c|
         @connectors_by_idref[c.idref] = c if c.idref
       end
     end
 
     def index_extension_profiles(profiles)
-      return unless profiles.respond_to?(:profile)
+      return unless profiles
 
-      profiles.profile.each do |profile|
-        if profile.respond_to?(:packaged_element)
-          walk_packaged_elements(profile.packaged_element,
-                                 nil)
-        end
+      profile_list = profiles.profile
+      return unless profile_list
+
+      profile_list.each do |profile|
+        walk_packaged_elements(profile.packaged_element, nil) if profile.respond_to?(:packaged_element)
       end
-    end
-
-    def register_id_name(node)
-      return unless node.respond_to?(:id) && node.respond_to?(:name)
-      return unless node.id && node.name
-
-      @id_name_map[node.id] = node.name
     end
   end
 end

@@ -27,13 +27,15 @@ module Xmi
         # their corresponding UML versions.
         #
         # @param xml_content [String] The raw XMI XML content
-        # @return [SparxRoot] The parsed Ruby object
+        # @return [SparxRoot] The parsed Ruby object with index built
         #
         # @see Xmi.parse
         def parse_xml(xml_content)
           xml_content = fix_encoding(xml_content)
           Xmi.init_versioning!
-          Xmi::VersionRegistry.parse_with_detected_version(xml_content, self)
+          root = Xmi::VersionRegistry.parse_with_detected_version(xml_content, self)
+          root.build_index
+          root
         end
 
         # Fix invalid UTF-8 encoding in the XML content.
@@ -55,6 +57,18 @@ module Xmi
 
       # Use the reusable BaseMapping class instead of eval hack
       xml SparxMappings::BaseMapping
+
+      # Build index for fast lookups
+      # @return [Xmi::Index]
+      def build_index
+        @index = Xmi::Index.new(self)
+      end
+
+      # Access the index (builds on first access if needed)
+      # @return [Xmi::Index]
+      def index
+        @index || build_index
+      end
     end
   end
 end

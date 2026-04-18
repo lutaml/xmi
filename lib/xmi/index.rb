@@ -132,7 +132,7 @@ module Xmi
       index_extension_profiles(ext.profiles)
     end
 
-    def walk_packaged_elements(elements, parent)
+    def walk_packaged_elements(elements, parent) # rubocop:disable Metrics/MethodLength
       return unless elements
 
       id_name_map = @id_name_map

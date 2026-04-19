@@ -158,7 +158,8 @@ module Xmi
           # Extend fallback chain only if it won't create a cycle.
           # A cycle would occur if reg's fallback chain includes primary_register.
           # We check this by seeing if primary_register.id appears in reg's fallback.
-          primary_register.fallback << reg.id unless reg.fallback.include?(primary_register.id)
+          # Use add_fallback to keep Register and TypeContext in sync and invalidate caches.
+          primary_register.add_fallback(reg.id) unless reg.fallback.include?(primary_register.id)
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity

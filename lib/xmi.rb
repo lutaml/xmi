@@ -22,6 +22,7 @@ require_relative "xmi/namespace/dynamic"
 require_relative "xmi/type"
 require_relative "xmi/namespace_detector"
 require_relative "xmi/namespace_registry"
+require_relative "xmi/xmi_identity"
 
 module Xmi
   class Error < StandardError; end

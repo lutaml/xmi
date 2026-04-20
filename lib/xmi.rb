@@ -53,15 +53,18 @@ require_relative "xmi/extension"
 require_relative "xmi/replace"
 require_relative "xmi/ea_root"
 require_relative "xmi/uml"
-require_relative "xmi/custom_profile"
-require_relative "xmi/root"
-require_relative "xmi/sparx"
-
-# Unified parsing API
-require_relative "xmi/parsing"
-require_relative "xmi/parser_pipeline"
 
 module Xmi
+  # Lazy-loaded top-level modules — autoload avoids loading these
+  # until their constants are actually referenced at runtime.
+  autoload :CustomProfile, "xmi/custom_profile"
+  autoload :Root, "xmi/root"
+  autoload :Sparx, "xmi/sparx"
+
+  # Unified parsing API
+  autoload :Parsing, "xmi/parsing"
+  autoload :ParserPipeline, "xmi/parser_pipeline"
+
   class << self
     # @api public
     # Initialize all version registers

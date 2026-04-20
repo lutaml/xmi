@@ -36,7 +36,8 @@ module Xmi
       module ParseXml
         def self.call(ctx)
           root_class = ctx[:root_class]
-          root = VersionRegistry.parse_with_detected_version(ctx[:xml], root_class)
+          root = VersionRegistry.parse_with_detected_version(ctx[:xml],
+                                                             root_class)
           ctx.merge(root: root)
         end
       end

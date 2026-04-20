@@ -56,7 +56,6 @@ require_relative "xmi/uml"
 require_relative "xmi/custom_profile"
 require_relative "xmi/root"
 require_relative "xmi/sparx"
-require_relative "xmi/index"
 
 # Unified parsing API
 require_relative "xmi/parsing"

@@ -58,13 +58,13 @@ module Xmi
       xml SparxMappings::BaseMapping
 
       # Build index for fast lookups
-      # @return [Xmi::Index]
+      # @return [Sparx::Index]
       def build_index
         @index = Index.new(self)
       end
 
       # Access the index (builds on first access if needed)
-      # @return [Xmi::Index]
+      # @return [Sparx::Index]
       def index
         @index || build_index
       end

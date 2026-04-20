@@ -19,5 +19,6 @@ module Xmi
     autoload :Extension, "xmi/sparx/extension"
     autoload :SparxRoot, "xmi/sparx/root"
     autoload :SparxMappings, "xmi/sparx/mappings"
+    autoload :Index, "xmi/sparx/index"
   end
 end

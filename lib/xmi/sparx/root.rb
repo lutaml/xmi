@@ -22,20 +22,19 @@ module Xmi
       class << self
         # Parse XMI content into Ruby objects.
         #
-        # This method uses automatic version detection to handle different XMI
-        # namespace versions (e.g., XMI 20110701, 20131001, 20161101) and
-        # their corresponding UML versions.
+        # Uses the ParserPipeline for composable parsing steps:
+        # encoding fix → version detection → XML parsing → index building.
         #
         # @param xml_content [String] The raw XMI XML content
         # @return [SparxRoot] The parsed Ruby object with index built
         #
+        # @see Xmi::ParserPipeline
         # @see Xmi.parse
         def parse_xml(xml_content)
-          xml_content = fix_encoding(xml_content)
-          Xmi.init_versioning!
-          root = Xmi::VersionRegistry.parse_with_detected_version(xml_content, self)
-          root.build_index
-          root
+          ctx = ParserPipeline.run(
+            { xml: xml_content, root_class: self },
+          )
+          ctx[:root]
         end
 
         # Fix invalid UTF-8 encoding in the XML content.
@@ -61,7 +60,7 @@ module Xmi
       # Build index for fast lookups
       # @return [Xmi::Index]
       def build_index
-        @index = Xmi::Index.new(self)
+        @index = Index.new(self)
       end
 
       # Access the index (builds on first access if needed)

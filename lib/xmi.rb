@@ -60,6 +60,7 @@ require_relative "xmi/index"
 
 # Unified parsing API
 require_relative "xmi/parsing"
+require_relative "xmi/parser_pipeline"
 
 module Xmi
   class << self

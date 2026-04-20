@@ -6,16 +6,11 @@ module Xmi
       # Base XML mapping class for Sparx EA XMI documents.
       #
       # This reusable mapping class encapsulates all the XML element → attribute
-      # mappings for SparxRoot, eliminating the previous eval hack.
+      # mappings for SparxRoot.
       #
       # @example Use in a model class
       #   class SparxRoot < Root
       #     xml SparxMappings::BaseMapping
-      #   end
-      #
-      # @example Extend with additional mappings
-      #   class ExtendedRoot < Root
-      #     xml SparxMappings::GmlMapping
       #   end
       class BaseMapping < Lutaml::Xml::Mapping
         xml do
@@ -35,6 +30,8 @@ module Xmi
             ::Xmi::Namespace::Sparx::CityGml,
           ]
 
+          VM = ::Xmi::VALUE_MAP
+
           # Extension element containing Sparx EA-specific metadata
           map_element "Extension", to: :extension
 
@@ -42,139 +39,18 @@ module Xmi
           map_element "ModelicaParameter", to: :modelica_parameter
 
           # UML import elements (EAUML profile)
-          map_element "import", to: :eauml_import,
-                                value_map: {
-                                  from: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty,
-                                  },
-                                  to: {
-                                    nil: :empty,
-                                    empty: :empty,
-                                    omitted: :empty,
-                                  },
-                                }
+          map_element "import", to: :eauml_import, value_map: VM
 
-          # GML ApplicationSchema elements
+          # GML elements
           map_element "ApplicationSchema", to: :gml_application_schema,
-                                           value_map: {
-                                             from: {
-                                               nil: :empty,
-                                               empty: :empty,
-                                               omitted: :empty,
-                                             },
-                                             to: {
-                                               nil: :empty,
-                                               empty: :empty,
-                                               omitted: :empty,
-                                             },
-                                           }
-
-          # GML CodeList elements
-          map_element "CodeList", to: :gml_code_list,
-                                  value_map: {
-                                    from: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                    to: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                  }
-
-          # GML DataType elements
-          map_element "DataType", to: :gml_data_type,
-                                  value_map: {
-                                    from: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                    to: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                  }
-
-          # GML Union elements
-          map_element "Union", to: :gml_union,
-                               value_map: {
-                                 from: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty,
-                                 },
-                                 to: {
-                                   nil: :empty,
-                                   empty: :empty,
-                                   omitted: :empty,
-                                 },
-                               }
-
-          # GML Enumeration elements
-          map_element "Enumeration", to: :gml_enumeration,
-                                     value_map: {
-                                       from: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty,
-                                       },
-                                       to: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty,
-                                       },
-                                     }
-
-          # GML Type elements
-          map_element "Type", to: :gml_type,
-                              value_map: {
-                                from: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty,
-                                },
-                                to: {
-                                  nil: :empty,
-                                  empty: :empty,
-                                  omitted: :empty,
-                                },
-                              }
-
-          # GML FeatureType elements
-          map_element "FeatureType", to: :gml_feature_type,
-                                     value_map: {
-                                       from: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty,
-                                       },
-                                       to: {
-                                         nil: :empty,
-                                         empty: :empty,
-                                         omitted: :empty,
-                                       },
-                                     }
-
-          # GML property elements
-          map_element "property", to: :gml_property,
-                                  value_map: {
-                                    from: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                    to: {
-                                      nil: :empty,
-                                      empty: :empty,
-                                      omitted: :empty,
-                                    },
-                                  }
+                                            value_map: VM
+          map_element "CodeList", to: :gml_code_list, value_map: VM
+          map_element "DataType", to: :gml_data_type, value_map: VM
+          map_element "Union", to: :gml_union, value_map: VM
+          map_element "Enumeration", to: :gml_enumeration, value_map: VM
+          map_element "Type", to: :gml_type, value_map: VM
+          map_element "FeatureType", to: :gml_feature_type, value_map: VM
+          map_element "property", to: :gml_property, value_map: VM
         end
       end
     end

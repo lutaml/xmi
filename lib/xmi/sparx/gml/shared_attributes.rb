@@ -22,6 +22,7 @@ module Xmi
         def self.included(klass)
           klass.class_eval do
             include HasBaseClass
+
             attribute :is_collection, :string
             attribute :no_property_type, :string
           end

@@ -237,7 +237,10 @@ module Xmi
         return unless profile_list
 
         profile_list.each do |profile|
-          walk_packaged_elements(profile.packaged_element, nil) if profile.respond_to?(:packaged_element)
+          if profile.respond_to?(:packaged_element)
+            walk_packaged_elements(profile.packaged_element,
+                                   nil)
+          end
         end
       end
     end

@@ -43,7 +43,7 @@ module Xmi
 
           # GML elements
           map_element "ApplicationSchema", to: :gml_application_schema,
-                                            value_map: VM
+                                           value_map: VM
           map_element "CodeList", to: :gml_code_list, value_map: VM
           map_element "DataType", to: :gml_data_type, value_map: VM
           map_element "Union", to: :gml_union, value_map: VM

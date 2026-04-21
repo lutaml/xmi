@@ -4,8 +4,7 @@ module Xmi
   class EaRoot
     module CodeGeneration
       # Build extension classes directly via Class.new + const_set.
-      def build_extension(xml_path)
-        xmi_doc = Nokogiri::XML(File.read(xml_path))
+      def build_extension(xmi_doc)
         @module_name = get_module_name(xmi_doc)
         @def_namespace = get_namespace_from_definition(xmi_doc)
 

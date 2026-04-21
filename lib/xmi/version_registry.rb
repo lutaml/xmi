@@ -108,16 +108,17 @@ module Xmi
       #
       # @param xml_content [String] XML content
       # @param model_class [Class] The model class to parse into
+      # @param parse_only [Boolean] Skip namespace declaration plan (read-only mode)
       # @return [Object] Parsed model instance
-      def parse_with_detected_version(xml_content, model_class)
+      def parse_with_detected_version(xml_content, model_class,
+parse_only: false)
         register = detect_register(xml_content)
 
-        if register
-          model_class.from_xml(xml_content, register: register)
-        else
-          # Fallback to default parsing (existing behavior)
-          model_class.from_xml(xml_content)
-        end
+        opts = {}
+        opts[:register] = register if register
+        opts[:parse_only] = true if parse_only
+
+        model_class.from_xml(xml_content, **opts)
       end
 
       # Handle mixed namespace documents by binding additional namespace URIs
@@ -159,7 +160,11 @@ module Xmi
           # A cycle would occur if reg's fallback chain includes primary_register.
           # We check this by seeing if primary_register.id appears in reg's fallback.
           # Use add_fallback to keep Register and TypeContext in sync and invalidate caches.
-          primary_register.add_fallback(reg.id) unless reg.fallback.include?(primary_register.id)
+          # Guard: skip if primary already has this fallback to avoid unnecessary cache invalidation.
+          unless primary_register.fallback.include?(reg.id) ||
+              reg.fallback.include?(primary_register.id)
+            primary_register.add_fallback(reg.id)
+          end
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity

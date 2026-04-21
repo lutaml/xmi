@@ -18,7 +18,8 @@ module Xmi
 
     class << self
       def load_extension(xml_path)
-        extension_id = derive_module_name(xml_path)
+        xmi_doc = Nokogiri::XML(File.read(xml_path))
+        extension_id = get_module_name(xmi_doc)
 
         if loaded_extensions.key?(extension_id)
           raise ArgumentError,
@@ -27,7 +28,7 @@ module Xmi
                 "Call unload_extension('#{extension_id}') first if you want to reload it."
         end
 
-        build_extension(xml_path)
+        build_extension(xmi_doc)
         update_mappings(extension_id)
         loaded_extensions[extension_id] = xml_path
       end
@@ -47,13 +48,6 @@ module Xmi
 
       def loaded_extensions
         @loaded_extensions ||= {}
-      end
-
-      private
-
-      def derive_module_name(xml_path)
-        xmi_doc = Nokogiri::XML(File.read(xml_path))
-        get_module_name(xmi_doc)
       end
     end
   end

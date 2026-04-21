@@ -18,11 +18,11 @@ module Xmi
         def self.call(ctx)
           xml = ctx[:xml]
           if xml.respond_to?(:valid_encoding?) && !xml.valid_encoding?
-            xml = xml
+            ctx[:xml] = xml
               .encode("UTF-16be", invalid: :replace, replace: "?")
               .encode("UTF-8")
           end
-          ctx.merge(xml: xml)
+          ctx
         end
       end
 
@@ -36,16 +36,16 @@ module Xmi
       module ParseXml
         def self.call(ctx)
           root_class = ctx[:root_class]
-          root = VersionRegistry.parse_with_detected_version(ctx[:xml],
-                                                             root_class)
-          ctx.merge(root: root)
+          ctx[:root] = VersionRegistry.parse_with_detected_version(
+            ctx[:xml], root_class, parse_only: true
+          )
+          ctx
         end
       end
 
       module BuildIndex
         def self.call(ctx)
-          root = ctx[:root]
-          root.build_index if root.respond_to?(:build_index)
+          ctx[:root].build_index if ctx[:root].respond_to?(:build_index)
           ctx
         end
       end

@@ -194,7 +194,7 @@ class BenchmarkRunner
 
     case method
     when :xmi_parse_242_small, :xmi_parse_242_medium, :xmi_parse_242_large, :xmi_parse_251
-      measure_time { Xmi::Sparx::SparxRoot.parse_xml(xml_content) }
+      measure_time { Xmi::Sparx::Root.parse_xml(xml_content) }
     else
       raise "Unknown benchmark: #{method}"
     end

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
   describe ".parse_xml" do # rubocop:disable Metrics/BlockLength
     context "loading EA CityGML extension on demand" do # rubocop:disable Metrics/BlockLength
       let(:xml_content) { cached_fixture("full-242.xmi") }

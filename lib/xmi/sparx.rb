@@ -17,8 +17,8 @@ module Xmi
     autoload :EaStub, "xmi/sparx/ea_stub"
     autoload :SysPhS, "xmi/sparx/sys_ph_s"
     autoload :Extension, "xmi/sparx/extension"
-    autoload :SparxRoot, "xmi/sparx/root"
-    autoload :SparxMappings, "xmi/sparx/mappings"
+    autoload :Root, "xmi/sparx/root"
+    autoload :Mappings, "xmi/sparx/mappings"
     autoload :Index, "xmi/sparx/index"
   end
 end

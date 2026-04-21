@@ -2,7 +2,7 @@
 
 module Xmi
   module Sparx
-    module SparxMappings
+    module Mappings
       # Reusable XML mapping classes for Sparx EA XMI documents.
       autoload :BaseMapping, "xmi/sparx/mappings/base_mapping"
     end

@@ -3,7 +3,7 @@
 require "spec_helper"
 require_relative "shared_contexts"
 
-RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
   # Test CityGML extension loading across all three XMI fixture variants.
   # All three fixtures load the same CityGML class names and share structural
   # expectations (module presence, attribute registration, XML mappings).

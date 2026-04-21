@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe Xmi::Sparx::Index do
   let(:xml_content) { cached_fixture("ea-xmi-2.5.1.xmi") }
-  let(:root) { Xmi::Sparx::SparxRoot.parse_xml(xml_content) }
+  let(:root) { Xmi::Sparx::Root.parse_xml(xml_content) }
   let(:index) { root.index }
 
   it "builds id_name_map" do

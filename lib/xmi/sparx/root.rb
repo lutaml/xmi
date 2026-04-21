@@ -2,7 +2,7 @@
 
 module Xmi
   module Sparx
-    class SparxRoot < Root
+    class Root < ::Xmi::Root
       attribute :modelica_parameter, SysPhS
 
       attribute :eauml_import, EaUml::Import, collection: true
@@ -26,7 +26,7 @@ module Xmi
         # encoding fix → version detection → XML parsing → index building.
         #
         # @param xml_content [String] The raw XMI XML content
-        # @return [SparxRoot] The parsed Ruby object with index built
+        # @return [Root] The parsed Ruby object with index built
         #
         # @see Xmi::ParserPipeline
         # @see Xmi.parse
@@ -55,7 +55,7 @@ module Xmi
       end
 
       # Use the reusable BaseMapping class instead of eval hack
-      xml SparxMappings::BaseMapping
+      xml Mappings::BaseMapping
 
       # Build index for fast lookups
       # @return [Sparx::Index]

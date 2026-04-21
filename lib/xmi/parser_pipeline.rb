@@ -8,9 +8,9 @@ module Xmi
   # without modifying existing code — Open/Closed Principle.
   #
   # @example
-  #   context = { xml: xml_content, root_class: Xmi::Sparx::SparxRoot }
+  #   context = { xml: xml_content, root_class: Xmi::Sparx::Root }
   #   result = Xmi::ParserPipeline.run(context)
-  #   result[:root]  # => parsed SparxRoot instance
+  #   result[:root]  # => parsed Root instance
   #
   module ParserPipeline
     module Steps

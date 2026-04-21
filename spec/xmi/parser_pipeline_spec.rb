@@ -28,15 +28,15 @@ RSpec.describe Xmi::ParserPipeline do
     it "executes all default steps and returns parsed root" do
       xml = cached_fixture("ea-xmi-2.5.1.xmi")
       result = described_class.run(
-        { xml: xml, root_class: Xmi::Sparx::SparxRoot },
+        { xml: xml, root_class: Xmi::Sparx::Root },
       )
-      expect(result[:root]).to be_instance_of(Xmi::Sparx::SparxRoot)
+      expect(result[:root]).to be_instance_of(Xmi::Sparx::Root)
     end
 
     it "builds the index" do
       xml = cached_fixture("ea-xmi-2.5.1.xmi")
       result = described_class.run(
-        { xml: xml, root_class: Xmi::Sparx::SparxRoot },
+        { xml: xml, root_class: Xmi::Sparx::Root },
       )
       expect(result[:root].index).to be_a(Xmi::Sparx::Index)
     end

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot do # rubocop:disable Metrics/BlockLength
+RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
   describe ".parse_xml" do
     context "with ea-xmi-2.5.1.xmi (XMI 20110701)" do
       subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }

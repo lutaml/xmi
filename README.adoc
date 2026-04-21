@@ -157,7 +157,7 @@ classes.
 
 === Namespace Normalization
 
-The normalization is performed by [`SparxRoot.replace_xmlns`](lib/xmi/sparx.rb:1158) which rewrites
+The normalization is performed by `Xmi::ParserPipeline` which rewrites
 namespace URIs in the input XML:
 
 .Example of namespace normalization
@@ -180,7 +180,7 @@ namespace URIs in the input XML:
 
 === Namespace Classes
 
-Namespace classes are defined in [`lib/xmi/namespace/omg.rb`](lib/xmi/namespace/omg.rb:1):
+Namespace classes are defined in `lib/xmi/namespace/omg.rb`:
 
 * **Version-specific classes**: `Xmi20110701`, `Uml20131001`, etc.
 * **Version-agnostic aliases**: `Xmi`, `Uml`, `UmlDi`, `UmlDc`
@@ -277,7 +277,7 @@ namespace prefixes will parse as `nil`.
 
 === Sparx Systems Namespaces
 
-Sparx-specific namespaces are defined in [`lib/xmi/namespace/sparx.rb`](lib/xmi/namespace/sparx.rb:1):
+Sparx-specific namespaces are defined in `lib/xmi/namespace/sparx.rb`:
 
 * **SysPhS** - System Physical Systems profile
 * **GML** - Geography Markup Language profile
@@ -301,7 +301,7 @@ end
 
 === Extension Namespaces
 
-Dynamically loaded extensions (via [`EaRoot.load_extension`](lib/xmi/ea_root.rb:54)) also use
+Dynamically loaded extensions (via `EaRoot.load_extension`) also use
 namespace-qualified mappings:
 
 .Extension with namespace mapping
@@ -384,17 +384,14 @@ The old API used `SparxRoot.parse_xml` with automatic namespace normalization:
 [source,ruby]
 ----
 # Old API (still works, but version-aware API is recommended)
-doc = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+doc = Xmi::Sparx::Root.parse_xml(xml_content)
 ----
 
 The new version-aware API:
 
 [source,ruby]
 ----
-# New API - explicit about version handling
-doc = Xmi::Sparx::SparxRoot.parse_xml_with_versioning(xml_content)
-
-# Or use the module-level API
+# New API - module-level convenience method
 doc = Xmi.parse(xml_content)
 ----
 
@@ -465,13 +462,13 @@ define an `altered_xmlns` attribute to receive this value.
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to https://rubygems.org[rubygems.org].
 
 
 == Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/xmi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/xmi/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/lutaml/xmi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the https://github.com/lutaml/xmi/blob/master/CODE_OF_CONDUCT.md[code of conduct].
 
 == Code of Conduct
 
-Everyone interacting in the Xmi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/xmi/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Xmi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the https://github.com/lutaml/xmi/blob/master/CODE_OF_CONDUCT.md[code of conduct].

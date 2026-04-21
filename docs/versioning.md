@@ -64,7 +64,7 @@ Xmi::Parsing.version_supported?("20131001")  # => true
 
 ```ruby
 # For Enterprise Architect generated XMI files
-doc = Xmi::Sparx::SparxRoot.parse_xml_with_versioning(xml_content)
+doc = Xmi::Sparx::Root.parse_xml_with_versioning(xml_content)
 ```
 
 ## Version Modules

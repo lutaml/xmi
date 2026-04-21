@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Xmi::Sparx::SparxRoot do
+RSpec.describe Xmi::Sparx::Root do
   describe ".parse_xml" do
     context "when parsing from XML with XMI 2013 and UML 2013" do
       subject!(:xmi_root_model) { described_class.parse_xml(xml_content) }

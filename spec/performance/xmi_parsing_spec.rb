@@ -44,7 +44,7 @@ RSpec.describe "Performance Benchmarks" do
     iterations.times do
       GC.start
       t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-      Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+      Xmi::Sparx::Root.parse_xml(xml_content)
       t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       times << (t1 - t0)
     end

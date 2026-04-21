@@ -12,7 +12,7 @@ The old API used `SparxRoot.parse_xml` with automatic namespace normalization:
 require 'xmi'
 
 # Old approach - normalizes all namespaces to 20131001
-doc = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+doc = Xmi::Sparx::Root.parse_xml(xml_content)
 ```
 
 This approach:
@@ -31,7 +31,7 @@ require 'xmi'
 doc = Xmi.parse(xml_content)
 
 # Or for Sparx EA files
-doc = Xmi::Sparx::SparxRoot.parse_xml_with_versioning(xml_content)
+doc = Xmi::Sparx::Root.parse_xml_with_versioning(xml_content)
 ```
 
 This approach:
@@ -45,10 +45,10 @@ This approach:
 
 ```ruby
 # Before
-doc = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+doc = Xmi::Sparx::Root.parse_xml(xml_content)
 
 # After
-doc = Xmi::Sparx::SparxRoot.parse_xml_with_versioning(xml_content)
+doc = Xmi::Sparx::Root.parse_xml_with_versioning(xml_content)
 
 # Or
 doc = Xmi.parse(xml_content)
@@ -86,7 +86,7 @@ doc = Xmi.parse_with_version(xml_content, "20131001")
 
 | Use Case | Recommended API |
 |----------|----------------|
-| Sparx EA files | `Xmi::Sparx::SparxRoot.parse_xml_with_versioning` |
+| Sparx EA files | `Xmi::Sparx::Root.parse_xml_with_versioning` |
 | General XMI files | `Xmi.parse` |
 | Version detection | `Xmi::Parsing.detect_version` |
 | Known version | `Xmi.parse_with_version(xml, version)` |
@@ -97,7 +97,7 @@ The old `parse_xml` method still works but normalizes namespaces:
 
 ```ruby
 # Old API - still supported
-doc = Xmi::Sparx::SparxRoot.parse_xml(xml_content)
+doc = Xmi::Sparx::Root.parse_xml(xml_content)
 
 # This internally normalizes to 20131001 namespace
 ```

@@ -2,15 +2,15 @@
 
 module Xmi
   module Sparx
-    module SparxMappings
+    module Mappings
       # Base XML mapping class for Sparx EA XMI documents.
       #
       # This reusable mapping class encapsulates all the XML element → attribute
-      # mappings for SparxRoot.
+      # mappings for Root.
       #
       # @example Use in a model class
-      #   class SparxRoot < Root
-      #     xml SparxMappings::BaseMapping
+      #   class Root < ::Xmi::Root
+      #     xml Mappings::BaseMapping
       #   end
       class BaseMapping < Lutaml::Xml::Mapping
         xml do

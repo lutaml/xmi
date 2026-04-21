@@ -12,7 +12,7 @@ module Xmi
       private
 
       def inject_model_attributes(new_klasses, module_name)
-        sparx_root = Xmi::Sparx::SparxRoot
+        sparx_root = Xmi::Sparx::Root
         new_klasses.each do |klass_name|
           method_name = Lutaml::Model::Utils.snake_case(klass_name)
           full_klass = EaRoot.const_get(module_name).const_get(klass_name)
@@ -32,7 +32,7 @@ module Xmi
 
         return if map_entries.empty?
 
-        Xmi::Sparx::SparxRoot.class_eval do
+        Xmi::Sparx::Root.class_eval do
           xml do
             map_entries.each do |element_name, method_sym|
               map_element element_name, to: method_sym,

@@ -2,7 +2,7 @@
 
 module Xmi
   module Sparx
-    # Builds all commonly needed indexes from a parsed SparxRoot in a single
+    # Builds all commonly needed indexes from a parsed Root in a single
     # targeted walk, avoiding the generic map_id_name approach that visits every
     # attribute of every node.
     #
@@ -24,7 +24,7 @@ module Xmi
 
       PackagedElement = ::Xmi::Uml::PackagedElement
 
-      # @param root [Xmi::Sparx::SparxRoot] parsed XMI model
+      # @param root [Xmi::Sparx::Root] parsed XMI model
       def initialize(root)
         @id_name_map = {}
         @packaged_elements = []

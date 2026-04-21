@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require "xmi"
-require "canon"
+require_relative "../lib/xmi"
 require_relative "fixtures"
 
 RSpec.configure do |config|
@@ -28,4 +27,10 @@ end
 def cached_fixture(path)
   @fixture_content_cache ||= {}
   @fixture_content_cache[path] ||= File.read(fixtures_path(path))
+end
+
+require "canon"
+Canon::Config.configure do |config|
+  config.xml.match.profile = :spec_friendly
+  config.xml.diff.use_color = true
 end

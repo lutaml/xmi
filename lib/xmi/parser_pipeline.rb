@@ -37,7 +37,7 @@ module Xmi
         def self.call(ctx)
           root_class = ctx[:root_class]
           ctx[:root] = VersionRegistry.parse_with_detected_version(
-            ctx[:xml], root_class, parse_only: true
+            ctx[:xml], root_class
           )
           ctx
         end

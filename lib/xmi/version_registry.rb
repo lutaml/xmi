@@ -108,15 +108,13 @@ module Xmi
       #
       # @param xml_content [String] XML content
       # @param model_class [Class] The model class to parse into
-      # @param parse_only [Boolean] Skip namespace declaration plan (read-only mode)
+      # @param opts [Hash] Options passed through to from_xml
+      #   (e.g., import_declaration_plan: :skip)
       # @return [Object] Parsed model instance
-      def parse_with_detected_version(xml_content, model_class,
-parse_only: false)
+      def parse_with_detected_version(xml_content, model_class, **opts)
         register = detect_register(xml_content)
 
-        opts = {}
         opts[:register] = register if register
-        opts[:parse_only] = true if parse_only
 
         model_class.from_xml(xml_content, **opts)
       end

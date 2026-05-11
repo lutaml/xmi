@@ -24,7 +24,7 @@ module Xmi
         map_entries = []
         new_klasses.each do |klass_name|
           klass = EaRoot.const_get(module_name).const_get(klass_name)
-          next unless klass.respond_to?(:root_tag)
+          next unless klass.root_tag
 
           method_name = Lutaml::Model::Utils.snake_case(klass_name)
           map_entries << [klass.root_tag, method_name.to_sym]

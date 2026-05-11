@@ -27,7 +27,7 @@ module Xmi
       # @option options [Boolean] :strict Raise on unknown elements
       # @return [Root, Object] Parsed XMI document
       def parse(xml, options = {})
-        xml_content = xml.respond_to?(:read) ? xml.read : xml.to_s
+        xml_content = xml.is_a?(String) ? xml : xml.read
 
         Xmi.init_versioning! unless Xmi.versioning_initialized?
 

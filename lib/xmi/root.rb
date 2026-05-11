@@ -24,6 +24,10 @@ module Xmi
 
     attribute :model, Uml::UmlModel
 
+    def build_index
+      nil
+    end
+
     xml do
       root "XMI"
       namespace ::Xmi::Namespace::Omg::Xmi

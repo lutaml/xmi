@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class UmlModel < Lutaml::Model::Serializable
+      attribute :id, ::Xmi::Type::XmiId
       attribute :type, ::Xmi::Type::XmiType
       attribute :name, :string
       attribute :profile_application, ProfileApplication, collection: true
@@ -14,6 +15,7 @@ module Xmi
         root "Model"
         namespace ::Xmi::Namespace::Omg::Uml
 
+        map_attribute "id", to: :id
         map_attribute "type", to: :type
         map_attribute "name", to: :name
 

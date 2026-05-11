@@ -24,6 +24,31 @@ RSpec.describe Xmi::ParserPipeline do
     end
   end
 
+  describe "Steps::ParseXml" do
+    it "parses XML and sets :root in context" do
+      xml = cached_fixture("ea-xmi-2.5.1.xmi")
+      ctx = { xml: xml, root_class: Xmi::Sparx::Root }
+      result = described_class::Steps::ParseXml.call(ctx)
+      expect(result[:root]).to be_instance_of(Xmi::Sparx::Root)
+    end
+  end
+
+  describe "Steps::BuildIndex" do
+    it "builds index on Sparx::Root" do
+      xml = cached_fixture("ea-xmi-2.5.1.xmi")
+      root = Xmi::Sparx::Root.parse_xml(xml)
+      ctx = { root: root }
+      described_class::Steps::BuildIndex.call(ctx)
+      expect(root.index).to be_a(Xmi::Sparx::Index)
+    end
+
+    it "works on base Root without error" do
+      root = Xmi::Root.new
+      ctx = { root: root }
+      expect { described_class::Steps::BuildIndex.call(ctx) }.not_to raise_error
+    end
+  end
+
   describe ".run" do
     it "executes all default steps and returns parsed root" do
       xml = cached_fixture("ea-xmi-2.5.1.xmi")
@@ -43,10 +68,20 @@ RSpec.describe Xmi::ParserPipeline do
 
     it "supports custom steps" do
       custom_step = Module.new do
-        define_singleton_method(:call) { |ctx| ctx.merge(custom: true) }
+        define_singleton_method(:call) do |ctx|
+          ctx[:custom] = true
+          ctx
+        end
       end
       result = described_class.run({ xml: "<test/>" }, steps: [custom_step])
       expect(result[:custom]).to be true
+    end
+
+    it "mutates context hash without creating intermediates" do
+      xml = cached_fixture("ea-xmi-2.5.1.xmi")
+      original_ctx = { xml: xml, root_class: Xmi::Sparx::Root }
+      result = described_class.run(original_ctx)
+      expect(result).to equal(original_ctx)
     end
   end
 end

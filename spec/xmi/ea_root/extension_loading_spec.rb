@@ -52,10 +52,30 @@ RSpec.describe Xmi::EaRoot do
         expect(klasses).to include(:AbstractSchema, :GIClass, :GICodeSet)
       end
 
-      it "non-abstract classes have root_tag" do
+      it "all generated classes respond to root_tag" do
         described_class.load_extension(mdg_path)
-        klass = described_class::Iso19103::AbstractSchema
-        expect(klass.respond_to?(:root_tag)).to be true
+        klasses = described_class::Iso19103.constants.select do |c|
+          described_class::Iso19103.const_get(c).is_a?(Class)
+        end
+        klasses.each do |name|
+          klass = described_class::Iso19103.const_get(name)
+          expect { klass.root_tag }.not_to(
+            raise_error,
+            "Class #{name} should have root_tag",
+          )
+        end
+      end
+
+      it "abstract classes have root_tag returning nil" do
+        described_class.load_extension(mdg_path)
+        klass = described_class::Iso19103::GIElement
+        expect(klass.root_tag).to be_nil
+      end
+
+      it "stereotype classes have root_tag returning element name" do
+        described_class.load_extension(mdg_path)
+        klass = described_class::Iso19103::GIClass
+        expect(klass.root_tag).to eq("GI_Class")
       end
 
       it "registers extension as loaded" do

@@ -18,6 +18,47 @@ RSpec.describe "XMI Version Infrastructure" do
     it "returns version module for version string" do
       expect(Xmi::VersionRegistry.version_module("20131001")).to eq(Xmi::V20131001)
     end
+
+    describe ".extend_fallback_for_mixed_namespaces (idempotency)" do
+      let(:mixed_xml) { cached_fixture("large_test.xmi") }
+
+      it "does not duplicate fallback entries on repeated calls" do
+        reg = Xmi::VersionRegistry.detect_register(mixed_xml)
+        fallback_count = reg.fallback.length
+
+        Xmi::VersionRegistry.detect_register(mixed_xml)
+        expect(reg.fallback.length).to eq(fallback_count)
+      end
+    end
+
+    describe ".detect_register" do
+      it "returns a register for known XMI version" do
+        xml = cached_fixture("ea-xmi-2.5.1.xmi")
+        reg = Xmi::VersionRegistry.detect_register(xml)
+        expect(reg).not_to be_nil
+      end
+
+      it "returns nil for XML without XMI namespace" do
+        reg = Xmi::VersionRegistry.detect_register("<root/>")
+        expect(reg).to be_nil
+      end
+
+      it "extends fallback for mixed namespace documents" do
+        xml = cached_fixture("large_test.xmi")
+        reg = Xmi::VersionRegistry.detect_register(xml)
+        expect(reg).not_to be_nil
+      end
+    end
+
+    describe ".parse_with_detected_version" do
+      it "parses XML with auto-detected version" do
+        xml = cached_fixture("ea-xmi-2.5.1.xmi")
+        result = Xmi::VersionRegistry.parse_with_detected_version(
+          xml, Xmi::Sparx::Root
+        )
+        expect(result).to be_instance_of(Xmi::Sparx::Root)
+      end
+    end
   end
 
   describe "V20110701" do

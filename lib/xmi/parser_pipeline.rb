@@ -17,7 +17,7 @@ module Xmi
       module FixEncoding
         def self.call(ctx)
           xml = ctx[:xml]
-          if xml.respond_to?(:valid_encoding?) && !xml.valid_encoding?
+          unless xml.valid_encoding?
             ctx[:xml] = xml
               .encode("UTF-16be", invalid: :replace, replace: "?")
               .encode("UTF-8")
@@ -45,7 +45,7 @@ module Xmi
 
       module BuildIndex
         def self.call(ctx)
-          ctx[:root].build_index if ctx[:root].respond_to?(:build_index)
+          ctx[:root].build_index
           ctx
         end
       end

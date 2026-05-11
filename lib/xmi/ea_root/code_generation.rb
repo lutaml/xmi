@@ -49,6 +49,7 @@ module Xmi
         )
 
         klass = Class.new(Lutaml::Model::Serializable)
+        klass.define_singleton_method(:root_tag) { nil }
 
         # Add tag attributes (NO xml mapping for abstract classes)
         tags = abstract_node.search("Tag")

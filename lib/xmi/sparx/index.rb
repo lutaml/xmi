@@ -116,7 +116,7 @@ module Xmi
       def build(root)
         model = root.model
         if model
-          id = model.id if model.respond_to?(:id)
+          id = model.id
           @id_name_map[id] = model.name if id && model.name
           walk_packaged_elements(model.packaged_element, nil)
         end
@@ -247,10 +247,7 @@ module Xmi
         return unless profile_list
 
         profile_list.each do |profile|
-          if profile.respond_to?(:packaged_element)
-            walk_packaged_elements(profile.packaged_element,
-                                   nil)
-          end
+          walk_packaged_elements(profile.packaged_element, nil)
         end
       end
     end

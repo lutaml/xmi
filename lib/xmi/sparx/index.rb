@@ -126,6 +126,7 @@ module Xmi
 
         index_extension_elements(ext.elements)
         index_extension_connectors(ext.connectors)
+        index_ea_stubs(ext.ea_stub)
 
         primitives = ext.primitive_types
         walk_packaged_elements(primitives.packaged_element, nil) if primitives
@@ -216,6 +217,15 @@ module Xmi
           attr_list.each do |a|
             @attributes_by_idref[a.idref] = a if a.idref
           end
+        end
+      end
+
+      def index_ea_stubs(stubs)
+        return unless stubs
+
+        stubs.each do |stub|
+          stub_id = stub.id
+          @id_name_map[stub_id] = stub.name if stub_id && stub.name
         end
       end
 

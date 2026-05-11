@@ -6,7 +6,6 @@
 module XmiFixtures
   # XMI model fixtures: [xmi_ns, uml_ns, umldi_ns, umldc_ns]
   MODEL_FIXTURES = {
-    "ea-xmi-2.4.2.xmi" => ["20110701", "20110701", nil, nil],
     "ea-xmi-2.5.1.xmi" => ["20110701", "20110701", nil, nil],
     "xmi-v2-4-2-default.xmi" => ["20131001", "20131001", "20131001",
                                  "20131001"],

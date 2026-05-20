@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class Type < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :idref, ::Xmi::Type::XmiIdRef
       attribute :href, :string
 

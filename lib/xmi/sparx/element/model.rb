@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Model < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :package, :string
         attribute :package2, :string
         attribute :tpos, :integer

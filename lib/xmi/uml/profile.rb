@@ -20,6 +20,7 @@ module Xmi
     end
 
     class Profile < Lutaml::Model::Serializable
+      skip_reference_registration
       include ProfileAttributes
 
       attribute :owned_comment, OwnedComment, collection: true

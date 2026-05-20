@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Element < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :idref, ::Xmi::Type::XmiIdRef
         attribute :type, ::Xmi::Type::XmiType
         attribute :name, :string

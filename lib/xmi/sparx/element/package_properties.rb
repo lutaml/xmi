@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class PackageProperties < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :version, :string
         attribute :xmiver, :string
         attribute :tpos, :string

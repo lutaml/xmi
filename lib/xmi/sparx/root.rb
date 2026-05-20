@@ -3,6 +3,7 @@
 module Xmi
   module Sparx
     class Root < ::Xmi::Root
+      skip_reference_registration
       attribute :modelica_parameter, SysPhS
 
       attribute :eauml_import, EaUml::Import, collection: true

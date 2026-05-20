@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class EndConstraint < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :name, :string
         attribute :type, ::Xmi::Type::XmiType
         attribute :weight, :float

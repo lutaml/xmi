@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Enumeration < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_enumeration, :string
 
       xml do

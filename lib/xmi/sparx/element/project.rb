@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Project < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :author, :string
         attribute :version, :string
         attribute :phase, :string

@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Number < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_package, :string
       attribute :number, :string
 

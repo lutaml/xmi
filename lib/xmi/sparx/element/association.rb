@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Association < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :id, ::Xmi::Type::XmiId
         attribute :start, :string
         attribute :end, :string
@@ -19,6 +20,7 @@ module Xmi
       end
 
       class Generalization < Association
+        skip_reference_registration
         attribute :name, :string, default: -> { "Generalization" }
 
         xml do
@@ -31,6 +33,7 @@ module Xmi
       end
 
       class Aggregation < Association
+        skip_reference_registration
         attribute :name, :string, default: -> { "Aggregation" }
 
         xml do
@@ -43,6 +46,7 @@ module Xmi
       end
 
       class NoteLink < Association
+        skip_reference_registration
         attribute :name, :string, default: -> { "NoteLink" }
 
         xml do

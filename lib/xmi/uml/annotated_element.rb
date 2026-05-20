@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class AnnotatedElement < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :idref, ::Xmi::Type::XmiIdRef
 
       xml do

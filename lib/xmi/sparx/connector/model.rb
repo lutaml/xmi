@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class Model < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :ea_localid, :string
         attribute :type, ::Xmi::Type::XmiType
         attribute :name, :string

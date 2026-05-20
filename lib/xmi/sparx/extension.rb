@@ -3,6 +3,7 @@
 module Xmi
   module Sparx
     class Extension < Lutaml::Model::Serializable
+      skip_reference_registration
       include XmiIdentity::Attributes
 
       attribute :extender, :string

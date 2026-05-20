@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class ProfileApplicationAppliedProfile < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :type, ::Xmi::Type::XmiType
       attribute :href, :string
 

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Times < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :created, :string
         attribute :modified, :string
         attribute :last_load_date, :string

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class EndType < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :aggregation, :string
         attribute :multiplicity, :string
         attribute :containment, :string

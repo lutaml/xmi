@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class Labels < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :rb, :string
         attribute :lb, :string
         attribute :mb, :string

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module EaUml
       class Import < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :base_package_import, :string
 
         xml do

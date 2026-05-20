@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class ImportedPackage < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :href, :string
 
       xml do

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Tag < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :id, ::Xmi::Type::XmiId
         attribute :name, :string
         attribute :value, :string

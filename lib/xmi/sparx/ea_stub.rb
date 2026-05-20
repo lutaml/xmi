@@ -3,6 +3,7 @@
 module Xmi
   module Sparx
     class EaStub < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :id, ::Xmi::Type::XmiId
       attribute :name, :string
       attribute :uml_type, :string

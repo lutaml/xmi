@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class PublicationDate < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_package, :string
       attribute :publication_date, :string
 

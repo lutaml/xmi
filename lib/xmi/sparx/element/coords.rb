@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Coords < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :ordered, :integer
         attribute :scale, :integer
 

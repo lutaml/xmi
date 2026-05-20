@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Gml
       class Property < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :sequence_number, :string
         attribute :base_property, :string
         attribute :is_metadata, :string

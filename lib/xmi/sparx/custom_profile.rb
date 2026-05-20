@@ -6,6 +6,7 @@ module Xmi
       # Contains UML Profile definitions
       # Note: PublicationDate, Edition, Number, YearVersion are defined in Xmi::CustomProfile
       class Profiles < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :profile, Uml::Profile, collection: true
 
         xml do

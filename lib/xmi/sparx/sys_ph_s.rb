@@ -3,6 +3,7 @@
 module Xmi
   module Sparx
     class SysPhS < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_package, :string
       attribute :name, :string
 

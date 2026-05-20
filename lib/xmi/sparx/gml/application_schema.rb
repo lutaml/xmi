@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Gml
       class ApplicationSchema < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :version, :string
         attribute :xsd_document, :string
         attribute :altered_xmlns, :string

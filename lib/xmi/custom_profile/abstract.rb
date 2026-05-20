@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Abstract < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_class, :string
 
       xml do

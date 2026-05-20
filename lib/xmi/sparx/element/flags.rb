@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Flags < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :is_controlled, :integer
         attribute :is_protected, :integer
         attribute :batch_save, :integer

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Style < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :appearance, :string
 
         xml do

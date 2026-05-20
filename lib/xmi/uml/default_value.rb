@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class DefaultValue < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :type, ::Xmi::Type::XmiType
       attribute :id, ::Xmi::Type::XmiId
       attribute :value, :string
@@ -18,6 +19,8 @@ module Xmi
     end
 
     class UpperValue < DefaultValue
+      skip_reference_registration
+
       xml do
         root "upperValue"
         namespace ::Xmi::Namespace::Omg::Uml
@@ -29,6 +32,8 @@ module Xmi
     end
 
     class LowerValue < DefaultValue
+      skip_reference_registration
+
       xml do
         root "lowerValue"
         namespace ::Xmi::Namespace::Omg::Uml

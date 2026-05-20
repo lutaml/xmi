@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class OwnedElement < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :type, ::Xmi::Type::XmiType
       attribute :id, ::Xmi::Type::XmiId
       attribute :text, :string

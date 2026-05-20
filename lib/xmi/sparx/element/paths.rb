@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Paths < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :xmlpath, :string
 
         xml do

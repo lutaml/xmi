@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Styleex < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :value, :string
 
         xml do

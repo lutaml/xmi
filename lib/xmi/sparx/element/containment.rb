@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Containment < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :containment, :string
         attribute :position, :integer
 

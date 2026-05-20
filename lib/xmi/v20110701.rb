@@ -38,6 +38,7 @@ module Xmi
     # Structure is identical in 2.1 and 2.5.1, so V20131001 reuses this.
     #
     class Extension < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :extender, :string
       attribute :extender_id, :string
 

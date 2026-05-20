@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class EndModifiers < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :is_ordered, :boolean
         attribute :is_navigable, :boolean
 

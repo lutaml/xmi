@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class Appearance < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :linemode, :integer
         attribute :linecolor, :integer
         attribute :linewidth, :integer

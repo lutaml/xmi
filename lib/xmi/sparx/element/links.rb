@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Links < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :association, Association, collection: true
         attribute :generalization, Generalization, collection: true
         attribute :note_link, NoteLink, collection: true

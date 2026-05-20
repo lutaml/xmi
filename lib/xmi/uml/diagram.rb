@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class Diagram < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :type, ::Xmi::Type::XmiType
       attribute :id, ::Xmi::Type::XmiId
       attribute :is_frame, :boolean

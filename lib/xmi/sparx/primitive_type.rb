@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module PrimitiveType
       class PrimitiveTypes < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :packaged_element, Uml::PackagedElement, collection: true
 
         xml do

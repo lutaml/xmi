@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Ocl < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_constraint, :string
 
       xml do

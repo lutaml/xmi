@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Code < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :gentype, :string
         attribute :product_name, :string
 

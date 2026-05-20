@@ -42,6 +42,7 @@ module Xmi
     # Different structure from 2.1 - includes additional fields.
     #
     class Documentation < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :contact, :string
       attribute :exporter, :string
       attribute :exporter_version, :string

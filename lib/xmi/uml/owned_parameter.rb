@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class OwnedParameter < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :id, ::Xmi::Type::XmiId
       attribute :name, :string
       attribute :type, ::Xmi::Type::XmiType

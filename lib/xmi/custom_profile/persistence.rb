@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Persistence < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_class, :string
       attribute :base_enumeration, :string
       attribute :persistence, :string

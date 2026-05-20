@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Gml
       class CodeList < Lutaml::Model::Serializable
+        skip_reference_registration
         include HasBaseClass
 
         attribute :as_dictionary, :string

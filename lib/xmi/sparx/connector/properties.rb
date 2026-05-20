@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class Properties < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :ea_type, :string
         attribute :direction, :string
 

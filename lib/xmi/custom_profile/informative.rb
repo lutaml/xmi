@@ -3,6 +3,7 @@
 module Xmi
   module CustomProfile
     class Informative < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :base_package, :string
 
       xml do

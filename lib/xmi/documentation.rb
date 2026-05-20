@@ -4,6 +4,7 @@ require_relative "extension"
 
 module Xmi
   class Documentation < Lutaml::Model::Serializable
+    skip_reference_registration
     attribute :id, ::Xmi::Type::XmiId
     attribute :label, ::Xmi::Type::XmiLabel
     attribute :uuid, ::Xmi::Type::XmiUuid

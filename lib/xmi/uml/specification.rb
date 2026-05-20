@@ -3,6 +3,7 @@
 module Xmi
   module Uml
     class Specification < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :id, ::Xmi::Type::XmiId
       attribute :type, ::Xmi::Type::XmiType
       attribute :language, :string

@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class Connector < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :name, :string
         attribute :idref, ::Xmi::Type::XmiIdRef
         attribute :source, Source

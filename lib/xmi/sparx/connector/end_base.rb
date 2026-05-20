@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Connector
       class End < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :idref, ::Xmi::Type::XmiIdRef
         attribute :model, Model
         attribute :role, EndRole
@@ -17,6 +18,7 @@ module Xmi
       end
 
       class Source < End
+        skip_reference_registration
         xml do
           root "source"
 
@@ -35,6 +37,7 @@ module Xmi
       end
 
       class Target < End
+        skip_reference_registration
         xml do
           root "target"
 

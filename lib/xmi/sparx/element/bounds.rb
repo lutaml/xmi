@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Element
       class Bounds < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :lower, :integer
         attribute :upper, :integer
 

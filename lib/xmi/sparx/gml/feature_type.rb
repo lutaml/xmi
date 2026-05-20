@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Gml
       class FeatureType < Lutaml::Model::Serializable
+        skip_reference_registration
         include HasCollectionProperties
 
         attribute :by_value_property_type, :string

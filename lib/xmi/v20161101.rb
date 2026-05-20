@@ -41,6 +41,7 @@ module Xmi
     # Different structure from 2.1/2.5.1 - includes additional fields.
     #
     class Extension < Lutaml::Model::Serializable
+      skip_reference_registration
       attribute :extender, :string
       attribute :extender_id, :string
       attribute :extender_version, :string # NEW in 2.5.2

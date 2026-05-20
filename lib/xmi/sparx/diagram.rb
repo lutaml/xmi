@@ -4,6 +4,7 @@ module Xmi
   module Sparx
     module Diagram
       class Element < Lutaml::Model::Serializable
+        skip_reference_registration
         attribute :geometry, :string
         attribute :subject, :string
         attribute :seqno, :integer

@@ -5,6 +5,7 @@ require_relative "uml"
 
 module Xmi
   class Root < Lutaml::Model::Serializable
+    skip_reference_registration
     include XmiIdentity::Attributes
 
     attribute :documentation, Documentation

@@ -8,7 +8,6 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :association, :string
       attribute :name, :string
-      attribute :type_attr, :string
       attribute :uml_type, Uml::Type
       attribute :member_end, :string
       attribute :lower, :integer
@@ -17,14 +16,13 @@ module Xmi
 
       xml do
         root "ownedEnd"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "memberEnd", to: :member_end
-        map_attribute "type", to: :type_attr
         map_attribute "lower", to: :lower
         map_attribute "upper", to: :upper
         map_attribute "isComposite", to: :is_composite

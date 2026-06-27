@@ -13,7 +13,7 @@ module Xmi
 
       xml do
         root "bounds"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id
@@ -32,7 +32,7 @@ module Xmi
 
       xml do
         root "waypoint"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id

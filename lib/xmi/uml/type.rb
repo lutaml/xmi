@@ -9,7 +9,7 @@ module Xmi
 
       xml do
         root "type"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "idref", to: :idref
         map_attribute "href", to: :href

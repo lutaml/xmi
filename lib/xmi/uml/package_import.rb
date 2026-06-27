@@ -8,7 +8,7 @@ module Xmi
 
       xml do
         root "importedPackage"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "href", to: :href
       end
@@ -20,7 +20,7 @@ module Xmi
 
       xml do
         root "packageImport"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "id", to: :id
 

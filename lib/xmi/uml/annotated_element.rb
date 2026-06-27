@@ -8,7 +8,7 @@ module Xmi
 
       xml do
         root "annotatedElement"
-        namespace ::Xmi::Namespace::Omg::Uml
+        namespace :blank
 
         map_attribute "idref", to: :idref
       end

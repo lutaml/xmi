@@ -12,7 +12,7 @@ module Xmi
 
       xml do
         root "Diagram"
-        namespace ::Xmi::Namespace::Omg::UmlDi
+        namespace :blank
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id

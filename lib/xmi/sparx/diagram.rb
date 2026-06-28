@@ -12,6 +12,7 @@ module Xmi
 
         xml do
           root "element"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "geometry", to: :geometry
           map_attribute "subject", to: :subject
@@ -25,6 +26,7 @@ module Xmi
 
         xml do
           root "elements"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "element", to: :element, value_map: VALUE_MAP
         end
@@ -37,6 +39,7 @@ module Xmi
 
         xml do
           root "model"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "package", to: :package
           map_attribute "localID", to: :local_id
@@ -67,6 +70,7 @@ module Xmi
 
         xml do
           root "diagram"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
 
@@ -89,6 +93,7 @@ module Xmi
 
         xml do
           root "diagrams"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "diagram", to: :diagram, value_map: VALUE_MAP
         end

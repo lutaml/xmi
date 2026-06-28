@@ -10,7 +10,7 @@ module Xmi
 
       xml do
         root "specification"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "id", to: :id
         map_attribute "type", to: :type

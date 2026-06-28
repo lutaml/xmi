@@ -15,7 +15,7 @@ module Xmi
 
       xml do
         root "ownedAttribute"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id

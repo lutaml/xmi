@@ -21,6 +21,7 @@ module Xmi
 
         xml do
           root "properties"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "name", to: :name
           map_attribute "type", to: :type

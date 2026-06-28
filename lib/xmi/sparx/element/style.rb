@@ -9,6 +9,7 @@ module Xmi
 
         xml do
           root "style"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "appearance", to: :appearance
         end

@@ -21,6 +21,7 @@ module Xmi
         skip_reference_registration
         xml do
           root "source"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "idref", to: :idref
 
@@ -40,6 +41,7 @@ module Xmi
         skip_reference_registration
         xml do
           root "target"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "idref", to: :idref
 

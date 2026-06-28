@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "bounds"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "lower", to: :lower
           map_attribute "upper", to: :upper

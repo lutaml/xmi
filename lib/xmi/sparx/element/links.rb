@@ -11,6 +11,7 @@ module Xmi
 
         xml do
           root "links"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "Association", to: :association, value_map: VALUE_MAP
           map_element "Generalization", to: :generalization,

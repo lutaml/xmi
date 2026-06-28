@@ -11,6 +11,7 @@ module Xmi
 
         xml do
           root "packagedproperties"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "version", to: :version
           map_attribute "xmiver", to: :xmiver

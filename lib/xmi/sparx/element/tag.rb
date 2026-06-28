@@ -12,6 +12,7 @@ module Xmi
 
         xml do
           root "tag"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
           map_attribute "name", to: :name
@@ -25,6 +26,7 @@ module Xmi
 
         xml do
           root "tags"
+          namespace ::Xmi::Namespace::Omg::Xmi
           map_element "tag", to: :tags, value_map: VALUE_MAP
         end
       end

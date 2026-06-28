@@ -9,7 +9,7 @@ module Xmi
 
       xml do
         root "appliedProfile"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "href", to: :href
@@ -23,7 +23,7 @@ module Xmi
 
       xml do
         root "profileApplication"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id

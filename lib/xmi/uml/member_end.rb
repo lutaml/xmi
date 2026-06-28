@@ -8,7 +8,7 @@ module Xmi
 
       xml do
         root "memberEnd"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "idref", to: :idref
       end

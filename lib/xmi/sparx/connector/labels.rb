@@ -14,6 +14,7 @@ module Xmi
 
         xml do
           root "labels"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute :rb, to: :rb
           map_attribute :lb, to: :lb

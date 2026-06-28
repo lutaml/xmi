@@ -8,7 +8,6 @@ gemspec
 gem "benchmark"
 gem "benchmark-ips"
 gem "canon"
-gem "lutaml-model", github: "lutaml/lutaml-model", ref: "main"
 gem "rake"
 gem "rspec"
 gem "rubocop"

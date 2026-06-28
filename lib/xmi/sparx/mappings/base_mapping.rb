@@ -33,7 +33,7 @@ module Xmi
           VM = ::Xmi::VALUE_MAP
 
           # Extension element containing Sparx EA-specific metadata
-          map_element "Extension", to: :extension
+          map_element "Extension", to: :extension, form: :qualified
 
           # Modelica parameter elements (SysPhS profile)
           map_element "ModelicaParameter", to: :modelica_parameter

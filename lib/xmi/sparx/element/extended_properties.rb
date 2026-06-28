@@ -11,6 +11,7 @@ module Xmi
 
         xml do
           root "extendedProperties"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "tagged", to: :tagged
           map_attribute "package_name", to: :package_name

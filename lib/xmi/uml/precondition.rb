@@ -11,7 +11,7 @@ module Xmi
 
       xml do
         root "precondition"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "id", to: :id
         map_attribute "name", to: :name

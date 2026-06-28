@@ -12,6 +12,7 @@ module Xmi
 
         xml do
           root "times"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "created", to: :created
           map_attribute "modified", to: :modified

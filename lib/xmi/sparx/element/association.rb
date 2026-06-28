@@ -12,6 +12,7 @@ module Xmi
 
         xml do
           root "Association"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
           map_attribute "start", to: :start
@@ -25,6 +26,7 @@ module Xmi
 
         xml do
           root "Generalization"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
           map_attribute "start", to: :start
@@ -38,6 +40,7 @@ module Xmi
 
         xml do
           root "Aggregation"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
           map_attribute "start", to: :start
@@ -51,6 +54,7 @@ module Xmi
 
         xml do
           root "NoteLink"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "id", to: :id
           map_attribute "start", to: :start

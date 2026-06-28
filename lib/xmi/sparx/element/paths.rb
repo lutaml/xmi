@@ -9,6 +9,7 @@ module Xmi
 
         xml do
           root "paths"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "xmlpath", to: :xmlpath
         end

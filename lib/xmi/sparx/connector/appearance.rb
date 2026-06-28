@@ -14,6 +14,7 @@ module Xmi
 
         xml do
           root "appearance"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute :linemode, to: :linemode
           map_attribute :linecolor, to: :linecolor

@@ -10,7 +10,7 @@ module Xmi
 
       xml do
         root "defaultValue"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id
@@ -23,7 +23,7 @@ module Xmi
 
       xml do
         root "upperValue"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id
@@ -36,7 +36,7 @@ module Xmi
 
       xml do
         root "lowerValue"
-        namespace :blank
+        namespace ::Xmi::Namespace::Omg::Uml
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id

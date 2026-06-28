@@ -11,6 +11,7 @@ module Xmi
 
         xml do
           root "type"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute :aggregation, to: :aggregation
           map_attribute :multiplicity, to: :multiplicity

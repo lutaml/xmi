@@ -67,7 +67,7 @@ RSpec.describe "Sparx mixed-prefix serialization style" do
     ].each do |tag|
       it "serializes <#{tag}> with no prefix" do
         expect(prefix_of(tag)).to be_nil,
-                                   "expected <#{tag}> to be unprefixed, got #{prefix_of(tag).inspect}"
+                                  "expected <#{tag}> to be unprefixed, got #{prefix_of(tag).inspect}"
       end
     end
   end
@@ -81,13 +81,13 @@ RSpec.describe "Sparx mixed-prefix serialization style" do
     it "keeps xmi:id on <packagedElement>" do
       pe = parsed.at_xpath("//*[local-name()='packagedElement']")
       expect(pe["xmi:id"]).to match(/\AEAPK_/),
-                                 "expected EAPK_ prefix, got #{pe['xmi:id'].inspect}"
+                              "expected EAPK_ prefix, got #{pe['xmi:id'].inspect}"
     end
 
     it "keeps xmi:idref on <memberEnd>" do
       me = parsed.at_xpath("//*[local-name()='memberEnd']")
       expect(me["xmi:idref"]).to match(/\AEAID_/),
-                                     "expected EAID_ prefix, got #{me['xmi:idref'].inspect}"
+                                 "expected EAID_ prefix, got #{me['xmi:idref'].inspect}"
     end
 
     it "keeps xmi:type on <ownedAttribute>" do
@@ -100,7 +100,7 @@ RSpec.describe "Sparx mixed-prefix serialization style" do
     it "does not emit xmlns='' on any packagedElement" do
       parsed.xpath("//*[local-name()='packagedElement']").each do |pe|
         expect(pe.attribute_with_ns("xmlns", nil)&.value).to be_nil | eq(""),
-                   "unexpected xmlns='' on <packagedElement> xmi:id=#{pe['xmi:id']}"
+                                                             "unexpected xmlns='' on <packagedElement> xmi:id=#{pe['xmi:id']}"
       end
     end
   end

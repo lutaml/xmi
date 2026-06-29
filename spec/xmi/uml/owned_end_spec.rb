@@ -28,7 +28,7 @@ RSpec.describe Xmi::Uml::OwnedEnd do
   describe "parsing xmi:type discriminator" do
     subject(:owned_end) do
       Xmi::Sparx::Root.from_xml(full_doc_xml)
-                      .model.packaged_element.first.owned_end.first
+        .model.packaged_element.first.owned_end.first
     end
 
     it "captures xmi:type as the discriminator value" do
@@ -64,11 +64,11 @@ RSpec.describe Xmi::Uml::OwnedEnd do
 
   describe "attribute surface" do
     it "does not declare type_attr (duplicate removed)" do
-      expect(Xmi::Uml::OwnedEnd.attributes).not_to have_key(:type_attr)
+      expect(described_class.attributes).not_to have_key(:type_attr)
     end
 
     it "declares type as XmiType (xmi:type discriminator)" do
-      expect(Xmi::Uml::OwnedEnd.attributes[:type].type).to eq(::Xmi::Type::XmiType)
+      expect(described_class.attributes[:type].type).to eq(Xmi::Type::XmiType)
     end
   end
 
@@ -98,7 +98,7 @@ RSpec.describe Xmi::Uml::OwnedEnd do
     it "captures association reference on each ownedEnd" do
       owned_ends.each do |oe|
         expect(oe.association).to match(/\AEAID_[0-9A-Fa-f_]+\z/),
-                                   "expected EAID_, got #{oe.association.inspect}"
+                                  "expected EAID_, got #{oe.association.inspect}"
       end
     end
   end

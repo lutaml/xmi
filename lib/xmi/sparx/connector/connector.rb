@@ -21,6 +21,7 @@ module Xmi
 
         xml do
           root "element"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "name", to: :name
           map_attribute "idref", to: :idref
@@ -44,6 +45,7 @@ module Xmi
 
         xml do
           root "connectors"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "connector", to: :connector, value_map: VALUE_MAP
         end

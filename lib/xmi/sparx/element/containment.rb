@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "containment"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "containment", to: :containment
           map_attribute "position", to: :position

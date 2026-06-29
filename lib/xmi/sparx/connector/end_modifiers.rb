@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "type"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "isOrdered", to: :is_ordered
           map_attribute "isNavigable", to: :is_navigable

@@ -12,6 +12,7 @@ module Xmi
 
         xml do
           root "constraint"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "name", to: :name
           map_attribute "type", to: :type
@@ -25,6 +26,7 @@ module Xmi
 
         xml do
           root "constraints"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "constraint", to: :constraint, value_map: VALUE_MAP
         end

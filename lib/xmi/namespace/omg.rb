@@ -26,6 +26,7 @@ module Xmi
       class Uml20131001 < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/UML/20131001"
         prefix_default "uml"
+        element_form_default :unqualified
       end
 
       class Uml20161101 < Lutaml::Xml::Namespace
@@ -36,6 +37,7 @@ module Xmi
       class UmlDi20131001 < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/UML/20131001/UMLDI"
         prefix_default "umldi"
+        element_form_default :unqualified
       end
 
       class UmlDi20161101 < Lutaml::Xml::Namespace
@@ -60,21 +62,25 @@ module Xmi
       class Xmi < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/XMI/20131001"
         prefix_default "xmi"
+        element_form_default :unqualified
       end
 
       class Uml < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/UML/20131001"
         prefix_default "uml"
+        element_form_default :unqualified
       end
 
       class UmlDi < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/UML/20131001/UMLDI"
         prefix_default "umldi"
+        element_form_default :unqualified
       end
 
       class UmlDc < Lutaml::Xml::Namespace
         uri "http://www.omg.org/spec/UML/20131001/UMLDC"
         prefix_default "dc"
+        element_form_default :unqualified
       end
     end
   end

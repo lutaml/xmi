@@ -101,8 +101,8 @@ RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
             "//xmi:XMI",
             "//xmi:Documentation",
             "//uml:Model",
-            "//uml:Model/uml:packagedElement",
-            "//uml:Model/uml:profileApplication",
+            "//uml:Model/packagedElement",
+            "//uml:Model/profileApplication",
             "//xmi:Extension",
             "//xmi:Extension/elements/element",
             "//thecustomprofile:edition",
@@ -118,7 +118,7 @@ RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
           expect(model["name"]).to eq("EA_Model")
           expect(model["xmi:type"]).to eq("uml:Model")
 
-          packaged = xml_doc.xpath("//uml:Model/uml:packagedElement",
+          packaged = xml_doc.xpath("//uml:Model/packagedElement",
                                    namespaces).first
           expect(packaged["name"]).to eq("ISO 6709 Edition 2")
           expect(packaged["xmi:type"]).to eq("uml:Package")

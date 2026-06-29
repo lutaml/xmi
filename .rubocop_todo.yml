@@ -103,6 +103,7 @@ RSpec/DescribeClass:
     - 'spec/xmi/edge_cases_spec.rb'
     - 'spec/xmi/namespace_aliases_spec.rb'
     - 'spec/xmi/versioning_spec.rb'
+    - 'spec/xmi/sparx/mixed_prefix_style_spec.rb'
 
 # Offense count: 37
 # Configuration parameters: CountAsOne.

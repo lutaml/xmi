@@ -47,8 +47,8 @@ module Xmi
 
       XmiIdentity.apply_xml_mappings(self)
 
-      map_element "Documentation", to: :documentation
-      map_element "Model", to: :model
+      map_element "Documentation", to: :documentation, form: :qualified
+      map_element "Model", to: :model, form: :qualified
       map_element "Bibliography", to: :bibliography, value_map: VALUE_MAP
       map_element "BasicDoc", to: :basic_doc, value_map: VALUE_MAP
       map_element "enumeration", to: :enumeration, value_map: VALUE_MAP

@@ -9,6 +9,7 @@ module Xmi
 
         xml do
           root "stereotype"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "stereotype", to: :stereotype
         end

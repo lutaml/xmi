@@ -9,6 +9,7 @@ module Xmi
 
         xml do
           root "xrefs"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "value", to: :value
         end

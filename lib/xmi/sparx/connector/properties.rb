@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "properties"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute :ea_type, to: :ea_type
           map_attribute :direction, to: :direction

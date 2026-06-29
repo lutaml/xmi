@@ -13,7 +13,7 @@ module Xmi
 
         xml do
           root "model"
-          namespace ::Xmi::Namespace::Omg::Uml
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "package", to: :package
           map_attribute "package2", to: :package2

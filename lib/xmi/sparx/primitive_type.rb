@@ -9,6 +9,7 @@ module Xmi
 
         xml do
           root "primitivetypes"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_element "packagedElement", to: :packaged_element,
                                          value_map: VALUE_MAP

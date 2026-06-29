@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "coords"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "ordered", to: :ordered
           map_attribute "scale", to: :scale

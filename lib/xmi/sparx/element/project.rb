@@ -15,6 +15,7 @@ module Xmi
 
         xml do
           root "project"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "author", to: :author
           map_attribute "version", to: :version

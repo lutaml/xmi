@@ -23,7 +23,7 @@ module Xmi
         map_element "packageImport", to: :package_import, value_map: VALUE_MAP
         map_element "packagedElement", to: :packaged_element,
                                        value_map: VALUE_MAP
-        map_element "Diagram", to: :diagram
+        map_element "Diagram", to: :diagram, form: :qualified
         map_element "profileApplication", to: :profile_application,
                                           value_map: VALUE_MAP
       end

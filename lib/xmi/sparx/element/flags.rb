@@ -15,6 +15,7 @@ module Xmi
 
         xml do
           root "flags"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "iscontrolled", to: :is_controlled
           map_attribute "isprotected", to: :is_protected

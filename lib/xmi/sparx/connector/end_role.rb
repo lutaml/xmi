@@ -11,6 +11,7 @@ module Xmi
 
         xml do
           root "role"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute :name, to: :name
           map_attribute :visibility, to: :visibility

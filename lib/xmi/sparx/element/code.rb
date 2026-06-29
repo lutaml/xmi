@@ -10,6 +10,7 @@ module Xmi
 
         xml do
           root "code"
+          namespace ::Xmi::Namespace::Omg::Xmi
 
           map_attribute "gentype", to: :gentype
           map_attribute "product_name", to: :product_name

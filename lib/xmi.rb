@@ -27,11 +27,25 @@ require_relative "xmi/xmi_identity"
 module Xmi
   class Error < StandardError; end
 
-  # Shared value_map for XMI elements
-  # Used to handle nil, empty, and omitted values consistently
+  # Shared value_map for XMI elements.
+  #
+  # Parsing (`from:`) stays flexible: nil / empty / omitted all map
+  # to the symbol `:empty`, which the parser uses to materialise an
+  # empty model on the attribute. This preserves absence-vs-empty
+  # distinctions on the way IN.
+  #
+  # Serialization (`to:`) is generation-friendly: nil / empty /
+  # omitted all map to `:omitted`, which means "do not emit the
+  # element". This eliminates the post-processing step the ea gem
+  # previously needed (XmlSanitizer) to strip truly-empty elements
+  # that real Sparx XMI never carries.
+  #
+  # This is a breaking change from the previous symmetric VALUE_MAP
+  # (which emitted `<child/>` for empty collections). Consumers that
+  # relied on empty-element round-trip must update.
   VALUE_MAP = {
     from: { nil: :empty, empty: :empty, omitted: :empty },
-    to: { nil: :empty, empty: :empty, omitted: :empty },
+    to:   { nil: :omitted, empty: :omitted, omitted: :omitted },
   }.freeze
 end
 

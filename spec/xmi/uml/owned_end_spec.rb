@@ -102,4 +102,88 @@ RSpec.describe Xmi::Uml::OwnedEnd do
       end
     end
   end
+
+  describe "multiplicity child elements (upperValue / lowerValue)" do
+    let(:owned_end_with_bounds_xml) do
+      %(<ownedEnd xmi:type="uml:Property" xmi:id="EAID_E3" association="EAID_A2" name="src">\n        <type xmi:idref="EAID_C2"/>\n        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001__src" value="0"/>\n        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000002__src" value="1"/>\n      </ownedEnd>)
+    end
+
+    let(:full_doc) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Association" xmi:id="EAID_A2" name="assoc2">
+              #{owned_end_with_bounds_xml}
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    subject(:owned_end) do
+      Xmi::Sparx::Root.from_xml(full_doc)
+        .model.packaged_element.first.owned_end.first
+    end
+
+    it "parses <lowerValue> as a LowerValue model" do
+      expect(owned_end.lower_value).to be_a(Xmi::Uml::LowerValue)
+      expect(owned_end.lower_value.value).to eq("0")
+    end
+
+    it "parses <upperValue> as an UpperValue model" do
+      expect(owned_end.upper_value).to be_a(Xmi::Uml::UpperValue)
+      expect(owned_end.upper_value.value).to eq("1")
+    end
+
+    it "round-trips upperValue/lowerValue through serialize → parse" do
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(full_doc).to_xml)
+        .model.packaged_element.first.owned_end.first
+      expect(reparsed.lower_value.value).to eq("0")
+      expect(reparsed.upper_value.value).to eq("1")
+    end
+  end
+
+  describe "aggregation / visibility attributes" do
+    let(:xml) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Association" xmi:id="EAID_A3">
+              <ownedEnd xmi:type="uml:Property" xmi:id="EAID_E4" visibility="private" aggregation="composite"/>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    it "captures visibility" do
+      owned_end = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first.owned_end.first
+      expect(owned_end.visibility).to eq("private")
+    end
+
+    it "captures aggregation" do
+      owned_end = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first.owned_end.first
+      expect(owned_end.aggregation).to eq("composite")
+    end
+  end
+
+  describe "schema migration (no backwards compat)" do
+    it "does NOT declare Integer `lower` attribute (removed)" do
+      expect(described_class.attributes).not_to have_key(:lower)
+    end
+
+    it "does NOT declare Integer `upper` attribute (removed)" do
+      expect(described_class.attributes).not_to have_key(:upper)
+    end
+
+    it "declares lower_value as a LowerValue child model" do
+      expect(described_class.attributes[:lower_value].type).to eq(Xmi::Uml::LowerValue)
+    end
+
+    it "declares upper_value as an UpperValue child model" do
+      expect(described_class.attributes[:upper_value].type).to eq(Xmi::Uml::UpperValue)
+    end
+  end
 end

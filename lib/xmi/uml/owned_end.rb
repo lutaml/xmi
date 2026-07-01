@@ -8,10 +8,13 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :association, :string
       attribute :name, :string
+      attribute :visibility, :string
+      attribute :aggregation, :string
       attribute :uml_type, Uml::Type
       attribute :member_end, :string
-      attribute :lower, :integer
-      attribute :upper, :integer
+      attribute :upper_value, UpperValue
+      attribute :lower_value, LowerValue
+      attribute :default_value, DefaultValue
       attribute :is_composite, :boolean
 
       xml do
@@ -22,11 +25,15 @@ module Xmi
         map_attribute "id", to: :id
         map_attribute "association", to: :association
         map_attribute "name", to: :name
+        map_attribute "visibility", to: :visibility
+        map_attribute "aggregation", to: :aggregation
         map_attribute "memberEnd", to: :member_end
-        map_attribute "lower", to: :lower
-        map_attribute "upper", to: :upper
         map_attribute "isComposite", to: :is_composite
+
         map_element "type", to: :uml_type
+        map_element "upperValue", to: :upper_value
+        map_element "lowerValue", to: :lower_value
+        map_element "defaultValue", to: :default_value
       end
     end
   end

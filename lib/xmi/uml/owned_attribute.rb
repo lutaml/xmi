@@ -8,10 +8,18 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :association, :string
       attribute :name, :string
+      attribute :visibility, :string
       attribute :is_derived, :string
+      attribute :is_id, :string
+      attribute :is_ordered, :string
+      attribute :is_unique, :string
+      attribute :is_read_only, :string
+      attribute :default, :string
+      attribute :aggregation, :string
       attribute :uml_type, Uml::Type
       attribute :upper_value, UpperValue
       attribute :lower_value, LowerValue
+      attribute :default_value, DefaultValue
 
       xml do
         root "ownedAttribute"
@@ -21,11 +29,19 @@ module Xmi
         map_attribute "id", to: :id
         map_attribute "association", to: :association
         map_attribute "name", to: :name
+        map_attribute "visibility", to: :visibility
         map_attribute "isDerived", to: :is_derived
+        map_attribute "isID", to: :is_id
+        map_attribute "isOrdered", to: :is_ordered
+        map_attribute "isUnique", to: :is_unique
+        map_attribute "isReadOnly", to: :is_read_only
+        map_attribute "default", to: :default
+        map_attribute "aggregation", to: :aggregation
 
         map_element "type", to: :uml_type
         map_element "upperValue", to: :upper_value
         map_element "lowerValue", to: :lower_value
+        map_element "defaultValue", to: :default_value
       end
     end
   end

@@ -8,9 +8,9 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :name, :string
       attribute :visibility, :string
-      attribute :is_abstract, :string
-      attribute :is_leaf, :string
-      attribute :is_active, :string
+      attribute :is_abstract, :boolean
+      attribute :is_leaf, :boolean
+      attribute :is_active, :boolean
       attribute :classifier, :string
       attribute :member_end, :string
       attribute :member_ends, MemberEnd, collection: true

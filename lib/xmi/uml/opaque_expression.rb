@@ -7,13 +7,17 @@ module Xmi
     # features. Sparx EA serialises instance-specification values as
     # OpaqueExpression with a `body` attribute carrying the literal
     # expression text.
-    class OpaqueExpression < Lutaml::Model::Serializable
+    #
+    # Per UML 2.5 §8.3, `body` and `language` are parallel arrays
+    # (`String [*]`): `body[i]` is written in `language[i]`. Most
+    # Sparx output carries a single pair; we model the collection
+    # form so multi-language expressions round-trip without loss.
+    class OpaqueExpression < ValueSpecification
       skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
-      attribute :body, :string
-      attribute :language, :string
+      attribute :body, :string, collection: true
+      attribute :language, :string, collection: true
       attribute :body_attribute, :string
+      attribute :language_attribute, :string
 
       xml do
         root "opaqueExpression"
@@ -22,9 +26,10 @@ module Xmi
         map_attribute "type", to: :type
         map_attribute "id", to: :id
         map_attribute "body", to: :body_attribute
-        map_attribute "language", to: :language
+        map_attribute "language", to: :language_attribute
 
         map_element "body", to: :body
+        map_element "language", to: :language
       end
     end
   end

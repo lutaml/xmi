@@ -104,6 +104,11 @@ RSpec.describe Xmi::Uml::OwnedEnd do
   end
 
   describe "multiplicity child elements (upperValue / lowerValue)" do
+    subject(:owned_end) do
+      Xmi::Sparx::Root.from_xml(full_doc)
+        .model.packaged_element.first.owned_end.first
+    end
+
     let(:owned_end_with_bounds_xml) do
       %(<ownedEnd xmi:type="uml:Property" xmi:id="EAID_E3" association="EAID_A2" name="src">\n        <type xmi:idref="EAID_C2"/>\n        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001__src" value="0"/>\n        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000002__src" value="1"/>\n      </ownedEnd>)
     end
@@ -119,11 +124,6 @@ RSpec.describe Xmi::Uml::OwnedEnd do
           </uml:Model>
         </xmi:XMI>
       XML
-    end
-
-    subject(:owned_end) do
-      Xmi::Sparx::Root.from_xml(full_doc)
-        .model.packaged_element.first.owned_end.first
     end
 
     it "parses <lowerValue> as a LowerValue model" do
@@ -166,6 +166,47 @@ RSpec.describe Xmi::Uml::OwnedEnd do
     it "captures aggregation" do
       owned_end = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first.owned_end.first
       expect(owned_end.aggregation).to eq("composite")
+    end
+  end
+
+  describe "defaultValue child element" do
+    subject(:owned_end) do
+      Xmi::Sparx::Root.from_xml(full_doc)
+        .model.packaged_element.first.owned_end.first
+    end
+
+    let(:owned_end_with_default_xml) do
+      %(<ownedEnd xmi:type="uml:Property" xmi:id="EAID_E5" association="EAID_A4" name="src">\n        <type xmi:idref="EAID_C3"/>\n        <defaultValue xmi:type="uml:LiteralString" xmi:id="EAID_DV1" value="default-text"/>\n      </ownedEnd>)
+    end
+
+    let(:full_doc) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Association" xmi:id="EAID_A4" name="assoc4">
+              #{owned_end_with_default_xml}
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    it "parses <defaultValue> as a DefaultValue model" do
+      expect(owned_end.default_value).to be_a(Xmi::Uml::DefaultValue)
+      expect(owned_end.default_value.value).to eq("default-text")
+      expect(owned_end.default_value.type).to eq("uml:LiteralString")
+    end
+
+    it "round-trips defaultValue through serialize → parse" do
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(full_doc).to_xml)
+        .model.packaged_element.first.owned_end.first
+      expect(reparsed.default_value.value).to eq("default-text")
+      expect(reparsed.default_value.type).to eq("uml:LiteralString")
+    end
+
+    it "declares default_value as DefaultValue on the schema" do
+      expect(described_class.attributes[:default_value].type).to eq(Xmi::Uml::DefaultValue)
     end
   end
 

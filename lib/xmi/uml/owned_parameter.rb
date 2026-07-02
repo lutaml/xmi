@@ -9,8 +9,8 @@ module Xmi
       attribute :type, ::Xmi::Type::XmiType
       attribute :direction, :string
       attribute :visibility, :string
-      attribute :is_ordered, :string
-      attribute :is_unique, :string
+      attribute :is_ordered, :boolean
+      attribute :is_unique, :boolean
       attribute :effect, :string
       attribute :upper_value, UpperValue
       attribute :lower_value, LowerValue

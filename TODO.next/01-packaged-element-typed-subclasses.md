@@ -1,133 +1,94 @@
-# 01 — PackagedElement typed subclasses (DESIGN ONLY)
+# 01 — PackagedElement typed subclasses (Phase B remaining)
 
-**Status: DESIGN-ONLY — deferred. Requires user approval and a separate PR.**
+**Status: PARTIAL — Phase A landed (2026-07-03); Phase B (narrowing
+attrs to subclasses) deferred.**
 
-Migrated from `TODO.refactor/11` (2026-07-02). The original audit
-landed all behavioral changes; this design document remains as a
-future direction.
+## What landed (Phase A)
 
-## Problem
+Polymorphic dispatch on `PackagedElement.packaged_element` and
+`UmlModel.packaged_element`. Each `<packagedElement xmi:type="uml:X">`
+now parses to a corresponding `Xmi::Uml::X` subclass:
 
-`Xmi::Uml::PackagedElement` (lib/xmi/uml/packaged_element.rb) is a
-god class: 13 child-element attributes and 8+ root attributes, only
-some of which apply to any given `xmi:type`. Examples:
-
-| xmi:type | Valid child attrs (today, all allowed) |
+| xmi:type | Ruby class |
 |---|---|
-| uml:Class | owned_attribute, owned_operation, owned_comment, generalization, interface_realization, nested packaged_element |
-| uml:Association | owned_end, member_end, member_ends |
-| uml:InstanceSpecification | slot, specification, classifier |
-| uml:Interface | owned_operation, generalization |
-| uml:Enumeration | owned_literal |
-| uml:DataType | owned_attribute, owned_operation |
-| uml:PrimitiveType | (none) |
-| uml:Realization | supplier, client |
-| uml:Generalization | general, specific |
-| uml:Package | nested packaged_element |
+| uml:Class | `Xmi::Uml::UmlClass` |
+| uml:Association | `Xmi::Uml::Association` |
+| uml:Interface | `Xmi::Uml::Interface` |
+| uml:InstanceSpecification | `Xmi::Uml::InstanceSpecification` |
+| uml:DataType | `Xmi::Uml::DataType` |
+| uml:PrimitiveType | `Xmi::Uml::PrimitiveType` |
+| uml:Enumeration | `Xmi::Uml::Enumeration` |
+| uml:Package | `Xmi::Uml::Package` |
+| uml:Realization | `Xmi::Uml::Realization` |
 
-The union-bag approach:
+Dispatch map: `Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP` in
+`lib/xmi/uml/packaged_element.rb`. Spec coverage:
+`spec/xmi/uml/packaged_element_dispatch_spec.rb` (17 examples).
 
-- Lets invalid combinations parse silently
-  (e.g. `<packagedElement type="uml:Association"><ownedAttribute/>...`)
-- Bloats the model — every Sparx file instantiates the full attribute
-  set on every packaged element.
-- Confuses readers (which attrs are "real" for this type?).
-- Pushes type-specific behavior into consumers (they re-dispatch on
-  `xmi:type` after parsing).
+Subclasses currently inherit the **full union-bag attribute set**
+from `PackagedElement`. Consumers can dispatch on `is_a?(Xmi::Uml::X)`
+for type-specific behavior, but accessing the wrong attr on the wrong
+type still returns nil/empty rather than raising.
 
-## Proposed shape
+## What's deferred (Phase B)
 
-Use lutaml-model's polymorphic dispatch (pattern established in
-`Slot#value` — see `lib/xmi/uml/slot.rb`).
+Narrow each subclass's attribute set to its UML-2.5-conformant subset.
+Examples:
 
-### New class hierarchy
+| Class | Valid attrs (today, all inherited) |
+|---|---|
+| UmlClass | owned_attribute, owned_operation, owned_comment, generalization, interface_realization, nested packaged_element |
+| Association | owned_end, member_end, member_ends |
+| InstanceSpecification | classifier, slot, specification |
+| Interface | owned_operation, generalization |
+| Enumeration | owned_literal |
+| DataType | owned_attribute, owned_operation |
+| PrimitiveType | (none) |
+| Realization | supplier, client |
+| Package | nested packaged_element |
 
-```
-Xmi::Uml::PackagedElement              # abstract base
-├── Xmi::Uml::Class                    # xmi:type=uml:Class
-├── Xmi::Uml::Association              # xmi:type=uml:Association
-├── Xmi::Uml::Interface                # xmi:type=uml:Interface
-├── Xmi::Uml::InstanceSpecification    # xmi:type=uml:InstanceSpecification
-├── Xmi::Uml::DataType                 # xmi:type=uml:DataType
-├── Xmi::Uml::PrimitiveType            # xmi:type=uml:PrimitiveType
-├── Xmi::Uml::Enumeration              # xmi:type=uml:Enumeration
-├── Xmi::Uml::Package                  # xmi:type=uml:Package
-├── Xmi::Uml::Realization              # xmi:type=uml:Realization
-├── Xmi::Uml::Generalization           # xmi:type=uml:Generalization (if emitted as packagedElement)
-└── ... (one per xmi:type EA emits)
-```
+After Phase B, `instance.owned_attribute` raises NoMethodError on an
+InstanceSpecification — the type system catches the misuse at runtime.
 
-### Base carries only common attrs
+## Why Phase B is deferred
 
-`PackagedElement` keeps: `type`, `id`, `name`, `visibility`,
-`packaged_element` (recursion — itself polymorphic).
+- **Breaking change.** Every consumer that accesses attrs via the
+  base `PackagedElement` type breaks. The `lutaml/ea` transformer
+  walks packaged_element generically; it would need type-specific
+  dispatch added.
+- **Test churn.** Every Sparx fixture regression test that accesses
+  `pe.owned_attribute` (etc.) on a generic PackagedElement needs
+  updating.
+- **Limited semantic gain.** Phase A already gives consumers the
+  type tag. Phase B catches programming errors but doesn't enable
+  new functionality.
+- The original TODO.next/01 design doc proposed Phase A as
+  "risk-free" and Phase B as the "breaking change." That framing
+  holds.
 
-### Each subclass adds its type-specific attrs
+## Rollout strategy for Phase B
 
-```ruby
-class Class < PackagedElement
-  attribute :owned_attribute, OwnedAttribute, collection: true
-  attribute :owned_operation, OwnedOperation, collection: true
-  attribute :owned_comment, OwnedComment, collection: true
-  attribute :generalization, AssociationGeneralization, collection: true
-  attribute :interface_realization, InterfaceRealization, collection: true
-  attribute :is_abstract, :boolean
-  attribute :is_leaf, :boolean
-  attribute :is_active, :boolean
-end
+1. Survey every consumer of `PackagedElement` attrs in `lutaml/ea`,
+   `lutaml/lutaml-uml`, and downstream.
+2. For each consumer, change to type-specific dispatch:
+   ```ruby
+   case pe
+   when Xmi::Uml::UmlClass then pe.owned_attribute ...
+   when Xmi::Uml::Association then pe.owned_end ...
+   end
+   ```
+3. Once consumers are type-aware, narrow subclass attrs.
+4. Remove the narrowed attrs from `PackagedElement`.
 
-class Association < PackagedElement
-  attribute :owned_end, OwnedEnd, collection: true
-  attribute :member_end, :string
-  attribute :member_ends, MemberEnd, collection: true
-  attribute :is_derived, :boolean
-end
-
-class InstanceSpecification < PackagedElement
-  attribute :classifier, :string
-  attribute :slot, Slot, collection: true
-  attribute :specification, Specification
-end
-```
-
-### Parent-side wiring
-
-`PackagedElement.packaged_element` (the recursion) becomes polymorphic
-on `xmi:type`. Consumers iterate `model.packaged_element` and get a
-heterogeneous list of typed objects.
-
-```ruby
-attribute :packaged_element, PackagedElement, collection: true, polymorphic: true
-```
-
-with `polymorphic_map` covering every concrete subclass.
-
-## Rollout strategy
-
-Two-phase:
-
-1. **Phase A (additive only).** Introduce the subclass hierarchy. Keep
-   `PackagedElement` as the concrete union bag. The subclasses exist
-   but aren't wired to parsing. Consumers can opt in.
-2. **Phase B (switch dispatch).** Flip `packaged_element` to
-   `polymorphic: true` with the new map. Update consumers. Delete the
-   union-bag attrs from `PackagedElement`.
-
-Phase A is risk-free. Phase B is the breaking change.
-
-## Why design-only for now
-
-- The audit listed this as "Future PR, not this one."
-- It's a multi-day refactor with broad blast radius.
-- The current union-bag pattern works (parses real Sparx, round-trips).
-- Untested subclasses without fixture coverage would be speculative.
+This is a multi-PR change. Each step should land separately so
+bisect works.
 
 ## Open questions
 
-- Does lutaml-model's polymorphic dispatch handle namespaced
-  discriminators (`xmi:type` as `XmiType`)? **Answer (post-TODO 10):
-  yes — `Slot#value` proves the pattern works.**
-- Should `Generalization` move from `packagedElement` to its own child
-  element shape to match OMG XMI? Sparx uses both. Defer.
-- How to handle EA's `uml:ExtensionEnd` and other Sparx-isms? Treat as
-  subclasses of the closest OMG type.
+- Should `Generalization` move from `packagedElement` to its own
+  child element shape to match OMG XMI? Sparx uses both. Defer.
+- How to handle EA's `uml:ExtensionEnd` and other Sparx-isms? Treat
+  as subclasses of the closest OMG type.
+- The polymorphic dispatch failure mode (unknown xmi:type raises
+  TypeError) is locked in by `polymorphic_robustness_spec.rb`. Phase B
+  doesn't fix this; it's a separate concern.

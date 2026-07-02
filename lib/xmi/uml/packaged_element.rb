@@ -15,6 +15,7 @@ module Xmi
       class_map: {
         "uml:Class" => "Xmi::Uml::UmlClass",
         "uml:Association" => "Xmi::Uml::Association",
+        "uml:AssociationClass" => "Xmi::Uml::AssociationClass",
         "uml:Interface" => "Xmi::Uml::Interface",
         "uml:InstanceSpecification" => "Xmi::Uml::InstanceSpecification",
         "uml:DataType" => "Xmi::Uml::DataType",
@@ -22,6 +23,10 @@ module Xmi
         "uml:Enumeration" => "Xmi::Uml::Enumeration",
         "uml:Package" => "Xmi::Uml::Package",
         "uml:Realization" => "Xmi::Uml::Realization",
+        "uml:Dependency" => "Xmi::Uml::Dependency",
+        "uml:Signal" => "Xmi::Uml::Signal",
+        "uml:Extension" => "Xmi::Uml::Extension",
+        "uml:Stereotype" => "Xmi::Uml::Stereotype",
       },
     }.freeze
 

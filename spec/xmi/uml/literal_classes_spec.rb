@@ -21,7 +21,8 @@ RSpec.describe "ValueSpecification subclass literals" do
     end
 
     it "round-trips value through xml" do
-      model = described_class.new(value: "hello", type: "uml:LiteralString", id: "X1")
+      model = described_class.new(value: "hello", type: "uml:LiteralString",
+                                  id: "X1")
       reparsed = described_class.from_xml(model.to_xml)
       expect(reparsed.value).to eq("hello")
       expect(reparsed.type).to eq("uml:LiteralString")
@@ -39,7 +40,8 @@ RSpec.describe "ValueSpecification subclass literals" do
     end
 
     it "round-trips integer value through xml" do
-      model = described_class.new(value: 7, type: "uml:LiteralInteger", id: "X1")
+      model = described_class.new(value: 7, type: "uml:LiteralInteger",
+                                  id: "X1")
       reparsed = described_class.from_xml(model.to_xml)
       expect(reparsed.value).to eq(7)
     end
@@ -56,7 +58,8 @@ RSpec.describe "ValueSpecification subclass literals" do
     end
 
     it "round-trips boolean value through xml" do
-      model = described_class.new(value: false, type: "uml:LiteralBoolean", id: "X1")
+      model = described_class.new(value: false, type: "uml:LiteralBoolean",
+                                  id: "X1")
       reparsed = described_class.from_xml(model.to_xml)
       expect(reparsed.value).to be(false)
     end
@@ -73,7 +76,8 @@ RSpec.describe "ValueSpecification subclass literals" do
     end
 
     it "round-trips '*' as string" do
-      model = described_class.new(value: "*", type: "uml:LiteralUnlimitedNatural", id: "X1")
+      model = described_class.new(value: "*",
+                                  type: "uml:LiteralUnlimitedNatural", id: "X1")
       reparsed = described_class.from_xml(model.to_xml)
       expect(reparsed.value).to eq("*")
     end

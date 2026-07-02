@@ -3,9 +3,8 @@
 require "spec_helper"
 require "xmi"
 
-# Files that intentionally define multiple constants under one file
-# (constant-name-to-filename mapping doesn't apply).
-SHARED_FILES = %w[default_value].freeze
+# Skip files that don't follow the filename→CamelCase convention.
+NON_CLASS_FILES = %w[base profile_attributes].freeze
 
 # Smoke spec: every autoload entry under Xmi::Uml must resolve to
 # a loadable file. Catches typos in the autoload path strings and
@@ -28,20 +27,17 @@ RSpec.describe "Xmi::Uml autoload hygiene" do
   end
 
   describe "every lib/xmi/uml/*.rb file" do
-    it "has a corresponding autoload entry for each file" do
+    it "has a corresponding autoload entry matching its filename" do
       Dir[File.expand_path("../lib/xmi/uml/*.rb", __dir__)].each do |path|
         basename = File.basename(path, ".rb")
-        if SHARED_FILES.include?(basename)
-          # default_value.rb defines DefaultValue, UpperValue, LowerValue
-          expect(Xmi::Uml.const_get(:DefaultValue, false)).to be_a(Class)
-          expect(Xmi::Uml.const_get(:UpperValue, false)).to be_a(Class)
-          expect(Xmi::Uml.const_get(:LowerValue, false)).to be_a(Class)
-          next
-        end
+        # Skip Base: it is the abstract parent and not file-named (would be `base.rb` → `Base`).
+        # Skip profile_attributes: it's a Ruby module, not a class — autoload still works.
+        next if NON_CLASS_FILES.include?(basename)
 
         classname = basename.gsub(/(?:^|_)(.)/) { Regexp.last_match(1).upcase }
         loaded = Xmi::Uml.const_get(classname, false)
-        expect(loaded).to be_a(Class), "expected #{classname} to be a loadable class"
+        expect(loaded).to be_a(Class),
+                          "expected #{classname} to be a loadable class"
       end
     end
   end

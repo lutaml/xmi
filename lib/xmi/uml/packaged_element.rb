@@ -2,10 +2,30 @@
 
 module Xmi
   module Uml
-    class PackagedElement < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # Shared polymorphic dispatch map for any attribute whose value
+    # is a PackagedElement dispatched on `xmi:type`. Used by the
+    # packaged_element recursion on PackagedElement itself, and by
+    # UmlModel.packaged_element.
+    #
+    # Phase A of TODO.next/01: subclasses are type tags on
+    # PackagedElement (no attrs narrowed). Phase B will narrow each
+    # subclass's attrs to its UML-2.5-conformant subset.
+    PACKAGED_ELEMENT_POLYMORPHIC_MAP = {
+      attribute: "xmi:type",
+      class_map: {
+        "uml:Class" => "Xmi::Uml::UmlClass",
+        "uml:Association" => "Xmi::Uml::Association",
+        "uml:Interface" => "Xmi::Uml::Interface",
+        "uml:InstanceSpecification" => "Xmi::Uml::InstanceSpecification",
+        "uml:DataType" => "Xmi::Uml::DataType",
+        "uml:PrimitiveType" => "Xmi::Uml::PrimitiveType",
+        "uml:Enumeration" => "Xmi::Uml::Enumeration",
+        "uml:Package" => "Xmi::Uml::Package",
+        "uml:Realization" => "Xmi::Uml::Realization",
+      },
+    }.freeze
+
+    class PackagedElement < Base
       attribute :name, :string
       attribute :visibility, :string
       attribute :is_abstract, :boolean
@@ -21,7 +41,8 @@ module Xmi
       attribute :supplier, :string
       attribute :client, :string
 
-      attribute :packaged_element, PackagedElement, collection: true
+      attribute :packaged_element, PackagedElement, collection: true,
+                                                    polymorphic: true
       attribute :owned_end, OwnedEnd, collection: true
       attribute :owned_attribute, OwnedAttribute, collection: true
       attribute :owned_comment, OwnedComment, collection: true
@@ -32,10 +53,6 @@ module Xmi
 
       xml do
         root "packagedElement"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "name", to: :name
         map_attribute "visibility", to: :visibility
         map_attribute "isAbstract", to: :is_abstract
@@ -49,14 +66,15 @@ module Xmi
         map_attribute "client", to: :client
 
         map_element "generalization", to: :generalization, value_map: VALUE_MAP
-        map_element "interfaceRealization", to: :interface_realization, value_map: VALUE_MAP
+        map_element "interfaceRealization", to: :interface_realization,
+                                            value_map: VALUE_MAP
         map_element "ownedComment", to: :owned_comment, value_map: VALUE_MAP
         map_element "ownedEnd", to: :owned_end, value_map: VALUE_MAP
         map_element "ownedLiteral", to: :owned_literal, value_map: VALUE_MAP
         map_element "ownedAttribute", to: :owned_attribute, value_map: VALUE_MAP
         map_element "ownedOperation", to: :owned_operation, value_map: VALUE_MAP
         map_element "packagedElement", to: :packaged_element,
-                                       value_map: VALUE_MAP
+                                       polymorphic: PACKAGED_ELEMENT_POLYMORPHIC_MAP
         map_element "memberEnd", to: :member_ends, value_map: VALUE_MAP
         map_element "slot", to: :slot, value_map: VALUE_MAP
         map_element "specification", to: :specification

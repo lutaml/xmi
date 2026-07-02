@@ -1,45 +1,18 @@
 # frozen_string_literal: true
 
+require_relative "value_specification"
+
 module Xmi
   module Uml
-    class DefaultValue < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # Default value wrapper. Semantically a ValueSpecification
+    # (UML 2.5 §9.8) — kept as a concrete subclass for backwards
+    # compatibility with code that constructs DefaultValue directly
+    # (e.g. the lutaml/ea transformer).
+    class DefaultValue < ValueSpecification
       attribute :value, :string
 
       xml do
         root "defaultValue"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
-        map_attribute "value", to: :value
-      end
-    end
-
-    class UpperValue < DefaultValue
-      skip_reference_registration
-
-      xml do
-        root "upperValue"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
-        map_attribute "value", to: :value
-      end
-    end
-
-    class LowerValue < DefaultValue
-      skip_reference_registration
-
-      xml do
-        root "lowerValue"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "value", to: :value
       end
     end

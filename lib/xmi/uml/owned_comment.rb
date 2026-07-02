@@ -2,10 +2,7 @@
 
 module Xmi
   module Uml
-    class OwnedComment < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    class OwnedComment < Base
       attribute :name, :string
       attribute :body_element, :string
       attribute :body_attribute, :string
@@ -14,10 +11,6 @@ module Xmi
 
       xml do
         root "ownedComment"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "name", to: :name
         map_attribute "body", to: :body_attribute
         map_attribute "annotatedElement", to: :annotated_attribute

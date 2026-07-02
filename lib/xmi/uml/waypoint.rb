@@ -2,25 +2,21 @@
 
 module Xmi
   module Uml
-    class Bounds < Lutaml::Model::Serializable
+    class Waypoint < Lutaml::Model::Serializable
       skip_reference_registration
       attribute :type, ::Xmi::Type::XmiType
       attribute :id, ::Xmi::Type::XmiId
       attribute :x, :integer
       attribute :y, :integer
-      attribute :height, :integer
-      attribute :width, :integer
 
       xml do
-        root "bounds"
+        root "waypoint"
         namespace ::Xmi::Namespace::Omg::UmlDi
 
         map_attribute "type", to: :type
         map_attribute "id", to: :id
         map_attribute "x", to: :x
         map_attribute "y", to: :y
-        map_attribute "height", to: :height
-        map_attribute "width", to: :width
       end
     end
   end

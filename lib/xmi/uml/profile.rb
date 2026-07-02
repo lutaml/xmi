@@ -1,24 +1,9 @@
 # frozen_string_literal: true
 
+require_relative "profile_attributes"
+
 module Xmi
   module Uml
-    module ProfileAttributes
-      def self.included(klass)
-        klass.class_eval do
-          attribute :packaged_element, PackagedElement, collection: true
-          attribute :package_import, PackageImport, collection: true
-          attribute :id, ::Xmi::Type::XmiId
-          attribute :name, :string
-          # attribute :xmi, :string
-          # attribute :uml, :string
-          attribute :ns_prefix, :string
-
-          # Is this an EA thing?
-          attribute :metamodel_reference, :string
-        end
-      end
-    end
-
     class Profile < Lutaml::Model::Serializable
       skip_reference_registration
       include ProfileAttributes

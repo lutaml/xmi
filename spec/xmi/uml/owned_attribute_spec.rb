@@ -118,9 +118,10 @@ RSpec.describe Xmi::Uml::OwnedAttribute do
       XML
     end
 
-    it "parses <defaultValue> as a DefaultValue model" do
+    it "parses <defaultValue> as a LiteralString (polymorphic dispatch)" do
       oa = owned_attribute(Xmi::Sparx::Root.from_xml(doc))
-      expect(oa.default_value).to be_a(Xmi::Uml::DefaultValue)
+      expect(oa.default_value).to be_a(Xmi::Uml::LiteralString)
+      expect(oa.default_value).to be_a(Xmi::Uml::ValueSpecification)
       expect(oa.default_value.value).to eq("default-text")
       expect(oa.default_value.type).to eq("uml:LiteralString")
     end

@@ -13,7 +13,6 @@ module Xmi
     # Sparx output carries a single pair; we model the collection
     # form so multi-language expressions round-trip without loss.
     class OpaqueExpression < ValueSpecification
-      skip_reference_registration
       attribute :body, :string, collection: true
       attribute :language, :string, collection: true
       attribute :body_attribute, :string
@@ -21,10 +20,6 @@ module Xmi
 
       xml do
         root "opaqueExpression"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "body", to: :body_attribute
         map_attribute "language", to: :language_attribute
 

@@ -182,11 +182,15 @@ RSpec.describe Xmi::Uml::Slot do
 
     it "parses both slots on the alice instance specification" do
       expect(alice.slot.size).to eq(2)
-      expect(alice.slot.map(&:defining_feature)).to contain_exactly("EAID_AA000000_0000_0000_0000_000000000003", "EAID_AA000000_0000_0000_0000_000000000004")
+      expect(alice.slot.map(&:defining_feature)).to contain_exactly(
+        "EAID_AA000000_0000_0000_0000_000000000003", "EAID_AA000000_0000_0000_0000_000000000004"
+      )
     end
 
     it "parses the name slot's OpaqueExpression body" do
-      name_slot = alice.slot.find { |s| s.defining_feature.end_with?("0000003") }
+      name_slot = alice.slot.find do |s|
+        s.defining_feature.end_with?("0000003")
+      end
       expect(name_slot.value.first.body_attribute).to eq("Alice")
     end
 

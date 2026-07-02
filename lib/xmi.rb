@@ -45,7 +45,7 @@ module Xmi
   # relied on empty-element round-trip must update.
   VALUE_MAP = {
     from: { nil: :empty, empty: :empty, omitted: :empty },
-    to:   { nil: :omitted, empty: :omitted, omitted: :omitted },
+    to: { nil: :omitted, empty: :omitted, omitted: :omitted },
   }.freeze
 end
 

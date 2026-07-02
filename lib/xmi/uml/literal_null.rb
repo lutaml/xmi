@@ -6,11 +6,8 @@ module Xmi
     # no `value` attribute; presence of a LiteralNull child indicates
     # the slot is explicitly null (vs. absent).
     class LiteralNull < ValueSpecification
-      skip_reference_registration
-
       xml do
         root "literalNull"
-        namespace ::Xmi::Namespace::Omg::Uml
       end
     end
   end

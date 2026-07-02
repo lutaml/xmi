@@ -2,20 +2,13 @@
 
 module Xmi
   module Uml
-    class Precondition < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :id, ::Xmi::Type::XmiId
+    class Precondition < Base
       attribute :name, :string
-      attribute :type, ::Xmi::Type::XmiType
       attribute :specification, Specification
 
       xml do
         root "precondition"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "id", to: :id
         map_attribute "name", to: :name
-        map_attribute "type", to: :type
         map_element "specification", to: :specification
       end
     end

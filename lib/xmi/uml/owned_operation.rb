@@ -2,9 +2,7 @@
 
 module Xmi
   module Uml
-    class OwnedOperation < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :id, ::Xmi::Type::XmiId
+    class OwnedOperation < Base
       attribute :name, :string
       attribute :visibility, :string
       attribute :is_static, :boolean
@@ -17,9 +15,6 @@ module Xmi
 
       xml do
         root "ownedOperation"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "id", to: :id
         map_attribute "name", to: :name
         map_attribute "visibility", to: :visibility
         map_attribute "isStatic", to: :is_static

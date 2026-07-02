@@ -19,7 +19,9 @@ RSpec.describe "InstanceSpecification end-to-end" do
   let(:package) { doc.model.packaged_element.first }
 
   def find_instance(name)
-    package.packaged_element.find { |pe| pe.type == "uml:InstanceSpecification" && pe.name == name }
+    package.packaged_element.find do |pe|
+      pe.type == "uml:InstanceSpecification" && pe.name == name
+    end
   end
 
   describe "alice (InstanceSpecification with two slots)" do
@@ -45,7 +47,9 @@ RSpec.describe "InstanceSpecification end-to-end" do
     end
 
     it "captures the name slot value body" do
-      name_slot = alice.slot.find { |s| s.defining_feature.end_with?("0000003") }
+      name_slot = alice.slot.find do |s|
+        s.defining_feature.end_with?("0000003")
+      end
       expect(name_slot.value.first.body_attribute).to eq("Alice")
     end
 

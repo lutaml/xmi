@@ -3,20 +3,21 @@
 require "spec_helper"
 require "xmi"
 
-# Locks in the CURRENT concrete-class behavior of DefaultValue,
-# UpperValue, and LowerValue — and the OwnedAttribute/OwnedEnd
-# attributes that use them.
+# Locks in the CURRENT polymorphic behavior of DefaultValue,
+# UpperValue, LowerValue — and the OwnedAttribute/OwnedEnd/
+# OwnedParameter attributes that use them.
 #
-# TODO.refactor/15 (future) proposes making these polymorphic
-# ValueSpecifications. When that lands, every assertion in this
-# file flips. The diff makes the breaking change reviewable.
+# This spec flipped from "concrete class" to "polymorphic
+# ValueSpecification" when TODO 02 landed. The DefaultValue/
+# UpperValue/LowerValue classes still exist as concrete subclasses
+# for back-compat with code that constructs them directly
+# (e.g. the lutaml/ea transformer).
 #
 # rubocop:disable RSpec/DescribeClass, RSpec/FilePath
-RSpec.describe "DefaultValue hierarchy current behavior" do
+RSpec.describe "DefaultValue hierarchy (polymorphic)" do
   describe Xmi::Uml::DefaultValue do
-    it "is a direct Serializable (not yet a ValueSpecification)" do
-      expect(described_class).to be < Lutaml::Model::Serializable
-      expect(described_class).not_to be < Xmi::Uml::ValueSpecification
+    it "inherits from ValueSpecification" do
+      expect(described_class).to be < Xmi::Uml::ValueSpecification
     end
 
     it "declares value as :string" do
@@ -48,41 +49,83 @@ RSpec.describe "DefaultValue hierarchy current behavior" do
     end
   end
 
-  describe "OwnedAttribute/OwnedEnd non-polymorphic upper/lower/default" do
-    it "OwnedAttribute#upper_value is typed as UpperValue (concrete)" do
+  describe "OwnedAttribute/OwnedEnd/OwnedParameter polymorphic upper/lower/default" do
+    let(:expected_type) { Xmi::Uml::ValueSpecification }
+
+    it "OwnedAttribute#upper_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedAttribute.attributes
-      expect(attrs[:upper_value].type).to eq(Xmi::Uml::UpperValue)
-      expect(attrs[:upper_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:upper_value].type).to eq(expected_type)
+      expect(attrs[:upper_value].options[:polymorphic]).to be_truthy
     end
 
-    it "OwnedAttribute#lower_value is typed as LowerValue (concrete)" do
+    it "OwnedAttribute#lower_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedAttribute.attributes
-      expect(attrs[:lower_value].type).to eq(Xmi::Uml::LowerValue)
-      expect(attrs[:lower_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:lower_value].type).to eq(expected_type)
+      expect(attrs[:lower_value].options[:polymorphic]).to be_truthy
     end
 
-    it "OwnedAttribute#default_value is typed as DefaultValue (concrete)" do
+    it "OwnedAttribute#default_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedAttribute.attributes
-      expect(attrs[:default_value].type).to eq(Xmi::Uml::DefaultValue)
-      expect(attrs[:default_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:default_value].type).to eq(expected_type)
+      expect(attrs[:default_value].options[:polymorphic]).to be_truthy
     end
 
-    it "OwnedEnd#upper_value is typed as UpperValue (concrete)" do
+    it "OwnedEnd#upper_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedEnd.attributes
-      expect(attrs[:upper_value].type).to eq(Xmi::Uml::UpperValue)
-      expect(attrs[:upper_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:upper_value].type).to eq(expected_type)
+      expect(attrs[:upper_value].options[:polymorphic]).to be_truthy
     end
 
-    it "OwnedEnd#lower_value is typed as LowerValue (concrete)" do
+    it "OwnedEnd#lower_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedEnd.attributes
-      expect(attrs[:lower_value].type).to eq(Xmi::Uml::LowerValue)
-      expect(attrs[:lower_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:lower_value].type).to eq(expected_type)
+      expect(attrs[:lower_value].options[:polymorphic]).to be_truthy
     end
 
-    it "OwnedEnd#default_value is typed as DefaultValue (concrete)" do
+    it "OwnedEnd#default_value is polymorphic ValueSpecification" do
       attrs = Xmi::Uml::OwnedEnd.attributes
-      expect(attrs[:default_value].type).to eq(Xmi::Uml::DefaultValue)
-      expect(attrs[:default_value].options[:polymorphic]).to be_falsy
+      expect(attrs[:default_value].type).to eq(expected_type)
+      expect(attrs[:default_value].options[:polymorphic]).to be_truthy
+    end
+
+    it "OwnedParameter#upper_value is polymorphic ValueSpecification" do
+      attrs = Xmi::Uml::OwnedParameter.attributes
+      expect(attrs[:upper_value].type).to eq(expected_type)
+      expect(attrs[:upper_value].options[:polymorphic]).to be_truthy
+    end
+
+    it "OwnedParameter#lower_value is polymorphic ValueSpecification" do
+      attrs = Xmi::Uml::OwnedParameter.attributes
+      expect(attrs[:lower_value].type).to eq(expected_type)
+      expect(attrs[:lower_value].options[:polymorphic]).to be_truthy
+    end
+
+    it "OwnedParameter#default_value is polymorphic ValueSpecification" do
+      attrs = Xmi::Uml::OwnedParameter.attributes
+      expect(attrs[:default_value].type).to eq(expected_type)
+      expect(attrs[:default_value].options[:polymorphic]).to be_truthy
+    end
+  end
+
+  describe "shared polymorphic dispatch map" do
+    it "is defined as a constant on Xmi::Uml" do
+      expect(Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP).to be_a(Hash)
+    end
+
+    it "uses xmi:type as the discriminator" do
+      expect(Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP[:attribute]).to eq("xmi:type")
+    end
+
+    it "covers all concrete literal subclasses" do
+      class_map = Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP[:class_map]
+      expect(class_map.keys).to contain_exactly(
+        "uml:OpaqueExpression",
+        "uml:LiteralString",
+        "uml:LiteralInteger",
+        "uml:LiteralBoolean",
+        "uml:LiteralUnlimitedNatural",
+        "uml:LiteralNull",
+      )
     end
   end
 end

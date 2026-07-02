@@ -91,7 +91,8 @@ RSpec.describe Xmi::Uml::OwnedEnd do
     it "parses ea-xmi-2.5.1.xmi without losing xmi:type on ownedEnd elements" do
       expect(owned_ends).not_to be_empty
       owned_ends.each do |oe|
-        expect(oe.type).to eq("uml:Property"), "expected uml:Property, got #{oe.type.inspect}"
+        expect(oe.type).to eq("uml:Property"),
+                           "expected uml:Property, got #{oe.type.inspect}"
       end
     end
 
@@ -126,20 +127,22 @@ RSpec.describe Xmi::Uml::OwnedEnd do
       XML
     end
 
-    it "parses <lowerValue> as a LowerValue model" do
-      expect(owned_end.lower_value).to be_a(Xmi::Uml::LowerValue)
-      expect(owned_end.lower_value.value).to eq("0")
+    it "parses <lowerValue> as a LiteralInteger (polymorphic dispatch)" do
+      expect(owned_end.lower_value).to be_a(Xmi::Uml::LiteralInteger)
+      expect(owned_end.lower_value).to be_a(Xmi::Uml::ValueSpecification)
+      expect(owned_end.lower_value.value).to eq(0)
     end
 
-    it "parses <upperValue> as an UpperValue model" do
-      expect(owned_end.upper_value).to be_a(Xmi::Uml::UpperValue)
+    it "parses <upperValue> as a LiteralUnlimitedNatural (polymorphic dispatch)" do
+      expect(owned_end.upper_value).to be_a(Xmi::Uml::LiteralUnlimitedNatural)
+      expect(owned_end.upper_value).to be_a(Xmi::Uml::ValueSpecification)
       expect(owned_end.upper_value.value).to eq("1")
     end
 
     it "round-trips upperValue/lowerValue through serialize → parse" do
       reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(full_doc).to_xml)
         .model.packaged_element.first.owned_end.first
-      expect(reparsed.lower_value.value).to eq("0")
+      expect(reparsed.lower_value.value).to eq(0)
       expect(reparsed.upper_value.value).to eq("1")
     end
   end
@@ -192,8 +195,9 @@ RSpec.describe Xmi::Uml::OwnedEnd do
       XML
     end
 
-    it "parses <defaultValue> as a DefaultValue model" do
-      expect(owned_end.default_value).to be_a(Xmi::Uml::DefaultValue)
+    it "parses <defaultValue> as a LiteralString (polymorphic dispatch)" do
+      expect(owned_end.default_value).to be_a(Xmi::Uml::LiteralString)
+      expect(owned_end.default_value).to be_a(Xmi::Uml::ValueSpecification)
       expect(owned_end.default_value.value).to eq("default-text")
       expect(owned_end.default_value.type).to eq("uml:LiteralString")
     end
@@ -205,8 +209,10 @@ RSpec.describe Xmi::Uml::OwnedEnd do
       expect(reparsed.default_value.type).to eq("uml:LiteralString")
     end
 
-    it "declares default_value as DefaultValue on the schema" do
-      expect(described_class.attributes[:default_value].type).to eq(Xmi::Uml::DefaultValue)
+    it "declares default_value as polymorphic ValueSpecification" do
+      attrs = described_class.attributes
+      expect(attrs[:default_value].type).to eq(Xmi::Uml::ValueSpecification)
+      expect(attrs[:default_value].options[:polymorphic]).to be_truthy
     end
   end
 
@@ -219,12 +225,16 @@ RSpec.describe Xmi::Uml::OwnedEnd do
       expect(described_class.attributes).not_to have_key(:upper)
     end
 
-    it "declares lower_value as a LowerValue child model" do
-      expect(described_class.attributes[:lower_value].type).to eq(Xmi::Uml::LowerValue)
+    it "declares lower_value as polymorphic ValueSpecification" do
+      attrs = described_class.attributes
+      expect(attrs[:lower_value].type).to eq(Xmi::Uml::ValueSpecification)
+      expect(attrs[:lower_value].options[:polymorphic]).to be_truthy
     end
 
-    it "declares upper_value as an UpperValue child model" do
-      expect(described_class.attributes[:upper_value].type).to eq(Xmi::Uml::UpperValue)
+    it "declares upper_value as polymorphic ValueSpecification" do
+      attrs = described_class.attributes
+      expect(attrs[:upper_value].type).to eq(Xmi::Uml::ValueSpecification)
+      expect(attrs[:upper_value].options[:polymorphic]).to be_truthy
     end
   end
 end

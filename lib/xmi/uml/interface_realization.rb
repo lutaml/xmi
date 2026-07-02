@@ -8,10 +8,7 @@ module Xmi
     # element preserves the implementing-class ↔ Interface contract
     # information that would otherwise be collapsed into a generic
     # `packagedElement type="uml:Realization"`.
-    class InterfaceRealization < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    class InterfaceRealization < Base
       attribute :name, :string
       attribute :client, :string
       attribute :supplier, :string
@@ -19,10 +16,6 @@ module Xmi
 
       xml do
         root "interfaceRealization"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "name", to: :name
         map_attribute "client", to: :client
         map_attribute "supplier", to: :supplier

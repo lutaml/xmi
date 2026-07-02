@@ -2,27 +2,20 @@
 
 module Xmi
   module Uml
-    class OwnedEnd < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    class OwnedEnd < Base
       attribute :association, :string
       attribute :name, :string
       attribute :visibility, :string
       attribute :aggregation, :string
       attribute :uml_type, Uml::Type
       attribute :member_end, :string
-      attribute :upper_value, UpperValue
-      attribute :lower_value, LowerValue
-      attribute :default_value, DefaultValue
+      attribute :upper_value, ValueSpecification, polymorphic: true
+      attribute :lower_value, ValueSpecification, polymorphic: true
+      attribute :default_value, ValueSpecification, polymorphic: true
       attribute :is_composite, :boolean
 
       xml do
         root "ownedEnd"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "association", to: :association
         map_attribute "name", to: :name
         map_attribute "visibility", to: :visibility
@@ -31,9 +24,12 @@ module Xmi
         map_attribute "isComposite", to: :is_composite
 
         map_element "type", to: :uml_type
-        map_element "upperValue", to: :upper_value
-        map_element "lowerValue", to: :lower_value
-        map_element "defaultValue", to: :default_value
+        map_element "upperValue", to: :upper_value,
+                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        map_element "lowerValue", to: :lower_value,
+                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        map_element "defaultValue", to: :default_value,
+                                    polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
       end
     end
   end

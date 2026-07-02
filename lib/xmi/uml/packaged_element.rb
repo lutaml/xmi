@@ -27,6 +27,7 @@ module Xmi
         "uml:Signal" => "Xmi::Uml::Signal",
         "uml:Extension" => "Xmi::Uml::Extension",
         "uml:Stereotype" => "Xmi::Uml::Stereotype",
+        "uml:Usage" => "Xmi::Uml::Usage",
       },
     }.freeze
 

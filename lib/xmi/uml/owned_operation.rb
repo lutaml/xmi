@@ -7,9 +7,9 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :name, :string
       attribute :visibility, :string
-      attribute :is_static, :string
-      attribute :is_abstract, :string
-      attribute :is_query, :string
+      attribute :is_static, :boolean
+      attribute :is_abstract, :boolean
+      attribute :is_query, :boolean
       attribute :concurrency, :string
       attribute :owned_parameter, OwnedParameter, collection: true
       attribute :precondition, Precondition
@@ -17,6 +17,8 @@ module Xmi
 
       xml do
         root "ownedOperation"
+        namespace ::Xmi::Namespace::Omg::Uml
+
         map_attribute "id", to: :id
         map_attribute "name", to: :name
         map_attribute "visibility", to: :visibility

@@ -4,6 +4,11 @@ require "spec_helper"
 require "xmi"
 
 RSpec.describe Xmi::Uml::InterfaceRealization do
+  subject(:ir) do
+    Xmi::Sparx::Root.from_xml(doc_xml)
+      .model.packaged_element.first.interface_realization.first
+  end
+
   let(:namespace_xml) do
     %(xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001")
   end
@@ -19,11 +24,6 @@ RSpec.describe Xmi::Uml::InterfaceRealization do
         </uml:Model>
       </xmi:XMI>
     XML
-  end
-
-  subject(:ir) do
-    Xmi::Sparx::Root.from_xml(doc_xml)
-      .model.packaged_element.first.interface_realization.first
   end
 
   it "is a Uml::InterfaceRealization instance" do
@@ -51,5 +51,51 @@ RSpec.describe Xmi::Uml::InterfaceRealization do
       .model.packaged_element.first.interface_realization.first
     expect(reparsed.client).to eq("EAID_C1")
     expect(reparsed.contract).to eq("EAID_I1")
+  end
+
+  describe "real fixture parity" do
+    let(:doc) { Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi")) }
+
+    let(:impl) do
+      doc.model.packaged_element.first.packaged_element
+        .find { |pe| pe.name == "PersonImpl" }
+    end
+
+    it "parses the interfaceRealization child" do
+      expect(impl.interface_realization.size).to eq(1)
+    end
+
+    it "captures the contract reference" do
+      expect(impl.interface_realization.first.contract)
+        .to eq("EAID_AA000000_0000_0000_0000_000000000010")
+    end
+
+    it "captures the client reference" do
+      expect(impl.interface_realization.first.client)
+        .to eq("EAID_AA000000_0000_0000_0000_000000000020")
+    end
+
+    it "captures the supplier reference" do
+      expect(impl.interface_realization.first.supplier)
+        .to eq("EAID_AA000000_0000_0000_0000_000000000010")
+    end
+  end
+
+  describe "deployment context" do
+    # Sparx EA's current XMI exporter collapses Class -> Interface
+    # contracts into a generic `<packagedElement type="uml:Realization">`
+    # rather than emitting the strict OMG `<interfaceRealization>` element.
+    # The model in this gem exists for *emission* (the ea transformer
+    # writes strict OMG shape) and for parsing strict OMG XMI.
+    #
+    # The synthetic fixture `sparx-instance-specification.xmi` exercises
+    # the strict form. This spec locks in the deployment story: if Sparx
+    # ever starts emitting the strict form, this assertion flips and
+    # forces a follow-up conversation.
+
+    it "is not present in current Sparx EA fixture output" do
+      ea_fixture = cached_fixture("ea-xmi-2.5.1.xmi")
+      expect(ea_fixture).not_to match(/<interfaceRealization/)
+    end
   end
 end

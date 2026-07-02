@@ -7,6 +7,7 @@ module Xmi
       attribute :id, ::Xmi::Type::XmiId
       attribute :type, ::Xmi::Type::XmiType
       attribute :language, :string
+      attribute :content, :string
 
       xml do
         root "specification"
@@ -15,6 +16,7 @@ module Xmi
         map_attribute "id", to: :id
         map_attribute "type", to: :type
         map_attribute "language", to: :language
+        map_content to: :content
       end
     end
   end

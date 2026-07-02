@@ -9,11 +9,14 @@ module Xmi
       attribute :association, :string
       attribute :name, :string
       attribute :visibility, :string
-      attribute :is_derived, :string
-      attribute :is_id, :string
-      attribute :is_ordered, :string
-      attribute :is_unique, :string
-      attribute :is_read_only, :string
+      attribute :is_derived, :boolean
+      attribute :is_id, :boolean
+      attribute :is_ordered, :boolean
+      attribute :is_unique, :boolean
+      attribute :is_read_only, :boolean
+      # `default` is the XMI attribute form (string shortcut);
+      # `default_value` below is the child <defaultValue> element
+      # (ValueSpecification). UML 2.5 Property carries both shapes.
       attribute :default, :string
       attribute :aggregation, :string
       attribute :uml_type, Uml::Type

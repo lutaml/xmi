@@ -133,19 +133,19 @@ RSpec.describe Xmi::Uml::OpaqueExpression do
   describe "real fixture parity" do
     let(:doc) { Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi")) }
 
-    let(:age_value) do
-      alice = doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "alice" }
-      age_slot = alice.slot.find { |s| s.defining_feature.end_with?("0000004") }
-      age_slot.value.first
+    let(:first_value) do
+      first_instance = doc.model.packaged_element.first.packaged_element
+        .find { |pe| pe.name == "Object 01" }
+      first_slot = first_instance.slot.find { |s| s.defining_feature.end_with?("711E6") }
+      first_slot.value.first
     end
 
-    it "parses body=42 from the age slot" do
-      expect(age_value.body_attribute).to eq("42")
+    it "parses body from the Object 01 first slot" do
+      expect(first_value.body_attribute).to eq("=Value Two")
     end
 
-    it "parses language=OCL from the age slot" do
-      expect(age_value.language_attribute).to eq("OCL")
+    it "leaves language_attribute nil (Sparx EA body-attribute form carries no language)" do
+      expect(first_value.language_attribute).to be_nil
     end
   end
 end

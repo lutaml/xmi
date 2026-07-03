@@ -1,47 +1,38 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<!-- Synthetic Sparx-shaped fixture, authored for the lutaml/xmi test suite.
-     Exercises <slot>, <value>, <opaqueExpression>, <interfaceRealization>,
-     and <specification> — elements not present in the larger EA fixture.
-     Hand-authored to match Sparx EA's mixed-prefix style (prefixed root,
-     unprefixed UML children). -->
-<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:umldi="http://www.omg.org/spec/UML/20131001/UMLDI" xmlns:dc="http://www.omg.org/spec/UML/20131001/UMLDC">
+<!-- Real Sparx EA content extracted from lutaml/ea/spec/fixtures/basic.xmi
+     (lines 134-177). Trimmed to a focused fixture exercising
+     InstanceSpecification with classifier, Slot with definingFeature,
+     OpaqueExpression body, and Association with memberEnd/ownedEnd/type.
+     Byte-faithful to Sparx output; only the surrounding wrapper is trimmed. -->
+<xmi:XMI xmlns:uml="http://www.omg.org/spec/UML/20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001">
 	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5"/>
 	<uml:Model xmi:type="uml:Model" name="EA_Model">
-		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_AA000000_0000_0000_0000_000000000001" name="instances">
-			<packagedElement xmi:type="uml:Class" xmi:id="EAID_AA000000_0000_0000_0000_000000000002" name="Person">
-				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_AA000000_0000_0000_0000_000000000003" name="name">
-					<type xmi:idref="EACL_AA000000_0000_0000_0000_0000000000FF"/>
-					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001__AA000000_0000_0000_0000_000000000003" value="1"/>
-					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000002__AA000000_0000_0000_0000_000000000003" value="1"/>
-					<defaultValue xmi:type="uml:LiteralString" xmi:id="EAID_DV000001__AA000000_0000_0000_0000_000000000003" value="anonymous"/>
-				</ownedAttribute>
-				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_AA000000_0000_0000_0000_000000000004" name="age">
-					<type xmi:idref="EACL_AA000000_0000_0000_0000_0000000000FE"/>
-					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000003__AA000000_0000_0000_0000_000000000004" value="0"/>
-					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000004__AA000000_0000_0000_0000_000000000004" value="1"/>
-				</ownedAttribute>
-				<ownedOperation xmi:type="uml:Operation" xmi:id="EAID_AA000000_0000_0000_0000_000000000005" name="greet" visibility="public" isStatic="false" isAbstract="false" isQuery="false" concurrency="sequential">
-					<ownedParameter xmi:type="uml:Parameter" xmi:id="EAID_AA000000_0000_0000_0000_000000000006" name="return" direction="return">
-						<type xmi:idref="EACL_AA000000_0000_0000_0000_0000000000FF"/>
-					</ownedParameter>
-				</ownedOperation>
-			</packagedElement>
-			<packagedElement xmi:type="uml:Interface" xmi:id="EAID_AA000000_0000_0000_0000_000000000010" name="IGreetable">
-				<ownedOperation xmi:type="uml:Operation" xmi:id="EAID_AA000000_0000_0000_0000_000000000011" name="greet" visibility="public" isAbstract="true"/>
-			</packagedElement>
-			<packagedElement xmi:type="uml:Class" xmi:id="EAID_AA000000_0000_0000_0000_000000000020" name="PersonImpl" isAbstract="false">
-				<interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="EAID_AA000000_0000_0000_0000_000000000021" name="impl" client="EAID_AA000000_0000_0000_0000_000000000020" supplier="EAID_AA000000_0000_0000_0000_000000000010" contract="EAID_AA000000_0000_0000_0000_000000000010"/>
-			</packagedElement>
-			<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_AA000000_0000_0000_0000_000000000030" name="alice" classifier="EAID_AA000000_0000_0000_0000_000000000002">
-				<slot xmi:type="uml:Slot" xmi:id="EAID_AA000000_0000_0000_0000_000000000031" definingFeature="EAID_AA000000_0000_0000_0000_000000000003">
-					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_AA000000_0000_0000_0000_000000000032" body="Alice"/>
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_106C4C8C_015A_4c40_BD2B_37ACCF96A2A2" name="Objects">
+			<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_61647CD7_2014_46d9_ADC0_A726E5E2A59B" name="Object 01" classifier="EAID_4DEF666F_E8F2_4ace_B9AC_E15A5ACDCADD">
+				<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_2014_46d9_ADC0_A726E5E2A59B" definingFeature="EAID_F17F79E4_7061_4956_890D_D2FF232711E6">
+					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_2014_46d9_ADC0_A726E5E2A59B" body="=Value Two"/>
 				</slot>
-				<slot xmi:type="uml:Slot" xmi:id="EAID_AA000000_0000_0000_0000_000000000033" definingFeature="EAID_AA000000_0000_0000_0000_000000000004">
-					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_AA000000_0000_0000_0000_000000000034" body="42" language="OCL"/>
+				<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_2014_46d9_ADC0_A726E5E2A59B" definingFeature="EAID_4D665E05_CA01_4c63_8311_0EC8F355E932">
+					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_2014_46d9_ADC0_A726E5E2A59B" body="=Value One"/>
 				</slot>
 			</packagedElement>
-			<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_AA000000_0000_0000_0000_000000000040" name="constraintHolder">
-				<specification xmi:id="EAID_AA000000_0000_0000_0000_000000000041" language="OCL">context Person inv: self.age >= 0</specification>
+			<packagedElement xmi:type="uml:Association" xmi:id="EAID_0273F609_8E33_4373_A292_D584DB6D5655" name="Link A">
+				<memberEnd xmi:idref="EAID_dst73F609_8E33_4373_A292_D584DB6D5655"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="EAID_dst73F609_8E33_4373_A292_D584DB6D5655" association="EAID_0273F609_8E33_4373_A292_D584DB6D5655">
+					<type xmi:idref="EAID_C31B8262_0B8A_4c99_9D3F_2710488EE0A9"/>
+				</ownedEnd>
+				<memberEnd xmi:idref="EAID_src73F609_8E33_4373_A292_D584DB6D5655"/>
+				<ownedEnd xmi:type="uml:Property" xmi:id="EAID_src73F609_8E33_4373_A292_D584DB6D5655" association="EAID_0273F609_8E33_4373_A292_D584DB6D5655">
+					<type xmi:idref="EAID_61647CD7_2014_46d9_ADC0_A726E5E2A59B"/>
+				</ownedEnd>
+			</packagedElement>
+			<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_C31B8262_0B8A_4c99_9D3F_2710488EE0A9" name="Object 02" classifier="EAID_6B8DB1D6_D01D_4acc_9C05_79018BCB3FB6">
+				<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_0B8A_4c99_9D3F_2710488EE0A9" definingFeature="EAID_5A19E602_3392_4e62_BE1D_CEB1ECF0AE67">
+					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_0B8A_4c99_9D3F_2710488EE0A9" body="=Value Two"/>
+				</slot>
+				<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_0B8A_4c99_9D3F_2710488EE0A9" definingFeature="EAID_EC87C68B_2A9C_4293_A526_51EEEBEB6DF2">
+					<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_0B8A_4c99_9D3F_2710488EE0A9" body="=Value One"/>
+				</slot>
 			</packagedElement>
 		</packagedElement>
 	</uml:Model>

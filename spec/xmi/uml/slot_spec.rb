@@ -175,30 +175,29 @@ RSpec.describe Xmi::Uml::Slot do
   describe "real fixture parity" do
     let(:doc) { Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi")) }
 
-    let(:alice) do
+    let(:first_instance) do
       doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "alice" }
+        .find { |pe| pe.name == "Object 01" }
     end
 
-    it "parses both slots on the alice instance specification" do
-      expect(alice.slot.size).to eq(2)
-      expect(alice.slot.map(&:defining_feature)).to contain_exactly(
-        "EAID_AA000000_0000_0000_0000_000000000003", "EAID_AA000000_0000_0000_0000_000000000004"
+    it "parses both slots on the Object 01 instance specification" do
+      expect(first_instance.slot.size).to eq(2)
+      expect(first_instance.slot.map(&:defining_feature)).to contain_exactly(
+        "EAID_F17F79E4_7061_4956_890D_D2FF232711E6",
+        "EAID_4D665E05_CA01_4c63_8311_0EC8F355E932",
       )
     end
 
-    it "parses the name slot's OpaqueExpression body" do
-      name_slot = alice.slot.find do |s|
-        s.defining_feature.end_with?("0000003")
+    it "parses the first slot's OpaqueExpression body" do
+      first_slot = first_instance.slot.find do |s|
+        s.defining_feature.end_with?("711E6")
       end
-      expect(name_slot.value.first.body_attribute).to eq("Alice")
+      expect(first_slot.value.first.body_attribute).to eq("=Value Two")
     end
 
-    it "parses the age slot's OpaqueExpression body and language" do
-      age_slot = alice.slot.find { |s| s.defining_feature.end_with?("0000004") }
-      value = age_slot.value.first
-      expect(value.body_attribute).to eq("42")
-      expect(value.language_attribute).to eq("OCL")
+    it "parses the second slot's OpaqueExpression body" do
+      second_slot = first_instance.slot.find { |s| s.defining_feature.end_with?("5E932") }
+      expect(second_slot.value.first.body_attribute).to eq("=Value One")
     end
   end
 end

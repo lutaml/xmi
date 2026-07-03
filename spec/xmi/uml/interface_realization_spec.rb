@@ -54,30 +54,22 @@ RSpec.describe Xmi::Uml::InterfaceRealization do
   end
 
   describe "real fixture parity" do
+    # Real Sparx EA output collapses interfaceRealization into a generic
+    # `<packagedElement type="uml:Realization">` (per TODO.next/01 and
+    # the deployment-context block below). The xmi gem's fixture
+    # `sparx-instance-specification.xmi` is real Sparx output and
+    # contains no `<interfaceRealization>` strict-form elements.
+    #
+    # This block documents that fact: when Sparx EA starts emitting
+    # the strict OMG form, these specs flip and force a follow-up.
+
     let(:doc) { Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi")) }
 
-    let(:impl) do
-      doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "PersonImpl" }
-    end
-
-    it "parses the interfaceRealization child" do
-      expect(impl.interface_realization.size).to eq(1)
-    end
-
-    it "captures the contract reference" do
-      expect(impl.interface_realization.first.contract)
-        .to eq("EAID_AA000000_0000_0000_0000_000000000010")
-    end
-
-    it "captures the client reference" do
-      expect(impl.interface_realization.first.client)
-        .to eq("EAID_AA000000_0000_0000_0000_000000000020")
-    end
-
-    it "captures the supplier reference" do
-      expect(impl.interface_realization.first.supplier)
-        .to eq("EAID_AA000000_0000_0000_0000_000000000010")
+    it "contains zero <interfaceRealization> strict-form elements in real Sparx output" do
+      cached_fixture("sparx-instance-specification.xmi")
+        .then { |xml| Xmi::Sparx::Root.from_xml(xml) }
+        .model.packaged_element.first.packaged_element
+        .each { |pe| expect(pe.interface_realization).to be_empty }
     end
   end
 

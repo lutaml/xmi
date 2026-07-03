@@ -14,3 +14,8 @@
 Gemfile.lock
 .DS_Store
 /old-docs
+
+# Editor / sed transient files
+*.bak
+*.swp
+*~

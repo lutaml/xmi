@@ -108,26 +108,26 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
   describe "real fixture parity" do
     let(:doc) { Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi")) }
 
-    it "parses the Person packagedElement as a UmlClass" do
-      person = doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "Person" }
-      expect(person).to be_a(Xmi::Uml::UmlClass)
+    let(:package) { doc.model.packaged_element.first }
+
+    def find_packaged_element(name)
+      package.packaged_element.find { |pe| pe.name == name }
     end
 
-    it "parses the IGreetable packagedElement as an Interface" do
-      iface = doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "IGreetable" }
-      expect(iface).to be_a(Xmi::Uml::Interface)
+    it "parses the 'Objects' root as a Package" do
+      expect(package).to be_a(Xmi::Uml::Package)
     end
 
-    it "parses the alice packagedElement as an InstanceSpecification" do
-      alice = doc.model.packaged_element.first.packaged_element
-        .find { |pe| pe.name == "alice" }
-      expect(alice).to be_a(Xmi::Uml::InstanceSpecification)
+    it "parses 'Object 01' as an InstanceSpecification" do
+      expect(find_packaged_element("Object 01")).to be_a(Xmi::Uml::InstanceSpecification)
     end
 
-    it "parses the 'instances' root as a Package" do
-      expect(doc.model.packaged_element.first).to be_a(Xmi::Uml::Package)
+    it "parses 'Object 02' as an InstanceSpecification" do
+      expect(find_packaged_element("Object 02")).to be_a(Xmi::Uml::InstanceSpecification)
+    end
+
+    it "parses 'Link A' as an Association" do
+      expect(find_packaged_element("Link A")).to be_a(Xmi::Uml::Association)
     end
   end
 

@@ -4,18 +4,14 @@ require_relative "profile_application_applied_profile"
 
 module Xmi
   module Uml
-    class ProfileApplication < Lutaml::Model::Serializable
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # UML `<profileApplication>` element — records that a Profile has
+    # been applied to the containing Package. Carries a single
+    # `<appliedProfile>` child holding the href reference.
+    class ProfileApplication < Base
       attribute :applied_profile, ProfileApplicationAppliedProfile
 
       xml do
         root "profileApplication"
-        namespace ::Xmi::Namespace::Omg::Uml
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
-
         map_element "appliedProfile", to: :applied_profile
       end
     end

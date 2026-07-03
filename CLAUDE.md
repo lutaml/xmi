@@ -102,23 +102,38 @@ end
 
 ### Model Definition Pattern
 
-Models use lutaml-model syntax with explicit namespace declarations:
+Concrete UML classes inherit from `Xmi::Uml::Base`, which carries
+the shared boilerplate (`skip_reference_registration`, `type` and
+`id` attrs, UML namespace, and their `map_attribute` lines).
+Subclasses declare only their unique attributes and the `root`
+element name. Verified via spike: lutaml-model inherits `xml do`
+block contents (namespace + map_attribute) from the parent class.
+
+UML Diagram Interchange elements (Bounds, Waypoint, Diagram,
+OwnedElement) inherit from `Xmi::UmlDi::Base` instead — same
+pattern, different namespace.
+
 ```ruby
-class MyModel < Lutaml::Model::Serializable
-  attribute :id, ::Xmi::Type::XmiId
+# lib/xmi/uml/my_element.rb
+module Xmi
+  module Uml
+    class MyElement < Base
+      attribute :name, :string
 
-  xml do
-    root "Model"
-    namespace ::Xmi::Namespace::Omg::Uml
-    namespace_scope [::Xmi::Namespace::Omg::Xmi, ::Xmi::Namespace::Omg::Uml]
-
-    # Attributes with XMI namespace require explicit declaration
-    map_attribute "id", to: :id,
-                       namespace: "http://www.omg.org/spec/XMI/20131001",
-                       prefix: "xmi"
+      xml do
+        root "myElement"
+        map_attribute "name", to: :name
+      end
+    end
   end
 end
 ```
+
+For backward compatibility, raw `Lutaml::Model::Serializable`
+inheritance still works but is discouraged for new UML classes.
+The small reference-holder classes (AnnotatedElement, MemberEnd,
+Type, ImportedPackage) intentionally stay direct from Serializable
+because they don't carry the type+id pair that Base provides.
 
 ### Dynamic Extension Loading
 
@@ -128,6 +143,15 @@ Extensions use `NamespaceRegistry` to look up or create namespace classes dynami
 - Existing namespace URIs resolve to predefined classes
 - New URIs create dynamic classes under `Xmi::Namespace::Dynamic::{ModuleName}`
 
+### Polymorphic Dispatch
+
+Two attributes use lutaml-model's polymorphic dispatch on `xmi:type`:
+
+- `PackagedElement.packaged_element` (and `UmlModel.packaged_element`) — dispatches to typed subclasses (`UmlClass`, `Association`, `Interface`, `InstanceSpecification`, etc.). Map: `Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP` in `lib/xmi/uml/packaged_element.rb`.
+- `Slot.value`, `OwnedAttribute.upper_value`/`lower_value`/`default_value`, `OwnedEnd.upper_value`/`lower_value`/`default_value`, `OwnedParameter.upper_value`/`lower_value`/`default_value` — dispatch to ValueSpecification subclasses (`OpaqueExpression`, `LiteralString`, `LiteralInteger`, etc.). Map: `Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP` in `lib/xmi/uml/value_specification.rb`.
+
+**Known limitation:** polymorphic dispatch crashes with `TypeError` if the discriminator is missing or unrecognized. This is a lutaml-model upstream issue (it calls `Object.const_get(nil)`); the failure mode is locked in by `spec/xmi/uml/polymorphic_robustness_spec.rb`. Fix lives upstream, not here.
+
 ### Key Files
 
 | File | Purpose |
@@ -136,7 +160,12 @@ Extensions use `NamespaceRegistry` to look up or create namespace classes dynami
 | `lib/xmi/sparx.rb` | Module with autoload declarations for Sparx components |
 | `lib/xmi/sparx/root.rb` | Main `Root` class with parsing and namespace normalization |
 | `lib/xmi/root.rb` | Base `Root` class with common XMI attributes |
-| `lib/xmi/uml.rb` | UML model classes (UmlModel, PackagedElement, etc.) |
+| `lib/xmi/uml.rb` | UML model autoload entries |
+| `lib/xmi/uml/base.rb` | `Xmi::Uml::Base` — common boilerplate for UML classes |
+| `lib/xmi/uml_di.rb` | UML Diagram Interchange autoload entries |
+| `lib/xmi/uml_di/base.rb` | `Xmi::UmlDi::Base` — common boilerplate for UMLDI classes |
+| `lib/xmi/uml/packaged_element.rb` | `PackagedElement` + `PACKAGED_ELEMENT_POLYMORPHIC_MAP` |
+| `lib/xmi/uml/value_specification.rb` | `ValueSpecification` abstract base + `VALUE_SPECIFICATION_POLYMORPHIC_MAP` |
 | `lib/xmi/ea_root.rb` | Dynamic extension loading from MDG XML |
 | `lib/xmi/type.rb` | Custom types with namespace declarations (XmiId, XmiType, etc.) |
 | `lib/xmi/namespace/omg.rb` | OMG namespace classes (XMI, UML, UmlDi, UmlDc) |

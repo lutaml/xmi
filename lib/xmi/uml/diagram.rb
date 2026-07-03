@@ -1,21 +1,18 @@
 # frozen_string_literal: true
 
+require_relative "../uml_di/base"
+require_relative "owned_element"
+
 module Xmi
   module Uml
-    class Diagram < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # UMLDI `<Diagram>` element — root of a diagram's interchange view.
+    class Diagram < ::Xmi::UmlDi::Base
       attribute :is_frame, :boolean
       attribute :model_element, :string
       attribute :owned_element, OwnedElement, collection: true
 
       xml do
         root "Diagram"
-        namespace ::Xmi::Namespace::Omg::UmlDi
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "isFrame", to: :is_frame
         map_attribute "modelElement", to: :model_element
 

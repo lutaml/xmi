@@ -67,6 +67,7 @@ require_relative "xmi/extension"
 require_relative "xmi/replace"
 require_relative "xmi/ea_root"
 require_relative "xmi/uml"
+require_relative "xmi/uml_di"
 
 module Xmi
   # Lazy-loaded top-level modules — autoload avoids loading these

@@ -19,3 +19,6 @@ Gemfile.lock
 *.bak
 *.swp
 *~
+
+# Local TODO scratchpads (track work in issues/PRs instead)
+TODO*

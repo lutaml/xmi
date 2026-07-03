@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require_relative "../uml_di/base"
+require_relative "bounds"
+require_relative "waypoint"
+
 module Xmi
   module Uml
-    class OwnedElement < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # UMLDI `<ownedElement>` — a diagram element (shape, label, etc.).
+    # Carries text, optional nested ownedElement children, bounds,
+    # and source/target/waypoint for connectors.
+    class OwnedElement < ::Xmi::UmlDi::Base
       attribute :text, :string
       attribute :model_element, :string
       attribute :owned_element, OwnedElement, collection: true
@@ -16,10 +20,6 @@ module Xmi
 
       xml do
         root "ownedElement"
-        namespace ::Xmi::Namespace::Omg::UmlDi
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "text", to: :text
         map_attribute "modelElement", to: :model_element
 

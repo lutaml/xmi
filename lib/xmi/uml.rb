@@ -53,7 +53,6 @@ module Xmi
     autoload :ImportedPackage, "xmi/uml/imported_package"
     autoload :PackageImport, "xmi/uml/package_import"
     autoload :UmlModel, "xmi/uml/uml_model"
-    autoload :ProfileAttributes, "xmi/uml/profile_attributes"
     autoload :Profile, "xmi/uml/profile"
   end
 end

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+require_relative "../uml_di/base"
+
 module Xmi
   module Uml
-    class Bounds < Lutaml::Model::Serializable
-      skip_reference_registration
-      attribute :type, ::Xmi::Type::XmiType
-      attribute :id, ::Xmi::Type::XmiId
+    # UMLDI `<bounds>` element — a rectangle in diagram coordinates.
+    class Bounds < ::Xmi::UmlDi::Base
       attribute :x, :integer
       attribute :y, :integer
       attribute :height, :integer
@@ -13,10 +13,6 @@ module Xmi
 
       xml do
         root "bounds"
-        namespace ::Xmi::Namespace::Omg::UmlDi
-
-        map_attribute "type", to: :type
-        map_attribute "id", to: :id
         map_attribute "x", to: :x
         map_attribute "y", to: :y
         map_attribute "height", to: :height

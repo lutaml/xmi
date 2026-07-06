@@ -16,15 +16,28 @@ module Lutaml
   end
 end
 
-require_relative "xmi/version"
-require_relative "xmi/namespace"
-require_relative "xmi/namespace/dynamic"
-require_relative "xmi/type"
-require_relative "xmi/namespace_detector"
-require_relative "xmi/namespace_registry"
-require_relative "xmi/xmi_identity"
-
 module Xmi
+  autoload :VERSION, "xmi/version"
+  autoload :Namespace, "xmi/namespace"
+  autoload :Type, "xmi/type"
+  autoload :NamespaceDetector, "xmi/namespace_detector"
+  autoload :NamespaceRegistry, "xmi/namespace_registry"
+  autoload :XmiIdentity, "xmi/xmi_identity"
+  autoload :Versioned, "xmi/versioned"
+  autoload :VersionRegistry, "xmi/version_registry"
+  autoload :V20110701, "xmi/v20110701"
+  autoload :V20131001, "xmi/v20131001"
+  autoload :V20161101, "xmi/v20161101"
+  autoload :Add, "xmi/add"
+  autoload :Delete, "xmi/delete"
+  autoload :Difference, "xmi/difference"
+  autoload :Documentation, "xmi/documentation"
+  autoload :Extension, "xmi/extension"
+  autoload :Replace, "xmi/replace"
+  autoload :EaRoot, "xmi/ea_root"
+  autoload :Uml, "xmi/uml"
+  autoload :UmlDi, "xmi/uml_di"
+
   class Error < StandardError; end
 
   # Shared value_map for XMI elements.
@@ -51,23 +64,6 @@ end
 
 # Bootstrap the namespace registry
 Xmi::NamespaceRegistry.bootstrap!
-
-# Version infrastructure
-require_relative "xmi/versioned"
-require_relative "xmi/version_registry"
-require_relative "xmi/v20110701"
-require_relative "xmi/v20131001"
-require_relative "xmi/v20161101"
-
-require_relative "xmi/add"
-require_relative "xmi/delete"
-require_relative "xmi/difference"
-require_relative "xmi/documentation"
-require_relative "xmi/extension"
-require_relative "xmi/replace"
-require_relative "xmi/ea_root"
-require_relative "xmi/uml"
-require_relative "xmi/uml_di"
 
 module Xmi
   # Lazy-loaded top-level modules — autoload avoids loading these

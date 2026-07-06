@@ -2,8 +2,8 @@
 
 module Xmi
   module Namespace
+    autoload :Omg, "xmi/namespace/omg"
+    autoload :Sparx, "xmi/namespace/sparx"
+    autoload :Dynamic, "xmi/namespace/dynamic"
   end
 end
-
-require_relative "namespace/omg"
-require_relative "namespace/sparx"

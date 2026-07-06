@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "difference"
-require_relative "extension"
-
 module Xmi
   class Add < Lutaml::Model::Serializable
     skip_reference_registration

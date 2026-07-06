@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "value_specification"
-
 module Xmi
   module Uml
     # Default value wrapper. Semantically a ValueSpecification

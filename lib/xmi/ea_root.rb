@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 require "nokogiri"
-require_relative "ea_root/xml_parsing"
-require_relative "ea_root/code_generation"
-require_relative "ea_root/extension_lifecycle"
-require_relative "ea_root/namespace_handling"
 
 module Xmi
   class EaRoot
+    autoload :XmlParsing, "xmi/ea_root/xml_parsing"
+    autoload :CodeGeneration, "xmi/ea_root/code_generation"
+    autoload :ExtensionLifecycle, "xmi/ea_root/extension_lifecycle"
+    autoload :NamespaceHandling, "xmi/ea_root/namespace_handling"
+
     extend XmlParsing
     extend CodeGeneration
     extend ExtensionLifecycle

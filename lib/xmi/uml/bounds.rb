@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../uml_di/base"
-
 module Xmi
   module Uml
     # UMLDI `<bounds>` element — a rectangle in diagram coordinates.

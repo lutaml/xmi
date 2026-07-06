@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "imported_package"
-
 module Xmi
   module Uml
     class PackageImport < Lutaml::Model::Serializable

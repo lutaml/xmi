@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "profile_application_applied_profile"
-
 module Xmi
   module Uml
     # UML `<profileApplication>` element — records that a Profile has

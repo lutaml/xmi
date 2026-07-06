@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../uml_di/base"
-require_relative "bounds"
-require_relative "waypoint"
-
 module Xmi
   module Uml
     # UMLDI `<ownedElement>` — a diagram element (shape, label, etc.).

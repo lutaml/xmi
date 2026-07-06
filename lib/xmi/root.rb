@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "documentation"
-require_relative "uml"
-
 module Xmi
   class Root < Lutaml::Model::Serializable
     skip_reference_registration

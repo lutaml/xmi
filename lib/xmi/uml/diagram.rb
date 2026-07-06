@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../uml_di/base"
-require_relative "owned_element"
-
 module Xmi
   module Uml
     # UMLDI `<Diagram>` element — root of a diagram's interchange view.

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "namespace"
-
 module Xmi
   module Type
     class XmiIdRef < Lutaml::Model::Type::String

@@ -87,7 +87,7 @@ RSpec.describe Xmi::Uml::InterfaceRealization do
 
     it "is not present in current Sparx EA fixture output" do
       ea_fixture = cached_fixture("ea-xmi-2.5.1.xmi")
-      expect(ea_fixture).not_to match(/<interfaceRealization/)
+      expect(ea_fixture).not_to include("<interfaceRealization")
     end
   end
 end

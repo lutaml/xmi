@@ -7,7 +7,7 @@ module Xmi
       attribute :body_element, :string
       attribute :body_attribute, :string
       attribute :annotated_attribute, :string
-      attribute :annotated_element, AnnotatedElement
+      attribute :annotated_element, AnnotatedElement, collection: true
 
       xml do
         root "ownedComment"
@@ -15,7 +15,8 @@ module Xmi
         map_attribute "body", to: :body_attribute
         map_attribute "annotatedElement", to: :annotated_attribute
 
-        map_element "annotatedElement", to: :annotated_element
+        map_element "annotatedElement", to: :annotated_element,
+                                        value_map: VALUE_MAP
         map_element "body", to: :body_element
       end
     end

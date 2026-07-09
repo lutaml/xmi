@@ -95,13 +95,30 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
   end
 
   describe "unknown xmi:type robustness" do
-    # Polymorphic dispatch with unknown discriminator currently raises
-    # TypeError (lutaml-model const_get nil). See TODO.next/02 and the
-    # polymorphic_robustness_spec.rb lock-in.
-    it "raises TypeError for unknown xmi:type" do
-      xml = doc_with(%(<packagedElement xmi:type="uml:SomethingNew" xmi:id="X1"/>))
-      expect { Xmi::Sparx::Root.from_xml(xml) }
-        .to raise_error(TypeError, /no implicit conversion of nil into String/)
+    # Polymorphic dispatch with unknown discriminator falls back to
+    # PackagedElement (the union-bag base) via the class_map's
+    # default_proc. Avoids the lutaml-model `Object.const_get(nil)`
+    # TypeError when Sparx XMI emits a type we haven't modelled yet.
+    it "falls back to PackagedElement for unknown xmi:type" do
+      xml = doc_with(%(<packagedElement xmi:type="uml:SomethingNew" xmi:id="X1" name="mystery"/>))
+      pe = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first
+      expect(pe).to be_a(Xmi::Uml::PackagedElement)
+      expect(pe).not_to be_a(Xmi::Uml::UmlClass)
+      expect(pe.name).to eq("mystery")
+    end
+
+    it "falls back to PackagedElement when xmi:type is missing" do
+      xml = doc_with(%(<packagedElement xmi:id="X1" name="bare"/>))
+      pe = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first
+      expect(pe).to be_a(Xmi::Uml::PackagedElement)
+      expect(pe.name).to eq("bare")
+    end
+
+    it "parses Component as Xmi::Uml::Component" do
+      xml = doc_with(%(<packagedElement xmi:type="uml:Component" xmi:id="X1" name="svc"/>))
+      pe = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first
+      expect(pe).to be_a(Xmi::Uml::Component)
+      expect(pe.type).to eq("uml:Component")
     end
   end
 

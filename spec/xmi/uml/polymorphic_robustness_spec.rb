@@ -3,14 +3,13 @@
 require "spec_helper"
 require "xmi"
 
-# Robustness specs for the polymorphic dispatch on Slot#value
-# introduced in TODO 10. These lock in current behavior at the
-# boundary between the xmi gem and lutaml-model — specifically the
-# known edge case where the polymorphic dispatch cannot resolve a
-# class.
-#
-# If lutaml-model is fixed upstream to fall back gracefully, these
-# specs will flip and force a conversation about the new behavior.
+# Robustness specs for the polymorphic dispatch on Slot#value.
+# These lock in the graceful-fallback behavior: when the polymorphic
+# dispatch cannot resolve a class (unknown or missing xmi:type), it
+# falls back to the abstract base class (ValueSpecification) via the
+# class_map's Hash default_proc. This avoids the upstream lutaml-model
+# `Object.const_get(nil)` TypeError that crashed parsing on real Sparx
+# XMI containing types we haven't modelled.
 #
 # rubocop:disable RSpec/DescribeClass, RSpec/FilePath
 RSpec.describe "Polymorphic Slot#value robustness" do
@@ -26,7 +25,7 @@ RSpec.describe "Polymorphic Slot#value robustness" do
           <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
             <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_I1">
               <slot xmi:type="uml:Slot" xmi:id="EAID_SL1" definingFeature="X">
-                <value xmi:type="uml:SomethingNew" xmi:id="EAID_X1" body="mystery"/>
+                <value xmi:type="uml:SomethingNew" xmi:id="EAID_X1"/>
               </slot>
             </packagedElement>
           </uml:Model>
@@ -34,12 +33,16 @@ RSpec.describe "Polymorphic Slot#value robustness" do
       XML
     end
 
-    it "currently raises TypeError (lutaml-model const_get nil bug)" do
-      # Known upstream issue: lutaml-model's resolve_polymorphic_class
-      # calls Object.const_get(nil) when the discriminator is not in
-      # the class_map. Tracked in TODO.refactor/13.
-      expect { Xmi::Sparx::Root.from_xml(xml) }
-        .to raise_error(TypeError, /no implicit conversion of nil into String/)
+    it "falls back to ValueSpecification for unknown xmi:type" do
+      value = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.slot.first.value.first
+      expect(value).to be_a(Xmi::Uml::ValueSpecification)
+    end
+
+    it "preserves the unknown xmi:type discriminator string on the value" do
+      value = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.slot.first.value.first
+      expect(value.type).to eq("uml:SomethingNew")
     end
   end
 
@@ -51,7 +54,7 @@ RSpec.describe "Polymorphic Slot#value robustness" do
           <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
             <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_I1">
               <slot xmi:type="uml:Slot" xmi:id="EAID_SL1" definingFeature="X">
-                <value xmi:id="EAID_X1">bare text</value>
+                <value xmi:id="EAID_X1"/>
               </slot>
             </packagedElement>
           </uml:Model>
@@ -59,9 +62,10 @@ RSpec.describe "Polymorphic Slot#value robustness" do
       XML
     end
 
-    it "currently raises TypeError (lutaml-model const_get nil bug)" do
-      expect { Xmi::Sparx::Root.from_xml(xml) }
-        .to raise_error(TypeError, /no implicit conversion of nil into String/)
+    it "falls back to ValueSpecification when xmi:type is missing" do
+      value = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.slot.first.value.first
+      expect(value).to be_a(Xmi::Uml::ValueSpecification)
     end
   end
 end

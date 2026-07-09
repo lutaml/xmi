@@ -10,9 +10,17 @@ module Xmi
     # Phase A of TODO.next/01: subclasses are type tags on
     # PackagedElement (no attrs narrowed). Phase B will narrow each
     # subclass's attrs to its UML-2.5-conformant subset.
+    #
+    # Fallback contract: unknown or missing `xmi:type` resolves to
+    # `Xmi::Uml::PackagedElement` (the union-bag base) via the
+    # class_map's default_proc. This avoids the lutaml-model
+    # `Object.const_get(nil)` TypeError when a Sparx XMI emits a
+    # type we haven't modelled yet, at the cost of treating the
+    # element as generic. polymorphic_robustness_spec locks in the
+    # graceful-fallback behavior.
     PACKAGED_ELEMENT_POLYMORPHIC_MAP = {
       attribute: "xmi:type",
-      class_map: {
+      class_map: Hash.new("Xmi::Uml::PackagedElement").merge!(
         "uml:Class" => "Xmi::Uml::UmlClass",
         "uml:Association" => "Xmi::Uml::Association",
         "uml:AssociationClass" => "Xmi::Uml::AssociationClass",
@@ -28,7 +36,8 @@ module Xmi
         "uml:Extension" => "Xmi::Uml::Extension",
         "uml:Stereotype" => "Xmi::Uml::Stereotype",
         "uml:Usage" => "Xmi::Uml::Usage",
-      },
+        "uml:Component" => "Xmi::Uml::Component",
+      ),
     }.freeze
 
     class PackagedElement < Base

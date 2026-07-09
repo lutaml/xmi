@@ -43,6 +43,7 @@ module Xmi
     autoload :Extension, "xmi/uml/extension"
     autoload :Stereotype, "xmi/uml/stereotype"
     autoload :Usage, "xmi/uml/usage"
+    autoload :Component, "xmi/uml/component"
     autoload :Bounds, "xmi/uml/bounds"
     autoload :Waypoint, "xmi/uml/waypoint"
     autoload :OwnedElement, "xmi/uml/owned_element"

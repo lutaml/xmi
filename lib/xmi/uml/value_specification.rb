@@ -32,10 +32,16 @@ module Xmi
     # The literal class names are string form because lutaml-model's
     # resolve_polymorphic_class calls Object.const_get on the value.
     #
-    # Fallback contract: unknown or missing `xmi:type` resolves to
+    # Fallback contract: an unknown `xmi:type` resolves to
     # `Xmi::Uml::ValueSpecification` (the abstract base) via the
-    # class_map's default_proc. polymorphic_robustness_spec locks in
-    # the graceful-fallback behavior.
+    # class_map's Hash default value. polymorphic_map_contract_spec
+    # and polymorphic_robustness_spec lock in the graceful-fallback
+    # behavior.
+    #
+    # Two paths land at the base (see PACKAGED_ELEMENT_POLYMORPHIC_MAP
+    # for the full rationale): missing discriminator short-circuits via
+    # lutaml-model's `polymorphic_map_defined?`; unknown discriminator
+    # hits the Hash default value.
     VALUE_SPECIFICATION_POLYMORPHIC_MAP = {
       attribute: "xmi:type",
       class_map: Hash.new("Xmi::Uml::ValueSpecification").merge!(
@@ -45,7 +51,7 @@ module Xmi
         "uml:LiteralBoolean" => "Xmi::Uml::LiteralBoolean",
         "uml:LiteralUnlimitedNatural" => "Xmi::Uml::LiteralUnlimitedNatural",
         "uml:LiteralNull" => "Xmi::Uml::LiteralNull",
-      ),
+      ).freeze,
     }.freeze
   end
 end

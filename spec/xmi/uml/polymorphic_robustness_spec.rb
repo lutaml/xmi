@@ -68,5 +68,85 @@ RSpec.describe "Polymorphic Slot#value robustness" do
       expect(value).to be_a(Xmi::Uml::ValueSpecification)
     end
   end
+
+  # The VALUE_SPECIFICATION_POLYMORPHIC_MAP is consumed by four classes
+  # (Slot, OwnedAttribute, OwnedEnd, OwnedParameter) at seven call sites.
+  # The Slot#value case above locks the basic fallback. The three
+  # describe blocks below verify the contract for the other consumers
+  # — they share the same map, so testing upper_value on each is
+  # sufficient (the same map entry handles lower_value and default_value).
+  describe "OwnedAttribute#upper_value fallback" do
+    let(:xml) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Class" xmi:id="EAID_C1" name="C">
+              <ownedAttribute xmi:id="EAID_A1" name="a">
+                <upperValue xmi:type="uml:SomethingNew" xmi:id="EAID_U1"/>
+              </ownedAttribute>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    it "falls back to ValueSpecification for unknown xmi:type" do
+      upper = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.owned_attribute.first.upper_value
+      expect(upper).to be_a(Xmi::Uml::ValueSpecification)
+      expect(upper.type).to eq("uml:SomethingNew")
+    end
+  end
+
+  describe "OwnedEnd#upper_value fallback" do
+    let(:xml) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Association" xmi:id="EAID_AS1" name="A">
+              <ownedEnd xmi:id="EAID_OE1" name="src">
+                <upperValue xmi:type="uml:SomethingNew" xmi:id="EAID_U1"/>
+              </ownedEnd>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    it "falls back to ValueSpecification for unknown xmi:type" do
+      upper = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.owned_end.first.upper_value
+      expect(upper).to be_a(Xmi::Uml::ValueSpecification)
+      expect(upper.type).to eq("uml:SomethingNew")
+    end
+  end
+
+  describe "OwnedParameter#upper_value fallback" do
+    let(:xml) do
+      <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Class" xmi:id="EAID_C1" name="C">
+              <ownedOperation xmi:id="EAID_OO1" name="op">
+                <ownedParameter xmi:id="EAID_P1" name="p" direction="return">
+                  <upperValue xmi:type="uml:SomethingNew" xmi:id="EAID_U1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    it "falls back to ValueSpecification for unknown xmi:type" do
+      upper = Xmi::Sparx::Root.from_xml(xml)
+        .model.packaged_element.first.owned_operation.first.owned_parameter.first.upper_value
+      expect(upper).to be_a(Xmi::Uml::ValueSpecification)
+      expect(upper.type).to eq("uml:SomethingNew")
+    end
+  end
 end
 # rubocop:enable RSpec/DescribeClass, RSpec/FilePath

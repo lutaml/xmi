@@ -4,12 +4,16 @@ require "spec_helper"
 require "xmi"
 
 # Verifies the polymorphic dispatch on PackagedElement.packaged_element
-# introduced in TODO.next/01 Phase A. Each <packagedElement
+# Phase A. Each <packagedElement
 # xmi:type="uml:X"> is parsed to a corresponding Xmi::Uml::X subclass.
 #
 # Phase A: subclasses inherit the full PackagedElement attribute set
 # (no narrowing). Phase B will narrow attrs to each subclass's
 # UML-2.5-conformant subset.
+#
+# Dispatch and inheritance `it` blocks are data-driven from
+# PACKAGED_ELEMENT_POLYMORPHIC_MAP[:class_map] so adding a new subclass
+# + map entry automatically gains coverage.
 #
 # rubocop:disable RSpec/DescribeClass, RSpec/FilePath
 RSpec.describe "PackagedElement polymorphic dispatch" do
@@ -28,62 +32,29 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
     XML
   end
 
+  # Trigger autoload of the file that defines both PackagedElement and
+  # PACKAGED_ELEMENT_POLYMORPHIC_MAP. Referencing the constant alone
+  # does not trigger autoload because Ruby autoload is keyed on the
+  # constant name being accessed, not on the file that defines it.
+  Xmi::Uml::PackagedElement
+
   describe "xmi:type → subclass dispatch" do
     def dispatched_type(xmi_type)
       xml = doc_with(%(<packagedElement xmi:type="#{xmi_type}" xmi:id="EAID_X1" name="thing"/>))
       Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first.class
     end
 
-    it "dispatches uml:Class → UmlClass" do
-      expect(dispatched_type("uml:Class")).to eq(Xmi::Uml::UmlClass)
-    end
-
-    it "dispatches uml:Association → Association" do
-      expect(dispatched_type("uml:Association")).to eq(Xmi::Uml::Association)
-    end
-
-    it "dispatches uml:Interface → Interface" do
-      expect(dispatched_type("uml:Interface")).to eq(Xmi::Uml::Interface)
-    end
-
-    it "dispatches uml:InstanceSpecification → InstanceSpecification" do
-      expect(dispatched_type("uml:InstanceSpecification")).to eq(Xmi::Uml::InstanceSpecification)
-    end
-
-    it "dispatches uml:DataType → DataType" do
-      expect(dispatched_type("uml:DataType")).to eq(Xmi::Uml::DataType)
-    end
-
-    it "dispatches uml:PrimitiveType → PrimitiveType" do
-      expect(dispatched_type("uml:PrimitiveType")).to eq(Xmi::Uml::PrimitiveType)
-    end
-
-    it "dispatches uml:Enumeration → Enumeration" do
-      expect(dispatched_type("uml:Enumeration")).to eq(Xmi::Uml::Enumeration)
-    end
-
-    it "dispatches uml:Package → Package" do
-      expect(dispatched_type("uml:Package")).to eq(Xmi::Uml::Package)
-    end
-
-    it "dispatches uml:Realization → Realization" do
-      expect(dispatched_type("uml:Realization")).to eq(Xmi::Uml::Realization)
+    Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP[:class_map].each do |xmi_type, class_name|
+      it "dispatches #{xmi_type} → #{class_name.split('::').last}" do
+        expect(dispatched_type(xmi_type)).to eq(Object.const_get(class_name))
+      end
     end
   end
 
   describe "subclass inheritance" do
-    it "all subclasses inherit from PackagedElement" do
-      subclasses = [
-        Xmi::Uml::UmlClass,
-        Xmi::Uml::Association,
-        Xmi::Uml::Interface,
-        Xmi::Uml::InstanceSpecification,
-        Xmi::Uml::DataType,
-        Xmi::Uml::PrimitiveType,
-        Xmi::Uml::Enumeration,
-        Xmi::Uml::Package,
-        Xmi::Uml::Realization,
-      ]
+    it "all class_map entries inherit from PackagedElement" do
+      subclasses = Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP[:class_map].values
+        .map { |name| Object.const_get(name) }
       expect(subclasses).to all(be < Xmi::Uml::PackagedElement)
     end
 
@@ -97,7 +68,7 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
   describe "unknown xmi:type robustness" do
     # Polymorphic dispatch with unknown discriminator falls back to
     # PackagedElement (the union-bag base) via the class_map's
-    # default_proc. Avoids the lutaml-model `Object.const_get(nil)`
+    # Hash default value. Avoids the lutaml-model `Object.const_get(nil)`
     # TypeError when Sparx XMI emits a type we haven't modelled yet.
     it "falls back to PackagedElement for unknown xmi:type" do
       xml = doc_with(%(<packagedElement xmi:type="uml:SomethingNew" xmi:id="X1" name="mystery"/>))
@@ -112,13 +83,6 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
       pe = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first
       expect(pe).to be_a(Xmi::Uml::PackagedElement)
       expect(pe.name).to eq("bare")
-    end
-
-    it "parses Component as Xmi::Uml::Component" do
-      xml = doc_with(%(<packagedElement xmi:type="uml:Component" xmi:id="X1" name="svc"/>))
-      pe = Xmi::Sparx::Root.from_xml(xml).model.packaged_element.first
-      expect(pe).to be_a(Xmi::Uml::Component)
-      expect(pe.type).to eq("uml:Component")
     end
   end
 
@@ -155,6 +119,22 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
       pe = reparsed.model.packaged_element.first
       expect(pe).to be_a(Xmi::Uml::UmlClass)
       expect(pe.type).to eq("uml:Class")
+    end
+
+    it "Component round-trips with type=uml:Component" do
+      xml = doc_with(%(<packagedElement xmi:type="uml:Component" xmi:id="EAID_SVC1" name="svc"/>))
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(xml).to_xml)
+      pe = reparsed.model.packaged_element.first
+      expect(pe).to be_a(Xmi::Uml::Component)
+      expect(pe.type).to eq("uml:Component")
+    end
+
+    it "unknown xmi:type round-trips with discriminator preserved" do
+      xml = doc_with(%(<packagedElement xmi:type="uml:SomethingNew" xmi:id="EAID_X1" name="mystery"/>))
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(xml).to_xml)
+      pe = reparsed.model.packaged_element.first
+      expect(pe).to be_a(Xmi::Uml::PackagedElement)
+      expect(pe.type).to eq("uml:SomethingNew")
     end
   end
 end

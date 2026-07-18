@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-07-18
+
+### Added
+
+- `Xmi::Performance` namespace for benchmark tooling (`Helpers`, `Comparator`, `Runner`) with autoload
+- Polymorphic dispatch contract specs asserting frozen + default-value behavior at the data level
+- Fallback coverage for `OwnedAttribute#upper_value`, `OwnedEnd#upper_value`, `OwnedParameter#upper_value` (previously only `Slot#value` was tested)
+- Round-trip coverage for `uml:Component` and unknown `xmi:type` discriminators
+- `spec/xmi/performance_spec.rb` covering autoload, class cloning, and namespace independence
+
+### Fixed
+
+- Deep-freeze the inner `class_map` hash on both `PACKAGED_ELEMENT` and `VALUE_SPECIFICATION` polymorphic maps. The outer `.freeze` was shallow — the inner hash was mutable at runtime
+- `cached_fixture` ivar caching bug: the cache lived on per-example `self` and was recreated empty on every call, defeating its purpose. Replaced with a top-level `FIXTURE_CONTENT_CACHE` constant
+
+### Changed
+
+- Performance task constants moved into `Xmi::Performance` namespace: `PerformanceComparator` → `Xmi::Performance::Comparator`, `PerformanceHelpers` → `Xmi::Performance::Helpers`, `BenchmarkRunner` → `Xmi::Performance::Runner`. Dual-load mechanism replaced with class cloning via `const_set`
+- Data-drive dispatch and subclass-schema specs from the class_map so adding a subclass + map entry auto-gains coverage (OCP for the test layer)
+- Replace `.send(...)` with `.public_send(...)` in sparx extension specs for safer dynamic dispatch
+- Normalize `require_relative` to `require "xmi"` in 8 spec files for consistency with the rest of the suite
+- Correct polymorphic map comment terminology (`default_proc` → `default value`) and document the two-path fallback
+
+### Removed
+
+- `lib/tasks/performance_helpers.rb`, `lib/tasks/performance_comparator.rb`, `lib/tasks/benchmark_runner.rb` (moved to `lib/xmi/performance/`)
+- Top-level constants `PerformanceComparator`, `PerformanceHelpers`, `BenchmarkRunner`, `Term` (moved into `Xmi::Performance`)
+- Stale `TODO.next/01` and `TODO 02` references from comments (scratchpads were deleted; Phase A explanations kept)
+
+## [0.6.1] - 2026-07-09
+
+### Added
+
+- `Xmi::Uml::Component` subclass for `<packagedElement xmi:type="uml:Component">` (UML 2.5 §12.3)
+- `uml:Component` entry in `PACKAGED_ELEMENT_POLYMORPHIC_MAP`
+- Polymorphic dispatch fallback: unknown or missing `xmi:type` resolves to the abstract base class via `Hash` default value, avoiding the lutaml-model `Object.const_get(nil)` `TypeError` on real Sparx XMI containing types not yet modelled
+
 ### Added
 
 - Namespace-bound registers for version-aware type resolution

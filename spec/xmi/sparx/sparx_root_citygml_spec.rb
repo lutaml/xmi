@@ -98,12 +98,12 @@ RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
 
         CityGmlShared::INSTANCES.each do |attr, method, value|
           it "contains #{attr} with correct #{method}" do
-            expect(xmi_root_model.send(attr.to_sym))
+            expect(xmi_root_model.public_send(attr.to_sym))
               .to be_instance_of(Array)
-            expect(xmi_root_model.send(attr.to_sym).first.class.name)
+            expect(xmi_root_model.public_send(attr.to_sym).first.class.name)
               .to eq("Xmi::EaRoot::Citygml::#{Lutaml::Model::Utils.classify(attr)}")
-            expect(xmi_root_model.send(attr.to_sym).first
-              .send(method.to_sym)).to eq(value)
+            expect(xmi_root_model.public_send(attr.to_sym).first
+              .public_send(method.to_sym)).to eq(value)
           end
         end
       end

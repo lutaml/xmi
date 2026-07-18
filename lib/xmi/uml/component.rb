@@ -9,7 +9,7 @@ module Xmi
     # interface_realization — but signals a different deployment role
     # to consumers.
     #
-    # Phase A of TODO.next/01: subclass is a type tag on
+    # Phase A: subclass is a type tag on
     # PackagedElement. The union-bag attribute set is inherited
     # unchanged so existing consumers keep working.
     class Component < PackagedElement

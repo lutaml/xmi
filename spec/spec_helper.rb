@@ -19,14 +19,20 @@ def fixtures_path(path)
   File.join(File.expand_path("./fixtures", __dir__), path)
 end
 
+# Top-level constant so the cache persists across examples. The
+# previous `@fixture_content_cache` ivar lived on `self`, which is
+# the per-example RSpec instance — recreated empty on every call,
+# defeating the cache. Intentionally mutable: entries are memoized
+# on first access.
+FIXTURE_CONTENT_CACHE = {} # rubocop:disable Style/MutableConstant
+
 # Read a fixture file and cache the content.
-# This avoids repeated disk reads for the same fixture across tests.
+# Avoids repeated disk reads for the same fixture across tests.
 #
 # @param path [String] The relative path to the fixture file
 # @return [String] The file content
 def cached_fixture(path)
-  @fixture_content_cache ||= {}
-  @fixture_content_cache[path] ||= File.read(fixtures_path(path))
+  FIXTURE_CONTENT_CACHE[path] ||= File.read(fixtures_path(path))
 end
 
 require "canon"

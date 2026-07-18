@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # End-to-end coverage for `<packagedElement xmi:type="uml:InstanceSpecification">`.
 # InstanceSpecification is the primary consumer of every feature

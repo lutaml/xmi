@@ -170,12 +170,12 @@ RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
 
         mdg_test.each do |t|
           it "containses #{t[:klass]}" do
-            expect(xmi_root_model.send(t[:attribute].to_sym))
+            expect(xmi_root_model.public_send(t[:attribute].to_sym))
               .to be_instance_of(Array)
-            expect(xmi_root_model.send(t[:attribute].to_sym).first.class.name)
+            expect(xmi_root_model.public_send(t[:attribute].to_sym).first.class.name)
               .to eq(t[:klass])
-            expect(xmi_root_model.send(t[:attribute].to_sym).first
-              .send(t[:method].to_sym)).to eq(t[:value])
+            expect(xmi_root_model.public_send(t[:attribute].to_sym).first
+              .public_send(t[:method].to_sym)).to eq(t[:value])
           end
         end
       end

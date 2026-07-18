@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Reference-holder models: small classes whose only job is to point
 # at another element via xmi:idref or href.

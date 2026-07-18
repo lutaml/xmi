@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Owned elements: OwnedComment and OwnedLiteral. Both inherit from
 # Xmi::Uml::Base.

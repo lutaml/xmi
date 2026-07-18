@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # UMLDI elements: Bounds, Waypoint, Diagram, OwnedElement. All
 # inherit from Xmi::UmlDi::Base (UMLDI namespace, not UML).

@@ -8,7 +8,8 @@ require "xmi"
 # OwnedParameter attributes that use them.
 #
 # This spec flipped from "concrete class" to "polymorphic
-# ValueSpecification" when TODO 02 landed. The DefaultValue/
+# ValueSpecification" when Slot#value became polymorphic. The
+# DefaultValue/
 # UpperValue/LowerValue classes still exist as concrete subclasses
 # for back-compat with code that constructs them directly
 # (e.g. the lutaml/ea transformer).

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Specification + Precondition. Specification captures text content
 # (constraint expressions); Precondition wraps Specification.

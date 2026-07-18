@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Package/Profile/Import family. These structural classes wire
 # packaged_element/package_import collections.

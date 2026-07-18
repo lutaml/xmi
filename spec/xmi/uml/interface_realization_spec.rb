@@ -55,7 +55,7 @@ RSpec.describe Xmi::Uml::InterfaceRealization do
 
   describe "real fixture parity" do
     # Real Sparx EA output collapses interfaceRealization into a generic
-    # `<packagedElement type="uml:Realization">` (per TODO.next/01 and
+    # `<packagedElement type="uml:Realization">` (see
     # the deployment-context block below). The xmi gem's fixture
     # `sparx-instance-specification.xmi` is real Sparx output and
     # contains no `<interfaceRealization>` strict-form elements.

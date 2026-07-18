@@ -6,7 +6,7 @@ module Xmi
     # is a kind of class defined to extend the UML metamodel
     # (UML 2.5 §22.3).
     #
-    # Phase A of TODO.next/01: subclass is a type tag on
+    # Phase A: subclass is a type tag on
     # PackagedElement. The union-bag attribute set is inherited
     # unchanged so existing consumers keep working. Phase B
     # (narrowing attrs to the subclass) is future work.

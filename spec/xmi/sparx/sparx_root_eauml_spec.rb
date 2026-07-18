@@ -121,12 +121,12 @@ RSpec.describe Xmi::Sparx::Root do # rubocop:disable Metrics/BlockLength
         eauml_test.each do |t|
           it "containses #{t[:klass]}" do
             eauml_method = :"eauml_#{t[:attribute]}"
-            expect(xmi_root_model.send(eauml_method))
+            expect(xmi_root_model.public_send(eauml_method))
               .to be_instance_of(Array)
-            expect(xmi_root_model.send(eauml_method).first.class.name)
+            expect(xmi_root_model.public_send(eauml_method).first.class.name)
               .to eq(t[:klass])
-            expect(xmi_root_model.send(eauml_method).first
-              .send(t[:method].to_sym)).to eq(t[:value])
+            expect(xmi_root_model.public_send(eauml_method).first
+              .public_send(t[:method].to_sym)).to eq(t[:value])
           end
         end
       end

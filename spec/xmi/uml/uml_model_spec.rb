@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Top-level UmlModel — the root <uml:Model> element. Carries
 # packagedElement, packageImport, profileApplication, and Diagram.

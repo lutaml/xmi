@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../lib/xmi"
+require "xmi"
 
 # Concrete subclasses of ValueSpecification (default_value.rb and
 # the upper_value/lower_value split). Literal subclasses are covered

@@ -71,6 +71,7 @@ module Xmi
   autoload :CustomProfile, "xmi/custom_profile"
   autoload :Root, "xmi/root"
   autoload :Sparx, "xmi/sparx"
+  autoload :Performance, "xmi/performance"
 
   # Unified parsing API
   autoload :Parsing, "xmi/parsing"

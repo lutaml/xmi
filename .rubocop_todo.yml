@@ -113,9 +113,9 @@ Lint/ConstantDefinitionInBlock:
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
   Exclude:
-    - 'lib/tasks/benchmark_runner.rb'
-    - 'lib/tasks/performance_comparator.rb'
-    - 'lib/tasks/performance_helpers.rb'
+    - 'lib/xmi/performance/runner.rb'
+    - 'lib/xmi/performance/comparator.rb'
+    - 'lib/xmi/performance/helpers.rb'
     - 'lib/xmi/ea_root/code_generation.rb'
     - 'lib/xmi/sparx/index.rb'
     - 'lib/xmi/version_registry.rb'
@@ -131,7 +131,7 @@ Metrics/BlockLength:
 # Configuration parameters: AllowedMethods, AllowedPatterns, Max.
 Metrics/CyclomaticComplexity:
   Exclude:
-    - 'lib/tasks/performance_helpers.rb'
+    - 'lib/xmi/performance/helpers.rb'
     - 'lib/xmi/ea_root/code_generation.rb'
     - 'lib/xmi/sparx/index.rb'
 
@@ -144,7 +144,7 @@ Metrics/MethodLength:
 # Configuration parameters: AllowedMethods, AllowedPatterns, Max.
 Metrics/PerceivedComplexity:
   Exclude:
-    - 'lib/tasks/performance_helpers.rb'
+    - 'lib/xmi/performance/helpers.rb'
     - 'lib/xmi/ea_root/code_generation.rb'
     - 'lib/xmi/sparx/index.rb'
     - 'lib/xmi/version_registry.rb'
@@ -155,7 +155,7 @@ Metrics/PerceivedComplexity:
 # AllowedIdentifiers: TLS1_1, TLS1_2, capture3, iso8601, rfc1123_date, rfc822, rfc2822, rfc3339, x86_64
 Naming/VariableNumber:
   Exclude:
-    - 'lib/tasks/benchmark_runner.rb'
+    - 'lib/xmi/performance/runner.rb'
     - 'lib/xmi/v20110701.rb'
     - 'lib/xmi/v20131001.rb'
     - 'lib/xmi/v20161101.rb'
@@ -247,6 +247,6 @@ Style/BlockDelimiters:
 # Configuration parameters: AllowedClasses.
 Style/OneClassPerFile:
   Exclude:
-    - 'lib/tasks/benchmark_runner.rb'
+    - 'lib/xmi/performance/runner.rb'
     - 'lib/xmi.rb'
     - 'lib/xmi/namespace/dynamic.rb'

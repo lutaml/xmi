@@ -4,7 +4,9 @@ module Xmi
   module Uml
     class OwnedParameter < Base
       attribute :name, :string
-      attribute :type, ::Xmi::Type::XmiType
+      # Sparx emits a PLAIN type attribute on ownedParameter
+      # (type="EAID_…" / type="EAnone_void"), not xmi:type.
+      attribute :type, :string
       attribute :direction, :string
       attribute :visibility, :string
       attribute :is_ordered, :boolean

@@ -24,9 +24,10 @@ module Xmi
         map_attribute "isComposite", to: :is_composite
 
         map_element "type", to: :uml_type
-        map_element "upperValue", to: :upper_value,
-                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        # Sparx EA emits lowerValue before upperValue.
         map_element "lowerValue", to: :lower_value,
+                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        map_element "upperValue", to: :upper_value,
                                   polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
         map_element "defaultValue", to: :default_value,
                                     polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP

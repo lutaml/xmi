@@ -93,4 +93,34 @@ RSpec.describe Xmi::Uml::PackagedElement do
       expect(attrs[:classifier].type).to eq(Lutaml::Model::Type::String)
     end
   end
+
+  describe "nestedClassifier" do
+    it "round-trips nested classifiers (Sparx nesting for class-owned classes)" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+        </packagedElement>
+      XML
+      element = described_class.from_xml(xml)
+      expect(element.nested_classifier.map(&:name)).to eq(["Inner"])
+      expect(element.packaged_element).to be_empty
+      expect(element.to_xml).to include("<nestedClassifier")
+      expect(element.to_xml).to include(%(name="Inner"))
+    end
+  end
+
+  describe "Sparx sibling order" do
+    it "serializes lowerValue before upperValue on owned attributes" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_C" name="C">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="EAID_A" name="a">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="1"/>
+          </ownedAttribute>
+        </packagedElement>
+      XML
+      output = described_class.from_xml(xml).to_xml
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
+    end
+  end
 end

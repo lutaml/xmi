@@ -27,6 +27,16 @@ RSpec.describe Xmi::Uml::OwnedParameter do
     doc.model.packaged_element.first.owned_operation.first.owned_parameter.first
   end
 
+  describe "plain type attribute" do
+    it "round-trips Sparx's unnamespaced type reference" do
+      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
+      param = owned_parameter(doc)
+      expect(param.type).to eq("EAnone_void")
+      expect(param.to_xml).to include(%(type="EAnone_void"))
+      expect(param.to_xml).not_to include(%(xmi:type="EAnone_void"))
+    end
+  end
+
   describe "string attributes" do
     it "parses visibility" do
       op = owned_parameter(Xmi::Sparx::Root.from_xml(doc_with('visibility="public"')))

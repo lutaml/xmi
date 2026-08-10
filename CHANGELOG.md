@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `PackagedElement#nested_classifier` with `<nestedClassifier>` mapping
-  (Sparx EA nesting for class-owned classes)
+  (Sparx EA nesting for classifiers owned by classes)
 
 ### Changed
 

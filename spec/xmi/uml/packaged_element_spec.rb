@@ -104,19 +104,34 @@ RSpec.describe Xmi::Uml::PackagedElement do
       element = described_class.from_xml(xml)
       expect(element.nested_classifier.map(&:name)).to eq(["Inner"])
       expect(element.packaged_element).to be_empty
-      expect(element.to_xml).to include("<nestedClassifier")
-      expect(element.to_xml).to include(%(name="Inner"))
+      expect(element.to_xml).to match(/<nestedClassifier[^>]*name="Inner"/)
+      expect(element.to_xml).to include(%(xmi:id="EAID_INNER"))
     end
   end
 
   describe "Sparx sibling order" do
+    # Inputs list upperValue FIRST so a pass proves the mapping order —
+    # not the input order — controls serialization.
     it "serializes lowerValue before upperValue on owned attributes" do
       xml = <<~XML
         <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_C" name="C">
           <ownedAttribute xmi:type="uml:Property" xmi:id="EAID_A" name="a">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="1"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="1"/>
           </ownedAttribute>
+        </packagedElement>
+      XML
+      output = described_class.from_xml(xml).to_xml
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
+    end
+
+    it "serializes lowerValue before upperValue on owned ends" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Association" xmi:id="EAID_AS" name="A">
+          <ownedEnd xmi:type="uml:Property" xmi:id="EAID_E" name="e">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="0"/>
+          </ownedEnd>
         </packagedElement>
       XML
       output = described_class.from_xml(xml).to_xml

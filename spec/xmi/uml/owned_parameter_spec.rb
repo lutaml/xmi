@@ -35,6 +35,15 @@ RSpec.describe Xmi::Uml::OwnedParameter do
       expect(param.to_xml).to include(%(type="EAnone_void"))
       expect(param.to_xml).not_to include(%(xmi:type="EAnone_void"))
     end
+
+    it "documents the known xmi:type discriminator loss on re-serialization" do
+      # lutaml-model matches attributes by local name only, so the plain
+      # type reference and the xmi:type discriminator share one slot —
+      # see the comment in OwnedParameter. Pin the lossy behavior so a
+      # future fix has to update this spec deliberately.
+      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
+      expect(owned_parameter(doc).to_xml).not_to include("xmi:type=")
+    end
   end
 
   describe "string attributes" do

@@ -6,6 +6,11 @@ module Xmi
       attribute :name, :string
       # Sparx emits a PLAIN type attribute on ownedParameter
       # (type="EAID_…" / type="EAnone_void"), not xmi:type.
+      #
+      # Known limit: lutaml-model matches attributes by local name only,
+      # so `type` and `xmi:type` cannot be modelled separately — the
+      # inherited xmi:type discriminator is dropped on re-serialization.
+      # Needs namespace-aware map_attribute upstream in lutaml-model.
       attribute :type, :string
       attribute :direction, :string
       attribute :visibility, :string

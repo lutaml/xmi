@@ -15,7 +15,7 @@ RSpec.describe Xmi::Uml::OwnedParameter do
         <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
           <packagedElement xmi:type="uml:Class" xmi:id="EAID_C1" name="Owner">
             <ownedOperation xmi:type="uml:Operation" xmi:id="EAID_OP1" name="op1">
-              <ownedParameter xmi:type="uml:Parameter" xmi:id="EAID_PM1" name="p1" #{attrs}/>
+              <ownedParameter xmi:id="EAID_PM1" name="p1" #{attrs}/>
             </ownedOperation>
           </packagedElement>
         </uml:Model>
@@ -41,7 +41,9 @@ RSpec.describe Xmi::Uml::OwnedParameter do
       # type reference and the xmi:type discriminator share one slot —
       # see the comment in OwnedParameter. Pin the lossy behavior so a
       # future fix has to update this spec deliberately.
-      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
+      doc = Xmi::Sparx::Root.from_xml(
+        doc_with(%(xmi:type="uml:Parameter" type="EAnone_void" direction="return")),
+      )
       expect(owned_parameter(doc).to_xml).not_to include("xmi:type=")
     end
   end

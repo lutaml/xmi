@@ -197,4 +197,49 @@ RSpec.describe Xmi::Sparx::Index do
       expect(index.packaged_elements.first.name).to eq("Pkg")
     end
   end
+
+  describe "with nested classifiers (minimal XML)" do
+    let(:xml) do
+      <<~XML
+        <?xml version="1.0"?>
+        <xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+                 xmlns:uml="http://www.omg.org/spec/UML/20131001">
+          <uml:Model xmi:type="uml:Model" name="M">
+            <packagedElement xmi:type="uml:Class"
+                             xmi:id="CLS_OUTER" name="Outer">
+              <nestedClassifier xmi:type="uml:Class"
+                                xmi:id="CLS_INNER" name="Inner">
+                <ownedAttribute xmi:type="uml:Property"
+                                xmi:id="ATT_INNER" name="attr"/>
+              </nestedClassifier>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+    end
+
+    let(:root) { Xmi::Sparx::Root.parse_xml(xml) }
+    let(:index) { root.index }
+
+    it "indexes nested classifiers by ID" do
+      expect(index.find_packaged_element("CLS_INNER")).not_to be_nil
+    end
+
+    it "indexes nested classifier names" do
+      expect(index.lookup_name("CLS_INNER")).to eq("Inner")
+    end
+
+    it "tracks the owning class as parent" do
+      expect(index.find_parent("CLS_INNER")&.id).to eq("CLS_OUTER")
+    end
+
+    it "includes nested classifiers in the type map" do
+      ids = index.packaged_elements_of_type("uml:Class").map(&:id)
+      expect(ids).to include("CLS_OUTER", "CLS_INNER")
+    end
+
+    it "indexes attributes owned by nested classifiers" do
+      expect(index.lookup_name("ATT_INNER")).to eq("attr")
+    end
+  end
 end

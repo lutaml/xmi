@@ -107,6 +107,17 @@ RSpec.describe Xmi::Uml::PackagedElement do
       expect(element.to_xml).to match(/<nestedClassifier[^>]*name="Inner"/)
       expect(element.to_xml).to include(%(xmi:id="EAID_INNER"))
     end
+
+    it "dispatches nested classifiers polymorphically and keeps the discriminator" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+        </packagedElement>
+      XML
+      element = described_class.from_xml(xml)
+      expect(element.nested_classifier.first).to be_a(Xmi::Uml::UmlClass)
+      expect(element.to_xml).to match(/<nestedClassifier[^>]*xmi:type="uml:Class"/)
+    end
   end
 
   describe "Sparx sibling order" do

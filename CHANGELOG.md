@@ -10,12 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `PackagedElement#nested_classifier` with `<nestedClassifier>` mapping
-  (Sparx EA nesting for classifiers owned by classes)
+  (Sparx EA nesting for classifiers owned by classes), covered by
+  `Xmi::Sparx::Index` lookups
 
 ### Changed
 
-- `OwnedAttribute`/`OwnedEnd` serialize `lowerValue` before `upperValue`,
-  matching Sparx EA's element order
+- `OwnedAttribute`/`OwnedEnd`/`OwnedParameter` serialize `lowerValue`
+  before `upperValue`, matching Sparx EA's element order
 - `OwnedParameter#type` is a plain (unnamespaced) string attribute,
   matching Sparx exports (`type="EAnone_void"`); it previously mapped
   to `xmi:type`

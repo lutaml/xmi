@@ -8,8 +8,11 @@ module Xmi
       # (type="EAID_…" / type="EAnone_void"), not xmi:type.
       #
       # Known limit: lutaml-model matches attributes by local name only,
-      # so `type` and `xmi:type` cannot be modelled separately — the
-      # inherited xmi:type discriminator is dropped on re-serialization.
+      # so `type` and `xmi:type` cannot be modelled separately — they
+      # share one slot and whichever attribute appears LAST in the
+      # input wins it. Re-serialization always emits the slot as a
+      # plain `type` attribute, so an input carrying only `xmi:type`
+      # gets a fabricated `type="uml:Parameter"` on round-trip.
       # Needs namespace-aware map_attribute upstream in lutaml-model.
       attribute :type, :string
       attribute :direction, :string
@@ -31,9 +34,10 @@ module Xmi
         map_attribute "isUnique", to: :is_unique
         map_attribute "effect", to: :effect
 
-        map_element "upperValue", to: :upper_value,
-                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        # Sparx EA emits lowerValue before upperValue.
         map_element "lowerValue", to: :lower_value,
+                                  polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
+        map_element "upperValue", to: :upper_value,
                                   polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP
         map_element "defaultValue", to: :default_value,
                                     polymorphic: VALUE_SPECIFICATION_POLYMORPHIC_MAP

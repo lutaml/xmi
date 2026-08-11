@@ -23,6 +23,23 @@ RSpec.describe Xmi::Uml::OwnedParameter do
     XML
   end
 
+  def doc_with_children(children)
+    <<~XML
+      <xmi:XMI #{namespace_xml}>
+        <xmi:Documentation exporter="EA"/>
+        <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+          <packagedElement xmi:type="uml:Class" xmi:id="EAID_C1" name="Owner">
+            <ownedOperation xmi:type="uml:Operation" xmi:id="EAID_OP1" name="op1">
+              <ownedParameter xmi:id="EAID_PM1" name="p1">
+                #{children}
+              </ownedParameter>
+            </ownedOperation>
+          </packagedElement>
+        </uml:Model>
+      </xmi:XMI>
+    XML
+  end
+
   def owned_parameter(doc)
     doc.model.packaged_element.first.owned_operation.first.owned_parameter.first
   end
@@ -47,6 +64,42 @@ RSpec.describe Xmi::Uml::OwnedParameter do
       output = owned_parameter(doc).to_xml
       expect(output).not_to include("xmi:type=")
       expect(output).to include(%(type="EAnone_void"))
+    end
+
+    it "documents that the last type attribute in the input wins" do
+      # The shared slot is last-attribute-wins: with the plain type
+      # first, the trailing xmi:type discriminator clobbers it.
+      doc = Xmi::Sparx::Root.from_xml(
+        doc_with(%(type="EAnone_void" xmi:type="uml:Parameter" direction="return")),
+      )
+      param = owned_parameter(doc)
+      expect(param.type).to eq("uml:Parameter")
+      expect(param.to_xml).to include(%(type="uml:Parameter"))
+    end
+
+    it "documents the fabricated plain type on xmi:type-only input" do
+      # Old-format documents (xmi <= 0.6.x output) carry only the
+      # discriminator; round-trip converts it into a plain type.
+      doc = Xmi::Sparx::Root.from_xml(
+        doc_with(%(xmi:type="uml:Parameter" direction="return")),
+      )
+      param = owned_parameter(doc)
+      expect(param.type).to eq("uml:Parameter")
+      expect(param.to_xml).to include(%(type="uml:Parameter"))
+      expect(param.to_xml).not_to include("xmi:type=")
+    end
+  end
+
+  describe "Sparx sibling order" do
+    # Input lists upperValue FIRST so a pass proves the mapping order —
+    # not the input order — controls serialization.
+    it "serializes lowerValue before upperValue" do
+      doc = Xmi::Sparx::Root.from_xml(doc_with_children(<<~CHILDREN))
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="1"/>
+      CHILDREN
+      output = owned_parameter(doc).to_xml
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
     end
   end
 

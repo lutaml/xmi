@@ -44,7 +44,9 @@ RSpec.describe Xmi::Uml::OwnedParameter do
       doc = Xmi::Sparx::Root.from_xml(
         doc_with(%(xmi:type="uml:Parameter" type="EAnone_void" direction="return")),
       )
-      expect(owned_parameter(doc).to_xml).not_to include("xmi:type=")
+      output = owned_parameter(doc).to_xml
+      expect(output).not_to include("xmi:type=")
+      expect(output).to include(%(type="EAnone_void"))
     end
   end
 

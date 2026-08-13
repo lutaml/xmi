@@ -44,49 +44,37 @@ RSpec.describe Xmi::Uml::OwnedParameter do
     doc.model.packaged_element.first.owned_operation.first.owned_parameter.first
   end
 
-  describe "plain type attribute" do
-    it "round-trips Sparx's unnamespaced type reference" do
-      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
-      param = owned_parameter(doc)
-      expect(param.type).to eq("EAnone_void")
-      expect(param.to_xml).to include(%(type="EAnone_void"))
-      expect(param.to_xml).not_to include(%(xmi:type="EAnone_void"))
-    end
-
-    it "documents the known xmi:type discriminator loss on re-serialization" do
-      # lutaml-model matches attributes by local name only, so the plain
-      # type reference and the xmi:type discriminator share one slot —
-      # see the comment in OwnedParameter. Pin the lossy behavior so a
-      # future fix has to update this spec deliberately.
-      doc = Xmi::Sparx::Root.from_xml(
-        doc_with(%(xmi:type="uml:Parameter" type="EAnone_void" direction="return")),
-      )
-      output = owned_parameter(doc).to_xml
-      expect(output).not_to include("xmi:type=")
-      expect(output).to include(%(type="EAnone_void"))
-    end
-
-    it "documents that the last type attribute in the input wins" do
-      # The shared slot is last-attribute-wins: with the plain type
-      # first, the trailing xmi:type discriminator clobbers it.
-      doc = Xmi::Sparx::Root.from_xml(
-        doc_with(%(type="EAnone_void" xmi:type="uml:Parameter" direction="return")),
-      )
-      param = owned_parameter(doc)
-      expect(param.type).to eq("uml:Parameter")
-      expect(param.to_xml).to include(%(type="uml:Parameter"))
-    end
-
-    it "documents the fabricated plain type on xmi:type-only input" do
-      # Old-format documents (xmi <= 0.6.x output) carry only the
-      # discriminator; round-trip converts it into a plain type.
+  describe "the shared type slot" do
+    it "round-trips a general-XMI discriminator unchanged" do
+      # The case a non-Sparx consumer depends on. Emitting the
+      # unprefixed spelling here would silently rewrite their documents.
       doc = Xmi::Sparx::Root.from_xml(
         doc_with(%(xmi:type="uml:Parameter" direction="return")),
       )
       param = owned_parameter(doc)
       expect(param.type).to eq("uml:Parameter")
-      expect(param.to_xml).to include(%(type="uml:Parameter"))
-      expect(param.to_xml).not_to include("xmi:type=")
+      expect(param.to_xml).to include(%(xmi:type="uml:Parameter"))
+    end
+
+    it "reads Sparx's unprefixed type reference" do
+      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
+      expect(owned_parameter(doc).type).to eq("EAnone_void")
+    end
+
+    it "re-serializes the Sparx spelling namespaced" do
+      # lutaml-model matches attributes by local name, so one slot holds
+      # both spellings and only one can come back out. Sparx output is
+      # produced by the Sparx exporter, which restores the unprefixed
+      # form on its own side.
+      doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
+      expect(owned_parameter(doc).to_xml).to include(%(xmi:type="EAnone_void"))
+    end
+
+    it "lets the last type attribute in the input win" do
+      doc = Xmi::Sparx::Root.from_xml(
+        doc_with(%(type="EAnone_void" xmi:type="uml:Parameter" direction="return")),
+      )
+      expect(owned_parameter(doc).type).to eq("uml:Parameter")
     end
   end
 

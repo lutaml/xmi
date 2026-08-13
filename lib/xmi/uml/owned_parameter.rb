@@ -4,17 +4,23 @@ module Xmi
   module Uml
     class OwnedParameter < Base
       attribute :name, :string
-      # Sparx emits a PLAIN type attribute on ownedParameter
-      # (type="EAID_…" / type="EAnone_void"), not xmi:type.
+      # These are two DIFFERENT attributes that collide here:
+      #   xmi:type="uml:Parameter"  — the XMI metaclass discriminator
+      #   type="EAnone_void"        — Sparx's classifier reference
       #
       # Known limit: lutaml-model matches attributes by local name only,
-      # so `type` and `xmi:type` cannot be modelled separately — they
-      # share one slot and whichever attribute appears LAST in the
-      # input wins it. Re-serialization always emits the slot as a
-      # plain `type` attribute, so an input carrying only `xmi:type`
-      # gets a fabricated `type="uml:Parameter"` on round-trip.
-      # Needs namespace-aware map_attribute upstream in lutaml-model.
-      attribute :type, :string
+      # so both land in this one slot and whichever appears LAST in the
+      # input wins. They are not two spellings of one concept, and only
+      # one of them can survive a round trip.
+      #
+      # The slot stays xmi-namespaced, which keeps the discriminator —
+      # the general UML XMI shape this gem round-trips. Sparx's
+      # classifier reference still parses into it, but re-serializes as
+      # `xmi:type`. Restoring the Sparx spelling belongs to the Sparx
+      # exporter, not to this shared model: flipping it here would break
+      # the general case for every other consumer. Modelling both at
+      # once needs namespace-aware map_attribute upstream.
+      attribute :type, ::Xmi::Type::XmiType
       attribute :direction, :string
       attribute :visibility, :string
       attribute :is_ordered, :boolean

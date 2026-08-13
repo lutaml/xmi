@@ -19,32 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   before `upperValue`, matching Sparx EA's element order. Serialization
   only — parsing accepts either order and is unaffected
 
-### Breaking
+### Documented
 
-- `OwnedParameter#type` is now a plain (unnamespaced) string attribute,
-  matching Sparx exports (`type="EAnone_void"`). It previously
-  serialized as `xmi:type`.
-
-  This is a trade, not a strict improvement. lutaml-model matches XML
-  attributes by local name, so `type` and `xmi:type` share one slot and
-  only one can survive. Sparx round-trips correctly now; general UML XMI
-  no longer does:
-
-  | input on `ownedParameter` | 0.6.2 emits | 0.7.0 emits |
-  |---------------------------|-------------|-------------|
-  | `xmi:type="uml:Parameter"` | `xmi:type=` | `type=`     |
-  | `type="EAnone_void"`       | `xmi:type=` | `type=`     |
-
-  So a general-XMI document parsed with `Xmi.parse` (see
-  `docs/migration.md`) and re-serialized loses the `xmi:type`
-  discriminator on `ownedParameter`, and output written by 0.6.x no
-  longer round-trips unchanged. Documents carrying both attributes were
-  already lossy before this change; what changes here is which one
-  survives.
-
-  A proper fix needs namespace-aware `map_attribute` in lutaml-model.
-  Until then, consumers that need the general-XMI shape should pin
-  `xmi ~> 0.6.2`.
+- `OwnedParameter#type` keeps its xmi-namespaced mapping, and the
+  limitation is now stated in the code and pinned by specs. lutaml-model
+  matches XML attributes by local name, so `type` and `xmi:type` share
+  one slot and only one spelling survives re-serialization. Sparx writes
+  the concept unprefixed; reading that works, and producing it is the
+  Sparx exporter's job. Serving both at once needs namespace-aware
+  `map_attribute` upstream.
 
 ## [0.6.2] - 2026-07-18
 

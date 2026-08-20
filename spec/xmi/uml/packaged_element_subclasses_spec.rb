@@ -31,6 +31,7 @@ RSpec.describe "PackagedElement subclasses schema" do
         # will narrow these.
         expect(described_class.attributes).to have_key(:name)
         expect(described_class.attributes).to have_key(:packaged_element)
+        expect(described_class.attributes).to have_key(:nested_classifier)
       end
     end
   end

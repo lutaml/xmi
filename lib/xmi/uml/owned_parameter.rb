@@ -19,7 +19,8 @@ module Xmi
       # `xmi:type`. Restoring the Sparx spelling belongs to the Sparx
       # exporter, not to this shared model: flipping it here would break
       # the general case for every other consumer. Modelling both at
-      # once needs namespace-aware map_attribute upstream.
+      # once needs namespace-disjoint attribute deserialization
+      # upstream (lutaml-model#744).
       attribute :type, ::Xmi::Type::XmiType
       attribute :direction, :string
       attribute :visibility, :string

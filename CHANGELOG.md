@@ -28,8 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   by local name, so it collapses them into one slot and only the last
   one read survives re-serialization. Keeping the slot namespaced
   preserves the discriminator; restoring Sparx's classifier reference is
-  the Sparx exporter's job. Modelling both needs namespace-aware
-  `map_attribute` upstream.
+  the Sparx exporter's job. Modelling both needs namespace-disjoint
+  attribute deserialization upstream (lutaml-model#744).
 
 ## [0.6.2] - 2026-07-18
 

@@ -5,65 +5,6 @@ require "stringio"
 
 module Xmi
   module Performance
-    # Pretty terminal formatting for benchmark output.
-    module Term
-      CLEAR   = "\e[0m"
-      BOLD    = "\e[1m"
-      DIM     = "\e[2m"
-      RED     = "\e[31m"
-      GREEN   = "\e[32m"
-      YELLOW  = "\e[33m"
-      CYAN    = "\e[36m"
-      MAGENTA = "\e[35m"
-
-      HL = "─"
-      VL = "│"
-      TL = "┌"
-      TR = "┐"
-      BL = "└"
-      BR = "┘"
-
-      def self.header(title, color: CYAN)
-        width = 78
-        line = HL * width
-        puts
-        puts "#{color}#{TL}#{line}#{TR}#{CLEAR}"
-        puts "#{color}#{VL}#{CLEAR}  #{BOLD}#{color}#{title}#{CLEAR}#{' ' * (width - title.length - 4)}#{color}#{VL}#{CLEAR}"
-        puts "#{color}#{BL}#{line}#{BR}#{CLEAR}"
-      end
-
-      def self.sep(char: HL, width: 78)
-        puts "#{DIM}#{char * width}#{CLEAR}"
-      end
-
-      def self.env_info(ruby_version, platform)
-        puts
-        puts "  #{DIM}Environment:#{CLEAR}"
-        puts "  #{VL}  Ruby #{ruby_version} on #{platform}#{' ' * (60 - ruby_version.length - platform.length)}#{VL}"
-        puts "  #{DIM}#{BL}#{HL * 76}#{BR}#{CLEAR}"
-        puts
-      end
-
-      def self.category(title, icon:, description:, failure_means:,
-compare_against: nil)
-        puts
-        puts "#{CYAN}#{VL}#{CLEAR}  #{BOLD}#{MAGENTA}#{icon} #{title}#{CLEAR}"
-        puts
-        puts "  #{DIM}#{description}#{CLEAR}"
-        puts
-
-        if compare_against
-          puts "  #{CYAN}Comparing against:#{CLEAR} #{compare_against}"
-          puts
-        end
-
-        puts "  #{YELLOW}⚠️  Failure means:#{CLEAR} #{failure_means}"
-        puts
-        sep(width: 76)
-        puts
-      end
-    end
-
     # Runs XMI parsing benchmarks against fixture files and reports
     # iterations-per-second with error margins.
     class Runner
@@ -112,7 +53,7 @@ compare_against: nil)
       end
 
       def run_benchmarks
-        Term.header("XMI Performance Benchmarks", color: Term::CYAN)
+        Term.header("XMI Performance Benchmarks", color: CYAN)
 
         unless @env_shown
           Term.env_info(RUBY_VERSION, RUBY_PLATFORM)
@@ -154,7 +95,7 @@ compare_against: nil)
         end
 
         puts "  #{'Benchmark'.ljust(40)} #{'IPS'.rjust(12)} #{'Deviation'.rjust(12)}"
-        puts "  #{Term::DIM}#{Term::HL * 66}#{Term::CLEAR}"
+        puts "  #{DIM}#{Term::HL * 66}#{CLEAR}"
 
         category_results.each do |r|
           ips = (r[:result][:lower] + r[:result][:upper]) / 2.0
@@ -246,7 +187,7 @@ compare_against: nil)
         puts
         Term.sep(width: 78)
         puts
-        puts "  #{Term::BOLD}#{Term::MAGENTA}SUMMARY#{Term::CLEAR}"
+        puts "  #{BOLD}#{MAGENTA}SUMMARY#{CLEAR}"
         puts
 
         @all_results.each do |r|
@@ -254,7 +195,7 @@ compare_against: nil)
         end
 
         puts
-        puts "  #{Term::DIM}#{@all_results.length} benchmarks completed#{Term::CLEAR}"
+        puts "  #{DIM}#{@all_results.length} benchmarks completed#{CLEAR}"
         puts
       end
     end

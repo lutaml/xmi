@@ -30,12 +30,12 @@ module Xmi
         all_current = {}
         all_base = {}
 
-        puts Helpers::Term.header("Performance Comparison", color: Helpers::CYAN)
+        puts Term.header("Performance Comparison", color: CYAN)
         puts
-        puts "  #{Helpers::DIM}Comparing#{Helpers::CLEAR}:"
-        puts "  #{Helpers::CYAN}  Current#{Helpers::CLEAR}: #{Helpers.current_branch}"
-        puts "  #{Helpers::CYAN}  Base#{Helpers::CLEAR}: #{DEFAULT_BASE}"
-        puts "  #{Helpers::CYAN}  Threshold#{Helpers::CLEAR}: #{(DEFAULT_THRESHOLD * 100).round(0)}% regression allowed"
+        puts "  #{DIM}Comparing#{CLEAR}:"
+        puts "  #{CYAN}  Current#{CLEAR}: #{Helpers.current_branch}"
+        puts "  #{CYAN}  Base#{CLEAR}: #{DEFAULT_BASE}"
+        puts "  #{CYAN}  Threshold#{CLEAR}: #{(DEFAULT_THRESHOLD * 100).round(0)}% regression allowed"
         puts
 
         base_runner = Helpers::Base::Runner.new(
@@ -67,12 +67,12 @@ module Xmi
       def handle_results(summary)
         puts
         if summary[:regressions].any?
-          puts "  #{Helpers::RED}#{Helpers::BOLD}❌ PERFORMANCE REGRESSIONS DETECTED#{Helpers::CLEAR}"
-          puts "  #{Helpers::RED}#{summary[:regressions].length} benchmark(s) regressed beyond threshold#{Helpers::CLEAR}"
+          puts "  #{RED}#{BOLD}❌ PERFORMANCE REGRESSIONS DETECTED#{CLEAR}"
+          puts "  #{RED}#{summary[:regressions].length} benchmark(s) regressed beyond threshold#{CLEAR}"
           puts
           exit(1)
         else
-          puts "  #{Helpers::GREEN}#{Helpers::BOLD}✅ ALL BENCHMARKS PASSED#{Helpers::CLEAR}"
+          puts "  #{GREEN}#{BOLD}✅ ALL BENCHMARKS PASSED#{CLEAR}"
           puts
         end
       end

@@ -108,6 +108,24 @@ RSpec.describe Xmi::Uml::PackagedElement do
       expect(element.to_xml).to include(%(xmi:id="EAID_INNER"))
     end
 
+    it "round-trips through the full document with dispatch intact" do
+      xml = <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+              <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(xml).to_xml)
+      inner = reparsed.model.packaged_element.first.nested_classifier.first
+      expect(inner).to be_a(Xmi::Uml::UmlClass)
+      expect(inner.name).to eq("Inner")
+      expect(inner.type).to eq("uml:Class")
+    end
+
     it "dispatches nested classifiers polymorphically and keeps the discriminator" do
       xml = <<~XML
         <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">

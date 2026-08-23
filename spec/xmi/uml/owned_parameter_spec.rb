@@ -76,6 +76,17 @@ RSpec.describe Xmi::Uml::OwnedParameter do
       )
       expect(owned_parameter(doc).type).to eq("uml:Parameter")
     end
+
+    it "lets the last type attribute win in the reverse order too" do
+      # Mirror of the pin above: the slot is document-order dependent,
+      # not discriminator-preferred. Both pins flip together when
+      # lutaml-model#744 (namespace-disjoint attribute deserialization)
+      # is fixed.
+      doc = Xmi::Sparx::Root.from_xml(
+        doc_with(%(xmi:type="uml:Parameter" type="EAnone_void" direction="return")),
+      )
+      expect(owned_parameter(doc).type).to eq("EAnone_void")
+    end
   end
 
   describe "Sparx sibling order" do

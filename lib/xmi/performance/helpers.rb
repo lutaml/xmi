@@ -8,45 +8,10 @@ require "fileutils"
 module Xmi
   module Performance
     # Shared helpers for the performance benchmark rake tasks.
-    # Provides terminal formatting, git/process helpers, and the
-    # dual-namespace Runner loader used by the comparison flow.
+    # Provides git/process helpers and the dual-namespace Runner loader
+    # used by the comparison flow. Terminal formatting lives in
+    # Xmi::Performance::Term; color codes on Xmi::Performance.
     module Helpers
-      # ANSI color codes for terminal output
-      CLEAR   = "\e[0m"
-      BOLD    = "\e[1m"
-      DIM     = "\e[2m"
-      CYAN    = "\e[36m"
-      GREEN   = "\e[32m"
-      YELLOW  = "\e[33m"
-      RED     = "\e[31m"
-      GRAY    = "\e[90m"
-      MAGENTA = "\e[35m"
-
-      # Terminal formatting helpers
-      module Term
-        extend self
-
-        HL = "─"
-        VL = "│"
-        TL = "┌"
-        TR = "┐"
-        BL = "└"
-        BR = "┘"
-
-        def header(title, color: Helpers::CYAN)
-          width = 78
-          line = HL * width
-          puts
-          puts "#{color}#{TL}#{line}#{TR}#{CLEAR}"
-          puts "#{color}#{VL}#{CLEAR}  #{BOLD}#{color}#{title}#{CLEAR}#{' ' * (width - title.length - 4)}#{color}#{VL}#{CLEAR}"
-          puts "#{color}#{BL}#{line}#{BR}#{CLEAR}"
-        end
-
-        def sep(char: HL, width: 78)
-          puts "#{DIM}#{char * width}#{CLEAR}"
-        end
-      end
-
       # Dual-namespace containers. The Runner class is cloned into
       # each so that Base and Current hold independent class objects
       # (preserving the shape of the comparison API even though both
@@ -123,7 +88,6 @@ module Xmi
                            when "NEW" then YELLOW
                            else GREEN
                            end
-            row[:status] == "REGRESSED" ? RED : DIM
 
             puts "  #{row[:benchmark].ljust(40)} #{format('%-12.1f',
                                                           row[:base_ips] || 0)} #{format('%-12.1f',

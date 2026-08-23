@@ -247,6 +247,5 @@ Style/BlockDelimiters:
 # Configuration parameters: AllowedClasses.
 Style/OneClassPerFile:
   Exclude:
-    - 'lib/xmi/performance/runner.rb'
     - 'lib/xmi.rb'
     - 'lib/xmi/namespace/dynamic.rb'

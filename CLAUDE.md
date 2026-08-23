@@ -150,7 +150,7 @@ Two attributes use lutaml-model's polymorphic dispatch on `xmi:type`:
 - `PackagedElement.packaged_element` (and `UmlModel.packaged_element`) — dispatches to typed subclasses (`UmlClass`, `Association`, `Interface`, `InstanceSpecification`, etc.). Map: `Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP` in `lib/xmi/uml/packaged_element.rb`.
 - `Slot.value`, `OwnedAttribute.upper_value`/`lower_value`/`default_value`, `OwnedEnd.upper_value`/`lower_value`/`default_value`, `OwnedParameter.upper_value`/`lower_value`/`default_value` — dispatch to ValueSpecification subclasses (`OpaqueExpression`, `LiteralString`, `LiteralInteger`, etc.). Map: `Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP` in `lib/xmi/uml/value_specification.rb`.
 
-**Known limitation:** polymorphic dispatch crashes with `TypeError` if the discriminator is missing or unrecognized. This is a lutaml-model upstream issue (it calls `Object.const_get(nil)`); the failure mode is locked in by `spec/xmi/uml/polymorphic_robustness_spec.rb`. Fix lives upstream, not here.
+**Fallback contract:** unknown or missing `xmi:type` resolves to the abstract base (`PackagedElement` / `ValueSpecification`) via the class_map's Hash default value — no crash. Locked in by `spec/xmi/uml/polymorphic_map_contract_spec.rb` and `spec/xmi/uml/polymorphic_robustness_spec.rb`. Two paths land at the base: a missing discriminator short-circuits upstream (the declared attribute type is used); an unknown discriminator hits the Hash default. Residual upstream gap — modelling `xmi:type` and unprefixed `type` as separate slots on one element — is tracked in lutaml-model#744.
 
 ### Key Files
 
@@ -188,7 +188,7 @@ A shared constant is available at `Xmi::Sparx::VALUE_MAP`.
 
 ## Known Issues
 
-One serialization test fails due to a lutaml-model bug where `to_xml` does not respect namespace declarations on custom types. See `LUTAML_MODEL_BUG_REPORT.md` for details. Parsing works correctly; only serialization is affected.
+Attribute deserialization in lutaml-model is not namespace-disjoint: same-local-name attributes in different namespaces collapse into one model slot, document-order dependent. This affects modelling `xmi:type` (the XMI discriminator) and unprefixed `type` (Sparx's classifier reference) as separate attributes on one element. Tracked in lutaml-model#744 with a repro. Serialization is not affected — it is already namespace-disjoint.
 
 ## Limitations
 

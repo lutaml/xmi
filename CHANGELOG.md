@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `PackagedElement#nested_classifier` with `<nestedClassifier>` mapping
+  (Sparx EA nesting for classifiers owned by classes), covered by
+  `Xmi::Sparx::Index` lookups
+
+### Changed
+
+- `OwnedAttribute`/`OwnedEnd`/`OwnedParameter` serialize `lowerValue`
+  before `upperValue`, matching Sparx EA's element order. Serialization
+  only — parsing accepts either order and is unaffected
+
+### Documented
+
+- `OwnedParameter#type` keeps its xmi-namespaced mapping, and the
+  limitation is now stated in the code and pinned by specs.
+  `xmi:type` is the XMI metaclass discriminator and `type` is Sparx's
+  classifier reference — two different attributes. lutaml-model matches
+  by local name, so it collapses them into one slot and only the last
+  one read survives re-serialization. Keeping the slot namespaced
+  preserves the discriminator; restoring Sparx's classifier reference is
+  the Sparx exporter's job. Modelling both needs namespace-disjoint
+  attribute deserialization upstream (lutaml-model#744).
+
 ## [0.6.2] - 2026-07-18
 
 ### Added

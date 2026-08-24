@@ -190,6 +190,7 @@ module Xmi
 
           # Recurse into children
           walk_packaged_elements(pe.packaged_element, pe)
+          walk_packaged_elements(pe.nested_classifier, pe)
         end
       end
 

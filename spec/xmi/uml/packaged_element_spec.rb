@@ -93,4 +93,78 @@ RSpec.describe Xmi::Uml::PackagedElement do
       expect(attrs[:classifier].type).to eq(Lutaml::Model::Type::String)
     end
   end
+
+  describe "nestedClassifier" do
+    it "round-trips nested classifiers (Sparx nesting for class-owned classes)" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+        </packagedElement>
+      XML
+      element = described_class.from_xml(xml)
+      expect(element.nested_classifier.map(&:name)).to eq(["Inner"])
+      expect(element.packaged_element).to be_empty
+      expect(element.to_xml).to match(/<nestedClassifier[^>]*name="Inner"/)
+      expect(element.to_xml).to include(%(xmi:id="EAID_INNER"))
+    end
+
+    it "round-trips through the full document with dispatch intact" do
+      xml = <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+              <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
+      reparsed = Xmi::Sparx::Root.from_xml(Xmi::Sparx::Root.from_xml(xml).to_xml)
+      inner = reparsed.model.packaged_element.first.nested_classifier.first
+      expect(inner).to be_a(Xmi::Uml::UmlClass)
+      expect(inner.name).to eq("Inner")
+      expect(inner.type).to eq("uml:Class")
+    end
+
+    it "dispatches nested classifiers polymorphically and keeps the discriminator" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_OUTER" name="Outer">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="EAID_INNER" name="Inner"/>
+        </packagedElement>
+      XML
+      element = described_class.from_xml(xml)
+      expect(element.nested_classifier.first).to be_a(Xmi::Uml::UmlClass)
+      expect(element.to_xml).to match(/<nestedClassifier[^>]*xmi:type="uml:Class"/)
+    end
+  end
+
+  describe "Sparx sibling order" do
+    # Inputs list upperValue FIRST so a pass proves the mapping order —
+    # not the input order — controls serialization.
+    it "serializes lowerValue before upperValue on owned attributes" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Class" xmi:id="EAID_C" name="C">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="EAID_A" name="a">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="1"/>
+          </ownedAttribute>
+        </packagedElement>
+      XML
+      output = described_class.from_xml(xml).to_xml
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
+    end
+
+    it "serializes lowerValue before upperValue on owned ends" do
+      xml = <<~XML
+        <packagedElement #{namespace_xml} xmi:type="uml:Association" xmi:id="EAID_AS" name="A">
+          <ownedEnd xmi:type="uml:Property" xmi:id="EAID_E" name="e">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L" value="0"/>
+          </ownedEnd>
+        </packagedElement>
+      XML
+      output = described_class.from_xml(xml).to_xml
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
+    end
+  end
 end

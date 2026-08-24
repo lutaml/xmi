@@ -64,6 +64,10 @@ module Xmi
 
       attribute :packaged_element, PackagedElement, collection: true,
                                                     polymorphic: true
+      # Sparx EA nests child classifiers (a Class owned by a Class)
+      # as <nestedClassifier> rather than <packagedElement>.
+      attribute :nested_classifier, PackagedElement, collection: true,
+                                                     polymorphic: true
       attribute :owned_end, OwnedEnd, collection: true
       attribute :owned_attribute, OwnedAttribute, collection: true
       attribute :owned_comment, OwnedComment, collection: true
@@ -96,6 +100,8 @@ module Xmi
         map_element "ownedOperation", to: :owned_operation, value_map: VALUE_MAP
         map_element "packagedElement", to: :packaged_element,
                                        polymorphic: PACKAGED_ELEMENT_POLYMORPHIC_MAP
+        map_element "nestedClassifier", to: :nested_classifier,
+                                        polymorphic: PACKAGED_ELEMENT_POLYMORPHIC_MAP
         map_element "memberEnd", to: :member_ends, value_map: VALUE_MAP
         map_element "slot", to: :slot, value_map: VALUE_MAP
         map_element "specification", to: :specification

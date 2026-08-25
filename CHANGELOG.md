@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Spec coverage for `Xmi::Sparx::Element::ExtendedProperties` (schema,
+  `associationclass` round-trip, literal EA attribute spelling)
+
+## [0.7.1] - 2026-08-25
+
+### Added
+
+- `ExtendedProperties#associationclass` — parses EA's literal
+  `associationclass="EAID_…"` reference on connector
+  `<extendedProperties>`, linking a connector to its association class
+
+### Changed
+
+- RuboCop directive style migrated from disable/enable blocks to
+  next-line directives across spec files and `version_registry.rb`
+
+## [0.7.0] - 2026-08-25
+
+### Added
+
 - `PackagedElement#nested_classifier` with `<nestedClassifier>` mapping
   (Sparx EA nesting for classifiers owned by classes), covered by
   `Xmi::Sparx::Index` lookups

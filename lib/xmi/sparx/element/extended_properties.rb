@@ -8,6 +8,7 @@ module Xmi
         attribute :tagged, :string
         attribute :package_name, :string
         attribute :virtual_inheritance, :integer
+        attribute :associationclass, :string
 
         xml do
           root "extendedProperties"
@@ -16,6 +17,7 @@ module Xmi
           map_attribute "tagged", to: :tagged
           map_attribute "package_name", to: :package_name
           map_attribute "virtualInheritance", to: :virtual_inheritance
+          map_attribute "associationclass", to: :associationclass
         end
       end
     end

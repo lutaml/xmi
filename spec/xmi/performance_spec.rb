@@ -7,7 +7,7 @@ require "xmi"
 # the dual-namespace Runner cloning mechanism works. The rake tasks
 # in lib/tasks/performance.rake depend on these contracts.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "Xmi::Performance namespace" do
   describe "autoload" do
     it "exposes Comparator via autoload" do
@@ -70,4 +70,3 @@ RSpec.describe "Xmi::Performance namespace" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

@@ -11,7 +11,7 @@ require "xmi"
 # subclass + map entry automatically gains schema coverage — OCP for
 # the test layer.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "PackagedElement subclasses schema" do
   # Trigger autoload of the file that defines both PackagedElement and
   # PACKAGED_ELEMENT_POLYMORPHIC_MAP.
@@ -37,4 +37,4 @@ RSpec.describe "PackagedElement subclasses schema" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

@@ -9,7 +9,7 @@ require "xmi"
 # polymorphic slot.value. The fixture is real Sparx EA output
 # extracted from lutaml/ea/spec/fixtures/basic.xmi.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "InstanceSpecification end-to-end" do
   let(:doc) do
     Xmi::Sparx::Root.from_xml(cached_fixture("sparx-instance-specification.xmi"))
@@ -84,4 +84,3 @@ RSpec.describe "InstanceSpecification end-to-end" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

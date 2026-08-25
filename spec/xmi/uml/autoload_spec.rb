@@ -10,7 +10,7 @@ NON_CLASS_FILES = %w[base profile_attributes].freeze
 # a loadable file. Catches typos in the autoload path strings and
 # constants that drift out of sync with lib/xmi/uml.rb.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "Xmi::Uml autoload hygiene" do
   let(:described_constants) { Xmi::Uml.constants(false) }
 
@@ -42,4 +42,3 @@ RSpec.describe "Xmi::Uml autoload hygiene" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

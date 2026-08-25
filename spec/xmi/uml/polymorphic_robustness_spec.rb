@@ -11,7 +11,7 @@ require "xmi"
 # `Object.const_get(nil)` TypeError that crashed parsing on real Sparx
 # XMI containing types we haven't modelled.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "Polymorphic Slot#value robustness" do
   let(:namespace_xml) do
     %(xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001")
@@ -149,4 +149,3 @@ RSpec.describe "Polymorphic Slot#value robustness" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

@@ -15,7 +15,7 @@ require "xmi"
 # PACKAGED_ELEMENT_POLYMORPHIC_MAP[:class_map] so adding a new subclass
 # + map entry automatically gains coverage.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "PackagedElement polymorphic dispatch" do
   let(:namespace_xml) do
     %(xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.omg.org/spec/UML/20131001")
@@ -138,4 +138,3 @@ RSpec.describe "PackagedElement polymorphic dispatch" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

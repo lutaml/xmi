@@ -7,7 +7,7 @@ require "xmi"
 # the upper_value/lower_value split). Literal subclasses are covered
 # in literal_classes_spec.rb.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "DefaultValue hierarchy" do
   describe Xmi::Uml::DefaultValue do
     it "inherits from ValueSpecification" do
@@ -61,4 +61,3 @@ RSpec.describe "DefaultValue hierarchy" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

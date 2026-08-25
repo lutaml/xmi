@@ -6,7 +6,7 @@ require "xmi"
 # UMLDI elements: Bounds, Waypoint, Diagram, OwnedElement. All
 # inherit from Xmi::UmlDi::Base (UMLDI namespace, not UML).
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "UMLDI elements" do
   describe Xmi::UmlDi::Base do
     it "is a Lutaml::Model::Serializable" do
@@ -108,4 +108,4 @@ RSpec.describe "UMLDI elements" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

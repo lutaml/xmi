@@ -132,7 +132,7 @@ module Xmi
       # @param primary_register [Lutaml::Model::Register] The primary register
       # @param all_versions [Array<String>] All detected namespace versions
       # @return [void]
-      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable-next Metrics/CyclomaticComplexity
       def extend_fallback_for_mixed_namespaces(primary_register, all_versions)
         xmi_version = all_versions.first
         other_versions = all_versions.drop(1)
@@ -165,7 +165,6 @@ module Xmi
           end
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
     end
   end
 end

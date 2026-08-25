@@ -6,7 +6,7 @@ require "xmi"
 # Package/Profile/Import family. These structural classes wire
 # packaged_element/package_import collections.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "Package, Profile, and Import classes" do
   describe Xmi::Uml::PackageImport do
     it "declares id as XmiId" do
@@ -111,4 +111,4 @@ RSpec.describe "Package, Profile, and Import classes" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

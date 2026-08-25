@@ -6,7 +6,7 @@ require "xmi"
 # Reference-holder models: small classes whose only job is to point
 # at another element via xmi:idref or href.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "UML reference holders" do
   describe Xmi::Uml::AnnotatedElement do
     it "inherits from Lutaml::Model::Serializable" do
@@ -59,4 +59,4 @@ RSpec.describe "UML reference holders" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

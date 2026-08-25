@@ -14,7 +14,7 @@ require "xmi"
 # for back-compat with code that constructs them directly
 # (e.g. the lutaml/ea transformer).
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "DefaultValue hierarchy (polymorphic)" do
   describe Xmi::Uml::DefaultValue do
     it "inherits from ValueSpecification" do
@@ -130,4 +130,3 @@ RSpec.describe "DefaultValue hierarchy (polymorphic)" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

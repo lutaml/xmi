@@ -8,7 +8,7 @@ require "xmi"
 # "polymorphic value dispatch" block by exercising each class on
 # its own — direct construction, direct round-trip, defaults.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "ValueSpecification subclass literals" do
   describe Xmi::Uml::LiteralString do
     it "inherits from ValueSpecification" do
@@ -154,4 +154,3 @@ RSpec.describe "ValueSpecification subclass literals" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

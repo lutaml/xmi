@@ -6,7 +6,7 @@ require "xmi"
 # Owned elements: OwnedComment and OwnedLiteral. Both inherit from
 # Xmi::Uml::Base.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "Owned elements" do
   describe Xmi::Uml::OwnedComment do
     it "inherits from Base" do
@@ -57,4 +57,4 @@ RSpec.describe "Owned elements" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

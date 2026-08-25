@@ -10,7 +10,7 @@ require "xmi"
 # regress the fallback (only unknown-type parsing would break, which
 # is exactly the case the fallback exists for).
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe "polymorphic dispatch map contracts" do
   # Trigger autoload of the files that define both maps and their
   # associated base classes. Referencing the constant alone does not
@@ -79,4 +79,3 @@ RSpec.describe "polymorphic dispatch map contracts" do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath

@@ -6,7 +6,7 @@ require "xmi"
 # Specification + Precondition. Specification captures text content
 # (constraint expressions); Precondition wraps Specification.
 #
-# rubocop:disable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe "Specification and Precondition" do
   describe Xmi::Uml::Specification do
     it "inherits from Base" do
@@ -53,4 +53,4 @@ RSpec.describe "Specification and Precondition" do
   end
 end
 
-# rubocop:enable RSpec/DescribeClass, RSpec/FilePath
+# rubocop:enable RSpec/DescribeClass

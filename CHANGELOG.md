@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Gemspec: constrain `lutaml-model` to `>= 0.8.17, < 0.8.20`. The
+  namespace-disjoint attribute deserialization shipped in lutaml-model
+  0.8.20 (#747) stops unprefixed attributes from landing in
+  namespaced-type slots, so Sparx's `type="EAID_…"` classifier
+  references on `<ownedParameter>` parse as nil — silently dropped for
+  any consumer resolving 0.8.20 under the previous open-ended `~>
+  0.8.17`. The cap lifts once the element-namespace edge is fixed
+  upstream (lutaml-model#758) and a separate unprefixed `type` slot
+  can be modelled alongside the discriminator
+
 ### Added
 
 - Spec coverage for `Xmi::Sparx::Element::ExtendedProperties` (schema,

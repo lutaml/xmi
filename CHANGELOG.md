@@ -9,15 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Gemspec: constrain `lutaml-model` to `>= 0.8.17, < 0.8.20`. The
-  namespace-disjoint attribute deserialization shipped in lutaml-model
-  0.8.20 (#747) stops unprefixed attributes from landing in
-  namespaced-type slots, so Sparx's `type="EAID_…"` classifier
-  references on `<ownedParameter>` parse as nil — silently dropped for
-  any consumer resolving 0.8.20 under the previous open-ended `~>
-  0.8.17`. The cap lifts once the element-namespace edge is fixed
-  upstream (lutaml-model#758) and a separate unprefixed `type` slot
-  can be modelled alongside the discriminator
+- Gemspec: restore the optimistic `~> 0.8.17` constraint on
+  `lutaml-model`. The `< 0.8.20` cap added in 0.7.2 protected against
+  the 0.8.20 release, but that release has been yanked from
+  RubyGems — the cap is obsolete. A regression test in
+  `spec/xmi_gemspec_spec.rb` pins the constraint so the cap does not
+  silently come back
 
 ### Added
 

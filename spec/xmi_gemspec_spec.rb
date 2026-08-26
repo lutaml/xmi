@@ -2,6 +2,7 @@
 
 require "rubygems"
 
+# rubocop:disable-next-line RSpec/DescribeClass
 RSpec.describe "xmi.gemspec" do
   subject(:specification) do
     Gem::Specification.load(File.expand_path("../xmi.gemspec", __dir__))

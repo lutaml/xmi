@@ -26,6 +26,22 @@ module Xmi
         end
       end
 
+      # EA misuses the reserved xmlns attribute as a DATA attribute on
+      # GML:/CityGML:ApplicationSchema stereotype elements (values
+      # unrelated to real namespace declarations). XML parsers treat
+      # xmlns as a namespace declaration, so without renaming, the
+      # value is silently dropped. Restored from the original
+      # replace_ea_xmlns preprocessing (commit 8da3bfb), which was
+      # lost in the lutaml-model 0.8 upgrade.
+      module RenameEaXmlnsAttribute
+        EA_XMLNS_TAG = %r{(<(?:GML|CityGML):ApplicationSchema[^>]*?)xmlns="([^"]*)"}
+
+        def self.call(ctx)
+          ctx[:xml] = ctx[:xml].gsub(EA_XMLNS_TAG, '\1altered_xmlns="\2"')
+          ctx
+        end
+      end
+
       module InitVersioning
         def self.call(ctx)
           Xmi.init_versioning!
@@ -59,6 +75,7 @@ module Xmi
 
     DEFAULT_STEPS = [
       Steps::FixEncoding,
+      Steps::RenameEaXmlnsAttribute,
       Steps::InitVersioning,
       Steps::ParseXml,
       Steps::BuildIndex,

@@ -151,4 +151,23 @@ RSpec.describe Xmi::Uml::OwnedAttribute do
       expect(attrs[:default].type).to eq(Lutaml::Model::Type::String)
     end
   end
+
+  describe "element order (EA parity)" do
+    # Real Sparx output nests children of ownedAttribute as
+    # <type>, then <lowerValue>, then <upperValue> — see full-242.xmi.
+    # Pinned because the value trio is inherited from ValueSpecs, and
+    # inherited element mappings serialize before subclass mappings.
+    it "serializes type before the values, lowerValue before upperValue" do
+      xml = doc_with(<<~CHILDREN.chomp)
+        >
+          <type xmi:idref="EAID_T1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U1" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L1" value="0"/>
+        </ownedAttribute
+      CHILDREN
+      output = owned_attribute(Xmi::Sparx::Root.from_xml(xml)).to_xml
+      expect(output.index("<type")).to be < output.index("<lowerValue")
+      expect(output.index("<lowerValue")).to be < output.index("<upperValue")
+    end
+  end
 end

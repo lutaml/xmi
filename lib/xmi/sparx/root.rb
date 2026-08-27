@@ -37,22 +37,6 @@ module Xmi
           )
           ctx[:root]
         end
-
-        # Fix invalid UTF-8 encoding in the XML content.
-        #
-        # Some EA-generated XMI files contain invalid UTF-8 byte sequences
-        # that would cause parsing failures. This method replaces invalid
-        # bytes with placeholder characters.
-        #
-        # @param xml_content [String] The raw XML content
-        # @return [String] The XML content with valid UTF-8 encoding
-        def fix_encoding(xml_content)
-          return xml_content if xml_content.valid_encoding?
-
-          xml_content
-            .encode("UTF-16be", invalid: :replace, replace: "?")
-            .encode("UTF-8")
-        end
       end
 
       # Use the reusable BaseMapping class instead of eval hack

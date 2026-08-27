@@ -29,17 +29,14 @@ module Xmi
       def parse(xml, options = {})
         xml_content = xml.is_a?(String) ? xml : xml.read
 
-        Xmi.init_versioning! unless Xmi.versioning_initialized?
+        ctx = {
+          xml: xml_content,
+          root_class: options[:model_class] || Root,
+        }
+        register = explicit_register(options)
+        ctx[:register] = register if register
 
-        register = determine_register(xml_content, options)
-        model_class = options[:model_class] || Root
-
-        if register
-          model_class.from_xml(xml_content, register: register)
-        else
-          # Fallback to default parsing (existing behavior)
-          model_class.from_xml(xml_content)
-        end
+        ParserPipeline.run(ctx)[:root]
       end
 
       # @api public
@@ -88,28 +85,20 @@ module Xmi
 
       private
 
-      # Determine the appropriate register for parsing
+      # Resolve an explicitly requested register from options
       #
-      # @param xml_content [String] XML content
+      # Returns nil when neither :register nor :version is given, leaving
+      # version detection to the pipeline.
+      #
       # @param options [Hash] Options hash
       # @return [Lutaml::Model::Register, nil]
-      def determine_register(xml_content, options)
-        # Explicit register takes precedence
+      def explicit_register(options)
         return options[:register] if options[:register]
 
-        # Explicit version
-        if options[:version]
-          reg = VersionRegistry.register_for_version(options[:version])
-          unless reg
-            raise ArgumentError,
-                  "Unknown version: #{options[:version]}"
-          end
+        return unless options[:version]
 
-          return reg
-        end
-
-        # Auto-detect from XML content
-        VersionRegistry.detect_register(xml_content)
+        VersionRegistry.register_for_version(options[:version]) ||
+          raise(ArgumentError, "Unknown version: #{options[:version]}")
       end
     end
   end

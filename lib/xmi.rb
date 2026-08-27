@@ -101,8 +101,7 @@ module Xmi
     # @param xml_content [String] XML content
     # @return [Root] Parsed XMI document
     def parse(xml_content)
-      init_versioning!
-      VersionRegistry.parse_with_detected_version(xml_content, Root)
+      ParserPipeline.run({ xml: xml_content, root_class: Root })[:root]
     end
 
     # @api public
@@ -112,11 +111,12 @@ module Xmi
     # @param version [String] Version string (e.g., "20131001")
     # @return [Root] Parsed XMI document
     def parse_with_version(xml_content, version)
-      init_versioning!
       register = VersionRegistry.register_for_version(version)
       raise ArgumentError, "Unknown version: #{version}" unless register
 
-      Root.from_xml(xml_content, register: register)
+      ParserPipeline.run(
+        { xml: xml_content, root_class: Root, register: register },
+      )[:root]
     end
 
     # @api public

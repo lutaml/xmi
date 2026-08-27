@@ -41,7 +41,7 @@ This gem converts XMI (XML Metadata Interchange) files into Ruby objects, specif
 
 `Xmi::Sparx::Root.parse_xml(xml_content)` is the primary method to parse XMI files. It performs preprocessing before parsing:
 
-1. `fix_encoding` - Fixes invalid UTF-8 byte sequences in the XML content
+1. `ParserPipeline::Steps::FixEncoding` - Fixes invalid UTF-8 byte sequences in the XML content
 2. `normalize_omg_namespace_versions` - Normalizes OMG namespace versions (XMI, UML) to canonical 20131001
 3. `resolve_relative_namespaces` - Replaces relative `xmlns` values with `targetNamespace` values
 4. `rename_ea_xmlns_attribute` - Renames `xmlns` attribute to `altered_xmlns` on EA-specific elements (see below)

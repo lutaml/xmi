@@ -26,7 +26,21 @@ bundle exec rake
 
 # Interactive console for experimentation
 bin/console
+
+# Benchmarks (dev tooling under Xmi::Performance)
+bundle exec rake performance:quick    # fast, less accurate
+bundle exec rake performance:json     # JSON output
 ```
+
+### RuboCop toolchain note
+
+`Gemfile.lock` is **gitignored** — each machine resolves its own versions, and CI installs lock-free (typically a newer RuboCop than a stale local lock resolves). If local rubocop disagrees with CI:
+
+```bash
+bundle update rubocop rubocop-ast rubocop-performance rubocop-rspec rubocop-rake
+```
+
+Use the `rubocop:disable-next Cop` directive form (not `disable-next-line`) — it is the form current RuboCop accepts and requires for single-statement disables.
 
 ## Architecture Overview
 
@@ -37,18 +51,27 @@ This gem converts XMI (XML Metadata Interchange) files into Ruby objects, specif
 - **lutaml-model**: All serializable models inherit from `Lutaml::Model::Serializable`
 - **nokogiri**: XML parsing backend
 
-### Main Entry Point
+### Main Entry Point / Parse Pipeline
 
-`Xmi::Sparx::Root.parse_xml(xml_content)` is the primary method to parse XMI files. It performs preprocessing before parsing:
+Every public parse door routes through one module, `Xmi::ParserPipeline`
+(`lib/xmi/parser_pipeline.rb`):
 
-1. `ParserPipeline::Steps::FixEncoding` - Fixes invalid UTF-8 byte sequences in the XML content
-2. `normalize_omg_namespace_versions` - Normalizes OMG namespace versions (XMI, UML) to canonical 20131001
-3. `resolve_relative_namespaces` - Replaces relative `xmlns` values with `targetNamespace` values
-4. `rename_ea_xmlns_attribute` - Renames `xmlns` attribute to `altered_xmlns` on EA-specific elements (see below)
+- `Xmi.parse(xml)` — auto version detection
+- `Xmi.parse_with_version(xml, version)`
+- `Xmi::Parsing.parse(xml, options)` — IO coercion, `:version`/`:register`/`:model_class` options
+- `Xmi::Sparx::Root.parse_xml(xml)` — also builds `Sparx::Index`
 
-### OMG Namespace Version Normalization
+Pipeline steps: `FixEncoding` (repairs invalid UTF-8) → `InitVersioning` →
+`ParseXml` (detects the version register, or uses `ctx[:register]` when a
+door resolved one) → `BuildIndex` (Root hierarchy only — custom
+`:model_class` models are skipped). Encoding repair runs no matter which
+door a consumer picks; `parser_pipeline_spec.rb` pins this for all doors.
 
-OMG publishes XMI and UML specifications with dated namespace URIs (e.g., `http://www.omg.org/spec/XMI/20110701`, `20131001`, `20161101`). This library normalizes all versions to `20131001` during parsing, allowing a single set of model classes to handle all versions.
+Adding a parse concern = adding a pipeline step, not editing doors.
+
+### OMG Namespace Version Handling
+
+OMG publishes XMI and UML specifications with dated namespace URIs (e.g., `http://www.omg.org/spec/XMI/20110701`, `20131001`, `20161101`). Documents of any version parse via per-version registers: `NamespaceDetector` scans the namespaces, `VersionRegistry.detect_register` picks the register (`V20110701` / `V20131001` / `V20161101`), and mixed-version documents extend the primary register's fallback chain. Model classes stay version-agnostic by using alias namespace classes that inherit from the 20131001 canonical versions.
 
 ### Enterprise Architect's Misuse of the `xmlns` Attribute
 
@@ -56,17 +79,7 @@ OMG publishes XMI and UML specifications with dated namespace URIs (e.g., `http:
 
 In standard XML, `xmlns` is a reserved attribute for namespace declarations. However, Enterprise Architect incorrectly uses `xmlns` as a **regular data attribute** on certain stereotype elements (e.g., `GML:ApplicationSchema`, `CityGML:ApplicationSchema`), storing arbitrary URI values unrelated to namespace declarations.
 
-This violates XML conventions and creates parsing conflicts—XML libraries treat `xmlns` as reserved. The library works around this by renaming `xmlns` to `altered_xmlns` before parsing:
-
-```xml
-<!-- EA-generated -->
-<GML:ApplicationSchema xmlns="http://some-value" ...>
-
-<!-- After preprocessing -->
-<GML:ApplicationSchema altered_xmlns="http://some-value" ...>
-```
-
-Model classes define `altered_xmlns` attributes to receive these values:
+This violates XML conventions and creates parsing conflicts—XML libraries treat `xmlns` as reserved. The workaround: `Xmi::EaRoot` extension code generation renames `xmlns` to `altered_xmlns` when building classes from MDG XML, and models such as `Gml::ApplicationSchema` declare the `altered_xmlns` attribute directly.
 
 ```ruby
 class ApplicationSchema < Lutaml::Model::Serializable
@@ -74,19 +87,38 @@ class ApplicationSchema < Lutaml::Model::Serializable
 end
 ```
 
-### Namespace Architecture
+### EA Writes Attribute Names Verbatim
 
-**All XMI/UML namespace versions are normalized to 20131001 before parsing** (see `Root.replace_xmlns`).
+Some EA attributes are written in non-camelCase spellings that must be
+mapped literally — "correcting" them breaks parsing. Examples:
+`package_name` and `associationclass` on `<extendedProperties>` (all
+lowercase, no case conversion), pinned by
+`spec/xmi/sparx/element/extended_properties_spec.rb`.
+
+### Namespace Architecture
 
 Namespace classes are defined in:
 - `lib/xmi/namespace/omg.rb` - OMG namespaces (XMI, UML, UmlDi, UmlDc)
 - `lib/xmi/namespace/sparx.rb` - Sparx-specific profiles (SysPhS, GML, EaUml, CustomProfile, CityGML)
+- `lib/xmi/namespace.rb` - `Xmi::Namespace::SCOPE`: the canonical 10-namespace scope shared by `Xmi::Root`'s xml block and `Sparx::Mappings::BaseMapping` (pinned by `spec/xmi/namespace_scope_spec.rb`)
 
 Use version-agnostic alias classes that inherit from 20131001 versions:
 ```ruby
 ::Xmi::Namespace::Omg::Xmi   # => inherits from Xmi20131001
 ::Xmi::Namespace::Omg::Uml   # => inherits from Uml20131001
 ```
+
+### Version Registers
+
+`V20110701` / `V20131001` / `V20161101` are table entries: each calls
+`Versioned.define_version(register_id:, namespaces:, fallbacks:)` and
+keeps only its real delta (version-specific `Documentation`/`Extension`
+classes plus a `register_models` table). Adding an XMI version = a new
+table entry, not a new boilerplate file. `Versioned` (`lib/xmi/versioned.rb`)
+creates the `Lutaml::Model::Register`, binds namespaces, and runs
+registration; `VersionRegistry` (`lib/xmi/version_registry.rb`) maps
+version strings → registers and extends fallback chains for
+mixed-namespace documents.
 
 ### Custom Types with XML Namespace
 
@@ -158,13 +190,14 @@ Two attributes use lutaml-model's polymorphic dispatch on `xmi:type`:
 - `PackagedElement.packaged_element` (and `UmlModel.packaged_element`) — dispatches to typed subclasses (`UmlClass`, `Association`, `Interface`, `InstanceSpecification`, etc.). Map: `Xmi::Uml::PACKAGED_ELEMENT_POLYMORPHIC_MAP` in `lib/xmi/uml/packaged_element.rb`.
 - `Slot.value`, `OwnedAttribute.upper_value`/`lower_value`/`default_value`, `OwnedEnd.upper_value`/`lower_value`/`default_value`, `OwnedParameter.upper_value`/`lower_value`/`default_value` — dispatch to ValueSpecification subclasses (`OpaqueExpression`, `LiteralString`, `LiteralInteger`, etc.). Map: `Xmi::Uml::VALUE_SPECIFICATION_POLYMORPHIC_MAP` in `lib/xmi/uml/value_specification.rb`.
 
-**Fallback contract:** unknown or missing `xmi:type` resolves to the abstract base (`PackagedElement` / `ValueSpecification`) via the class_map's Hash default value — no crash. Locked in by `spec/xmi/uml/polymorphic_map_contract_spec.rb` and `spec/xmi/uml/polymorphic_robustness_spec.rb`. Two paths land at the base: a missing discriminator short-circuits upstream (the declared attribute type is used); an unknown discriminator hits the Hash default. Residual upstream gap — modelling `xmi:type` and unprefixed `type` as separate slots on one element — is tracked in lutaml-model#744.
+**Fallback contract:** unknown or missing `xmi:type` resolves to the abstract base (`PackagedElement` / `ValueSpecification`) via the class_map's Hash default value — no crash. Locked in by `spec/xmi/uml/polymorphic_map_contract_spec.rb` and `spec/xmi/uml/polymorphic_robustness_spec.rb`. Two paths land at the base: a missing discriminator short-circuits upstream (the declared attribute type is used); an unknown discriminator hits the Hash default. Residual upstream gap — modelling `xmi:type` and unprefixed `type` as separate slots on one element — is tracked in lutaml-model#758.
 
 ### Key Files
 
 | File | Purpose |
 |------|---------|
 | `lib/xmi.rb` | Main entry point, loads dependencies and configures XML adapter |
+| `lib/xmi/parser_pipeline.rb` | The parse pipeline — the one module behind every public parse door |
 | `lib/xmi/sparx.rb` | Module with autoload declarations for Sparx components |
 | `lib/xmi/sparx/root.rb` | Main `Root` class with parsing and namespace normalization |
 | `lib/xmi/root.rb` | Base `Root` class with common XMI attributes |
@@ -180,6 +213,8 @@ Two attributes use lutaml-model's polymorphic dispatch on `xmi:type`:
 | `lib/xmi/namespace/omg.rb` | OMG namespace classes (XMI, UML, UmlDi, UmlDc) |
 | `lib/xmi/namespace/sparx.rb` | Sparx-specific profile namespaces |
 | `lib/xmi/namespace_registry.rb` | URI-to-class mapping for namespace lookup |
+| `lib/xmi/versioned.rb` | Version-register DSL: `define_version` table entries + `register_models` helper |
+| `lib/xmi/version_registry.rb` | Version string → register mapping, mixed-namespace fallback chains |
 
 ### Collection Value Maps
 
@@ -197,8 +232,10 @@ A shared constant is available at `Xmi::Sparx::VALUE_MAP`.
 
 ## Known Issues
 
-Attribute deserialization in lutaml-model is not namespace-disjoint: same-local-name attributes in different namespaces collapse into one model slot, document-order dependent. This affects modelling `xmi:type` (the XMI discriminator) and unprefixed `type` (Sparx's classifier reference) as separate attributes on one element. Tracked in lutaml-model#744 with a repro. Serialization is not affected — it is already namespace-disjoint.
+Attribute deserialization in lutaml-model is not namespace-disjoint under element-level namespaces: same-local-name attributes in different namespaces collapse into one model slot, document-order dependent (last spelling wins). This affects modelling `xmi:type` (the XMI discriminator) and unprefixed `type` (Sparx's classifier reference) as separate attributes on one element — see the class docstring on `OwnedParameter`. Tracked in lutaml-model#758 with a repro; `spec/xmi/uml/owned_parameter_spec.rb` pins the current behavior in both input orders.
+
+The `lutaml-model` gemspec constraint is itself pinned by `spec/xmi_gemspec_spec.rb` — changing the dependency range is a deliberate act that updates that spec.
 
 ## Limitations
 
-This gem is designed for Enterprise Architect generated XMI files and may not work with XMI from other tools. Some EA-specific elements (e.g., `GML:ApplicationSchema`) use `xmlns` as an attribute, which is renamed to `altered_xmlns` during preprocessing to avoid conflicts with Lutaml::Model internals.
+This gem is designed for Enterprise Architect generated XMI files and may not work with XMI from other tools.

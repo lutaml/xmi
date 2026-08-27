@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- All parse entry points (`Xmi.parse`, `Xmi.parse_with_version`,
+  `Xmi::Parsing.parse`, `Sparx::Root.parse_xml`) route through
+  `ParserPipeline`. Encoding repair no longer depends on which entry
+  point you pick — four of the five previously crashed on invalid
+  UTF-8. The dead `Sparx::Root.fix_encoding` duplicate is removed
+- The Root-level namespace scope is declared once
+  (`Xmi::Namespace::SCOPE`) and shared by `Xmi::Root` and
+  `Mappings::BaseMapping`; the two verbatim copies could drift
+  silently
+- The version modules (`V20110701`, `V20131001`, `V20161101`) declare
+  their table entry via `Versioned.define_version` instead of
+  repeating the register_id/namespace_classes/fallback_registers
+  boilerplate; each file now carries only its genuine delta
+- `OwnedAttribute`, `OwnedEnd`, and `OwnedParameter` inherit their
+  shared value-specification surface (uml_type + upper/lower/default
+  values + the four element mappings) from the new
+  `Xmi::Uml::ValueSpecs` base; serialized element order is pinned to
+  EA parity (type, lowerValue, upperValue)
+
 ### Fixed
 
 - Gemspec: restore the optimistic `~> 0.8.17` constraint on

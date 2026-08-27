@@ -113,6 +113,14 @@ UML Diagram Interchange elements (Bounds, Waypoint, Diagram,
 OwnedElement) inherit from `Xmi::UmlDi::Base` instead — same
 pattern, different namespace.
 
+`OwnedAttribute`, `OwnedEnd`, and `OwnedParameter` inherit from
+`Xmi::Uml::ValueSpecs`, which owns their shared value-specification
+surface: `uml_type` (`<type>` element) plus `upper_value` /
+`lower_value` / `default_value` with their polymorphic mappings.
+Inherited element mappings serialize before subclass mappings, so the
+EA-parity order (type, lowerValue, upperValue) comes from the base —
+subclasses declare only attributes.
+
 ```ruby
 # lib/xmi/uml/my_element.rb
 module Xmi
@@ -166,6 +174,7 @@ Two attributes use lutaml-model's polymorphic dispatch on `xmi:type`:
 | `lib/xmi/uml_di/base.rb` | `Xmi::UmlDi::Base` — common boilerplate for UMLDI classes |
 | `lib/xmi/uml/packaged_element.rb` | `PackagedElement` + `PACKAGED_ELEMENT_POLYMORPHIC_MAP` |
 | `lib/xmi/uml/value_specification.rb` | `ValueSpecification` abstract base + `VALUE_SPECIFICATION_POLYMORPHIC_MAP` |
+| `lib/xmi/uml/value_specs.rb` | `Xmi::Uml::ValueSpecs` — shared value surface for OwnedAttribute/OwnedEnd/OwnedParameter |
 | `lib/xmi/ea_root.rb` | Dynamic extension loading from MDG XML |
 | `lib/xmi/type.rb` | Custom types with namespace declarations (XmiId, XmiType, etc.) |
 | `lib/xmi/namespace/omg.rb` | OMG namespace classes (XMI, UML, UmlDi, UmlDc) |

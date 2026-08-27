@@ -100,6 +100,40 @@ RSpec.describe Xmi::ParserPipeline do
     end
   end
 
+  describe "Steps::RenameEaXmlnsAttribute" do
+    # EA misuses the reserved xmlns attribute as a DATA attribute on
+    # GML:/CityGML:ApplicationSchema stereotype elements. XML parsers
+    # treat xmlns as a namespace declaration, so without renaming, the
+    # value is silently dropped and altered_xmlns parses as nil.
+    it "captures EA's xmlns data attribute on GML:ApplicationSchema" do
+      doc = Xmi::Sparx::Root.parse_xml(
+        cached_fixture("xmi-v2-4-2-default-with-gml.xmi"),
+      )
+      schema = doc.gml_application_schema.first
+      expect(schema.altered_xmlns)
+        .to eq("http://www.opengis.net/citygml/generics/3.0")
+    end
+
+    it "renames xmlns on CityGML:ApplicationSchema tags" do
+      xml = %(<CityGML:ApplicationSchema base_Package="EAPK_X" xmlns="http://www.opengis.net/citygml/construction/3.0" targetNamespace="http://www.opengis.net/citygml/construction/3.0"/>)
+      result = described_class::Steps::RenameEaXmlnsAttribute.call(xml: xml)
+      expect(result[:xml]).to include(%(altered_xmlns="http://www.opengis.net/citygml/construction/3.0"))
+      expect(result[:xml]).not_to include(%( xmlns="))
+    end
+
+    it "leaves legitimate namespace declarations untouched" do
+      xml = %(<root xmlns:xmi="http://www.omg.org/spec/XMI/20131001"\n             xmlns="http://example.com/default"><child name="x"/></root>)
+      result = described_class::Steps::RenameEaXmlnsAttribute.call(xml: xml)
+      expect(result[:xml]).to eq(xml)
+    end
+
+    it "leaves bare xmlns on non-EA elements untouched" do
+      xml = %(<GML:CodeList xmlns="http://example.com/some-ns" name="c"/>)
+      result = described_class::Steps::RenameEaXmlnsAttribute.call(xml: xml)
+      expect(result[:xml]).to eq(xml)
+    end
+  end
+
   describe ".run" do
     it "executes all default steps and returns parsed root" do
       xml = cached_fixture("ea-xmi-2.5.1.xmi")

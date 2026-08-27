@@ -61,11 +61,13 @@ Every public parse door routes through one module, `Xmi::ParserPipeline`
 - `Xmi::Parsing.parse(xml, options)` — IO coercion, `:version`/`:register`/`:model_class` options
 - `Xmi::Sparx::Root.parse_xml(xml)` — also builds `Sparx::Index`
 
-Pipeline steps: `FixEncoding` (repairs invalid UTF-8) → `InitVersioning` →
-`ParseXml` (detects the version register, or uses `ctx[:register]` when a
-door resolved one) → `BuildIndex` (Root hierarchy only — custom
-`:model_class` models are skipped). Encoding repair runs no matter which
-door a consumer picks; `parser_pipeline_spec.rb` pins this for all doors.
+Pipeline steps: `FixEncoding` (repairs invalid UTF-8) →
+`RenameEaXmlnsAttribute` (see the EA xmlns quirk below) →
+`InitVersioning` → `ParseXml` (detects the version register, or uses
+`ctx[:register]` when a door resolved one) → `BuildIndex` (Root
+hierarchy only — custom `:model_class` models are skipped). Encoding
+repair runs no matter which door a consumer picks;
+`parser_pipeline_spec.rb` pins this for all doors.
 
 Adding a parse concern = adding a pipeline step, not editing doors.
 
@@ -79,7 +81,7 @@ OMG publishes XMI and UML specifications with dated namespace URIs (e.g., `http:
 
 In standard XML, `xmlns` is a reserved attribute for namespace declarations. However, Enterprise Architect incorrectly uses `xmlns` as a **regular data attribute** on certain stereotype elements (e.g., `GML:ApplicationSchema`, `CityGML:ApplicationSchema`), storing arbitrary URI values unrelated to namespace declarations.
 
-This violates XML conventions and creates parsing conflicts—XML libraries treat `xmlns` as reserved. The workaround: `Xmi::EaRoot` extension code generation renames `xmlns` to `altered_xmlns` when building classes from MDG XML, and models such as `Gml::ApplicationSchema` declare the `altered_xmlns` attribute directly.
+This violates XML conventions and creates parsing conflicts—XML libraries treat `xmlns` as reserved. The workaround runs in the parse pipeline (`ParserPipeline::Steps::RenameEaXmlnsAttribute`): before parsing, `xmlns` is renamed to `altered_xmlns` on `GML:ApplicationSchema` and `CityGML:ApplicationSchema` tags only — legitimate namespace declarations are untouched. `Xmi::EaRoot` extension code generation applies the same rename when building classes from MDG XML that defines an attribute literally named `xmlns`. Pinned by `parser_pipeline_spec.rb` against the real `xmi-v2-4-2-default-with-gml.xmi` fixture.
 
 ```ruby
 class ApplicationSchema < Lutaml::Model::Serializable

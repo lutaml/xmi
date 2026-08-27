@@ -60,7 +60,7 @@ RSpec.describe Xmi::ParserPipeline do
     # Xmi.parse, Xmi.parse_with_version, Xmi::Parsing.parse, and
     # Sparx::Root.parse_xml. Whichever door a consumer picks, the
     # encoding fix must have run.
-    let(:bad_name) { "lab\xC3\x28".dup.force_encoding(Encoding::UTF_8) }
+    let(:bad_name) { (+"lab\xC3\x28").force_encoding(Encoding::UTF_8) }
 
     let(:xml) do
       <<~XML

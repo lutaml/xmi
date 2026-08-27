@@ -24,4 +24,3 @@ RSpec.describe "namespace scope" do
       .to eq(Xmi::Namespace::SCOPE)
   end
 end
-# rubocop:enable RSpec/DescribeClass

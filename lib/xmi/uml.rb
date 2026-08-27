@@ -10,6 +10,7 @@ module Xmi
     autoload :UpperValue, "xmi/uml/upper_value"
     autoload :LowerValue, "xmi/uml/lower_value"
     autoload :ValueSpecification, "xmi/uml/value_specification"
+    autoload :ValueSpecs, "xmi/uml/value_specs"
     autoload :LiteralString, "xmi/uml/literal_string"
     autoload :LiteralInteger, "xmi/uml/literal_integer"
     autoload :LiteralBoolean, "xmi/uml/literal_boolean"

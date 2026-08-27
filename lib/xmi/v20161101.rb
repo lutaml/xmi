@@ -8,32 +8,22 @@ module Xmi
   module V20161101
     extend Versioned
 
-    # Register ID
-    def self.register_id
-      :xmi_20161101
-    end
-
-    # Namespace classes this version binds to
-    def self.namespace_classes
-      [
+    define_version(
+      register_id: :xmi_20161101,
+      namespaces: [
         Xmi::Namespace::Omg::Xmi20161101,
         Xmi::Namespace::Omg::Uml20161101,
         Xmi::Namespace::Omg::UmlDi20161101,
         Xmi::Namespace::Omg::UmlDc20161101,
-      ]
-    end
-
-    # Fallback chain: V20131001 → V20110701 → common → default
-    def self.fallback_registers
-      %i[xmi_20131001 xmi_20110701 xmi_common default]
-    end
+      ],
+      fallbacks: %i[xmi_20131001 xmi_20110701 xmi_common default],
+    )
 
     # Register all models for this version
     def self.register_models!
-      # Extension is different in 2.5.2 - register our version
-      register.register_model(Extension, id: :extension)
-
+      # Extension is different in 2.5.2 - register our version.
       # Documentation is same as V20131001 - will be found via fallback
+      register_models extension: Extension
     end
 
     # XMI 2.5.2 Extension element

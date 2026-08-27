@@ -17,18 +17,7 @@ module Xmi
           # Set the default namespace for element name resolution
           namespace ::Xmi::Namespace::Omg::Xmi
 
-          namespace_scope [
-            ::Xmi::Namespace::Omg::Xmi,
-            ::Xmi::Namespace::Omg::Uml,
-            ::Xmi::Namespace::Omg::UmlDi,
-            ::Xmi::Namespace::Omg::UmlDc,
-            ::Xmi::Namespace::Sparx::Extension,
-            ::Xmi::Namespace::Sparx::SysPhS,
-            ::Xmi::Namespace::Sparx::Gml,
-            ::Xmi::Namespace::Sparx::EaUml,
-            ::Xmi::Namespace::Sparx::CustomProfile,
-            ::Xmi::Namespace::Sparx::CityGml,
-          ]
+          namespace_scope ::Xmi::Namespace::SCOPE
 
           VM = ::Xmi::VALUE_MAP
 

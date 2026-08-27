@@ -36,16 +36,22 @@ module Xmi
       module ParseXml
         def self.call(ctx)
           root_class = ctx[:root_class]
-          ctx[:root] = VersionRegistry.parse_with_detected_version(
-            ctx[:xml], root_class
-          )
+          ctx[:root] = if ctx[:register]
+                         root_class.from_xml(ctx[:xml], register: ctx[:register])
+                       else
+                         VersionRegistry.parse_with_detected_version(
+                           ctx[:xml], root_class
+                         )
+                       end
           ctx
         end
       end
 
       module BuildIndex
         def self.call(ctx)
-          ctx[:root].build_index
+          # Only the Root hierarchy carries an index; custom model
+          # classes parsed through the pipeline are left alone.
+          ctx[:root].build_index if ctx[:root].is_a?(::Xmi::Root)
           ctx
         end
       end

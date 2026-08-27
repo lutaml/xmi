@@ -47,6 +47,57 @@ RSpec.describe Xmi::ParserPipeline do
       ctx = { root: root }
       expect { described_class::Steps::BuildIndex.call(ctx) }.not_to raise_error
     end
+
+    it "skips index building for models outside the Root hierarchy" do
+      model = Xmi::Uml::UmlModel.new
+      ctx = { root: model }
+      expect { described_class::Steps::BuildIndex.call(ctx) }.not_to raise_error
+    end
+  end
+
+  describe "every parse door repairs invalid UTF-8" do
+    # The pipeline is the one deep module behind all public doors:
+    # Xmi.parse, Xmi.parse_with_version, Xmi::Parsing.parse, and
+    # Sparx::Root.parse_xml. Whichever door a consumer picks, the
+    # encoding fix must have run.
+    let(:bad_name) { "lab\xC3\x28".dup.force_encoding(Encoding::UTF_8) }
+
+    let(:xml) do
+      <<~XML
+        <xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+                 xmlns:uml="http://www.omg.org/spec/UML/20131001">
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="#{bad_name}"/>
+        </xmi:XMI>
+      XML
+    end
+
+    def assert_repaired(model)
+      expect(model.name).to be_a(String)
+      expect(model.name).to start_with("lab")
+      expect([model.name.encoding, model.name.valid_encoding?])
+        .to eq([Encoding::UTF_8, true])
+    end
+
+    it "Xmi.parse repairs invalid UTF-8" do
+      assert_repaired(Xmi.parse(xml).model)
+    end
+
+    it "Xmi.parse_with_version repairs invalid UTF-8" do
+      assert_repaired(Xmi.parse_with_version(xml, "20131001").model)
+    end
+
+    it "Xmi::Parsing.parse repairs invalid UTF-8" do
+      assert_repaired(Xmi::Parsing.parse(xml).model)
+    end
+
+    it "Xmi::Parsing.parse with an explicit register repairs invalid UTF-8" do
+      register = Xmi::VersionRegistry.register_for_version("20131001")
+      assert_repaired(Xmi::Parsing.parse(xml, register: register).model)
+    end
+
+    it "Sparx::Root.parse_xml repairs invalid UTF-8" do
+      assert_repaired(Xmi::Sparx::Root.parse_xml(xml).model)
+    end
   end
 
   describe ".run" do

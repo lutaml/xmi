@@ -15,7 +15,12 @@ jobs:
     uses: metanorma/ci/.github/workflows/generic-rake.yml@main
     with:
       setup-tools: graphviz
-      submodules: true
+      # metanorma/ci declares submodules as a string (true/false/recursive);
+      # an unquoted boolean is a workflow-startup failure.
+      submodules: "true"
+      # permissions: contents: read (above) cannot fire the tests-passed /
+      # do-release repository_dispatch; releases run via workflow_dispatch.
+      cascade: false
       choco-cache: true
     secrets:
       pat_token: ${{ secrets.METANORMA_CI_PAT_TOKEN }}

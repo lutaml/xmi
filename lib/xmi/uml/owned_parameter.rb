@@ -4,24 +4,19 @@ module Xmi
   module Uml
     class OwnedParameter < ValueSpecs
       attribute :name, :string
-      # These are two DIFFERENT attributes that collide here:
+      # These are two DIFFERENT attributes on the wire that share the
+      # local name "type" and are disjoint by namespace:
       #   xmi:type="uml:Parameter"  — the XMI metaclass discriminator
+      #                               (XMI namespace, via XmiType)
       #   type="EAnone_void"        — Sparx's classifier reference
-      #
-      # Known limit: lutaml-model matches attributes by local name only,
-      # so both land in this one slot and whichever appears LAST in the
-      # input wins. They are not two spellings of one concept, and only
-      # one of them can survive a round trip.
-      #
-      # The slot stays xmi-namespaced, which keeps the discriminator —
-      # the general UML XMI shape this gem round-trips. Sparx's
-      # classifier reference still parses into it, but re-serializes as
-      # `xmi:type`. Restoring the Sparx spelling belongs to the Sparx
-      # exporter, not to this shared model: flipping it here would break
-      # the general case for every other consumer. Modelling both at
-      # once needs namespace-disjoint attribute deserialization
-      # upstream (lutaml-model#744).
+      #                               (no namespace)
+      # Unprefixed attributes never take a default namespace, so the
+      # pair is (URI, local)-identified and both slots survive a
+      # round trip. Requires lutaml-model >= 0.8.53 (namespace-disjoint
+      # attribute parsing; earlier versions match by local name only
+      # and collapse the two into one slot, last occurrence wins).
       attribute :type, ::Xmi::Type::XmiType
+      attribute :classifier_type, :string
       attribute :direction, :string
       attribute :visibility, :string
       attribute :is_ordered, :boolean
@@ -32,6 +27,7 @@ module Xmi
         root "ownedParameter"
         map_attribute "name", to: :name
         map_attribute "type", to: :type
+        map_attribute "type", to: :classifier_type
         map_attribute "direction", to: :direction
         map_attribute "visibility", to: :visibility
         map_attribute "isOrdered", to: :is_ordered

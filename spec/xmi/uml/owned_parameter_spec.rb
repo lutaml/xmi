@@ -44,48 +44,62 @@ RSpec.describe Xmi::Uml::OwnedParameter do
     doc.model.packaged_element.first.owned_operation.first.owned_parameter.first
   end
 
-  describe "the shared type slot" do
+  describe "namespace-disjoint type attributes" do
+    # xmi:type (XMI namespace) and type (no namespace) are DIFFERENT
+    # attributes, disjoint by (URI, local name) — unprefixed attributes
+    # never take a default namespace. Both survive a round trip, in
+    # both input orders.
     it "round-trips a general-XMI discriminator unchanged" do
-      # The case a non-Sparx consumer depends on. Emitting the
-      # unprefixed spelling here would silently rewrite their documents.
       doc = Xmi::Sparx::Root.from_xml(
         doc_with(%(xmi:type="uml:Parameter" direction="return")),
       )
       param = owned_parameter(doc)
       expect(param.type).to eq("uml:Parameter")
-      expect(param.to_xml).to include(%(xmi:type="uml:Parameter"))
+      expect(param.classifier_type).to be_nil
+      output = param.to_xml
+      expect(output).to include(%(xmi:type="uml:Parameter"))
+      expect(output).not_to include(" type=")
     end
 
-    it "reads Sparx's unprefixed type reference" do
+    it "reads Sparx's unprefixed classifier reference into classifier_type" do
       doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
-      expect(owned_parameter(doc).type).to eq("EAnone_void")
+      param = owned_parameter(doc)
+      expect(param.classifier_type).to eq("EAnone_void")
+      expect(param.type).to be_nil
+      expect(param.to_xml).to include(%(type="EAnone_void"))
     end
 
-    it "re-serializes the Sparx spelling namespaced" do
-      # lutaml-model matches attributes by local name, so one slot holds
-      # both spellings and only one can come back out. Sparx output is
-      # produced by the Sparx exporter, which restores the unprefixed
-      # form on its own side.
+    it "re-serializes the Sparx spelling unprefixed, not namespaced" do
       doc = Xmi::Sparx::Root.from_xml(doc_with(%(type="EAnone_void" direction="return")))
-      expect(owned_parameter(doc).to_xml).to include(%(xmi:type="EAnone_void"))
+      output = owned_parameter(doc).to_xml
+      expect(output).to include(%(type="EAnone_void"))
+      expect(output).not_to include(%(xmi:type="EAnone_void"))
     end
 
-    it "lets the last type attribute in the input win" do
-      doc = Xmi::Sparx::Root.from_xml(
-        doc_with(%(type="EAnone_void" xmi:type="uml:Parameter" direction="return")),
-      )
-      expect(owned_parameter(doc).type).to eq("uml:Parameter")
+    it "fills both slots disjointly regardless of input order" do
+      [%(type="EAnone_void" xmi:type="uml:Parameter"),
+       %(xmi:type="uml:Parameter" type="EAnone_void")].each do |attrs|
+        doc = Xmi::Sparx::Root.from_xml(doc_with(%(#{attrs} direction="return")))
+        param = owned_parameter(doc)
+        expect(param.type).to eq("uml:Parameter")
+        expect(param.classifier_type).to eq("EAnone_void")
+      end
     end
 
-    it "lets the last type attribute win in the reverse order too" do
-      # Mirror of the pin above: the slot is document-order dependent,
-      # not discriminator-preferred. Both pins flip together when
-      # lutaml-model#744 (namespace-disjoint attribute deserialization)
-      # is fixed.
+    it "round-trips both attributes together" do
       doc = Xmi::Sparx::Root.from_xml(
         doc_with(%(xmi:type="uml:Parameter" type="EAnone_void" direction="return")),
       )
-      expect(owned_parameter(doc).type).to eq("EAnone_void")
+      param = owned_parameter(doc)
+      reparsed = described_class.from_xml(param.to_xml)
+      expect(reparsed.type).to eq("uml:Parameter")
+      expect(reparsed.classifier_type).to eq("EAnone_void")
+    end
+
+    it "defaults both slots to nil when neither attribute appears" do
+      param = owned_parameter(Xmi::Sparx::Root.from_xml(doc_with))
+      expect(param.type).to be_nil
+      expect(param.classifier_type).to be_nil
     end
   end
 

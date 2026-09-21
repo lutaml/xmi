@@ -32,6 +32,8 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.0.0"
 
-  spec.add_dependency "lutaml-model", "~> 0.8.17"
+  # OwnedParameter's namespace-disjoint xmi:type vs type slots need
+  # lutaml-model >= 0.8.53 (attribute parsing by (URI, local name)).
+  spec.add_dependency "lutaml-model", "~> 0.8.53"
   spec.add_dependency "nokogiri"
 end

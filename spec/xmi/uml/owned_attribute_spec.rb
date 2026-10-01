@@ -158,13 +158,20 @@ RSpec.describe Xmi::Uml::OwnedAttribute do
     # Pinned because the value trio is inherited from ValueSpecs, and
     # inherited element mappings serialize before subclass mappings.
     it "serializes type before the values, lowerValue before upperValue" do
-      xml = doc_with(<<~CHILDREN.chomp)
-        >
-          <type xmi:idref="EAID_T1"/>
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U1" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L1" value="0"/>
-        </ownedAttribute
-      CHILDREN
+      xml = <<~XML
+        <xmi:XMI #{namespace_xml}>
+          <xmi:Documentation exporter="EA"/>
+          <uml:Model xmi:type="uml:Model" xmi:id="EAID_M1" name="M">
+            <packagedElement xmi:type="uml:Class" xmi:id="EAID_C1" name="Owner">
+              <ownedAttribute xmi:type="uml:Property" xmi:id="EAID_AT1" name="attr1">
+                <type xmi:idref="EAID_T1"/>
+                <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_U1" value="*"/>
+                <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_L1" value="0"/>
+              </ownedAttribute>
+            </packagedElement>
+          </uml:Model>
+        </xmi:XMI>
+      XML
       output = owned_attribute(Xmi::Sparx::Root.from_xml(xml)).to_xml
       expect(output.index("<type")).to be < output.index("<lowerValue")
       expect(output.index("<lowerValue")).to be < output.index("<upperValue")

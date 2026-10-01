@@ -3,9 +3,6 @@
 require "lutaml/model"
 require "lutaml/xml"
 
-# Configure XML adapter
-Lutaml::Model::Config.xml_adapter_type = :nokogiri
-
 module Lutaml
   module Model
     class Serializable

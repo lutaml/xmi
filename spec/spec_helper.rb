@@ -3,6 +3,16 @@
 require_relative "../lib/xmi"
 require_relative "fixtures"
 
+# The adapter under test is explicit: nokogiri is the reference
+# implementation for EA-parity serialization behavior. The library
+# itself no longer pins a global adapter (it defers to the host
+# application or moxml auto-detection); the suite must not silently
+# follow whatever the dev bundle happens to resolve. Override with
+# XMI_XML_ADAPTER=leptris to run the suite against another adapter
+# (leptris currently segfaults on the dynamic EA-extension specs —
+# leptris/leptris-ruby#358).
+Lutaml::Model::Config.xml_adapter_type = (ENV["XMI_XML_ADAPTER"] || "nokogiri").to_sym
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"

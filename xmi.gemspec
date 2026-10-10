@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   # OwnedParameter's namespace-disjoint xmi:type vs type slots need
   # lutaml-model >= 0.8.53 (attribute parsing by (URI, local name)).
   spec.add_dependency "lutaml-model", "~> 0.8.53"
-  spec.add_dependency "nokogiri"
+  spec.add_dependency "nokogiri", "~> 1.19"
 end

@@ -22,8 +22,11 @@ RSpec.describe "xmi.gemspec" do
 
   it "depends on lutaml-model without a yanked-version upper cap" do
     # Floor is functional: OwnedParameter's namespace-disjoint xmi:type
-    # vs type slots need (URI, local name) attribute parsing (0.8.53).
-    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.53"))
+    # Floors are functional: the (URI, local name) attribute parsing
+    # capability landed in 0.8.53, and the suite now runs against the
+    # 0.8.110-0.8.114 contract line (strict parse on every lane, KV
+    # singular_tolerance, ordered plan lane) — the gemspec floors there.
+    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.114"))
     expect(requirement.to_s).not_to include("<")
   end
 end

@@ -24,9 +24,10 @@ RSpec.describe "xmi.gemspec" do
     # Floor is functional: OwnedParameter's namespace-disjoint xmi:type
     # Floors are functional: the (URI, local name) attribute parsing
     # capability landed in 0.8.53, and the suite now runs against the
-    # 0.8.110-0.8.114 contract line (strict parse on every lane, KV
-    # singular_tolerance, ordered plan lane) — the gemspec floors there.
-    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.114"))
+    # 0.8.110+ contract line (strict parse on every lane, KV
+    # singular_tolerance, ordered plan lane) — the gemspec floors track
+    # the latest released lutaml-model.
+    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.156"))
     expect(requirement.to_s).not_to include("<")
   end
 end

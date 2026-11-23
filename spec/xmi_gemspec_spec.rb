@@ -27,7 +27,7 @@ RSpec.describe "xmi.gemspec" do
     # 0.8.110+ contract line (strict parse on every lane, KV
     # singular_tolerance, ordered plan lane) — the gemspec floors track
     # the latest released lutaml-model.
-    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.156"))
+    expect(requirement).to be_satisfied_by(Gem::Version.new("0.8.159"))
     expect(requirement.to_s).not_to include("<")
   end
 end

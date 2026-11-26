@@ -2,7 +2,7 @@
 
 require "spec_helper"
 require "xmi"
-require "nokogiri"
+require "moxml"
 
 # Sparx EA XMI uses a mixed-prefix style that is unusual:
 #
@@ -28,7 +28,7 @@ RSpec.describe "Sparx mixed-prefix serialization style" do
   let(:xml) { cached_fixture("ea-xmi-2.5.1.xmi") }
   let(:doc) { Xmi::Sparx::Root.from_xml(xml) }
   let(:output) { doc.to_xml(use_prefix: true) }
-  let(:parsed) { Nokogiri::XML(output) }
+  let(:parsed) { Moxml.parse(output) }
 
   def prefix_of(tag)
     node = parsed.at_xpath("//*[local-name()='#{tag}']")

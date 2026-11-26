@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "nokogiri"
+require "moxml"
 
 module Xmi
   # Detects namespace versions from XMI XML content
@@ -44,7 +44,7 @@ module Xmi
 
     # Extract all namespace URIs from XML content using regex on the first 8KB.
     #
-    # This avoids a full Nokogiri parse — namespace declarations are always
+    # This avoids a full XML parse — namespace declarations are always
     # on or near the root element, so scanning the first few KB is sufficient
     # and ~10x faster than parsing a 3.5MB document.
     #
@@ -64,15 +64,15 @@ module Xmi
       result
     end
 
-    # Extract namespace URIs via Nokogiri (full parse).
+    # Extract namespace URIs via a full parse.
     # Used by `analyze` when the complete namespace map is needed.
     #
     # @param xml_content [String] The XML content
     # @return [Hash<String, String>] A hash mapping prefixes to namespace URIs
     def self.extract_namespace_uris_full(xml_content)
-      doc = Nokogiri::XML(xml_content, &:noent)
-      doc.collect_namespaces
-    rescue Nokogiri::XML::SyntaxError
+      doc = Moxml.parse(xml_content)
+      doc.root.namespaces
+    rescue Moxml::ParseError
       {}
     end
 

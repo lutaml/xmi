@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "nokogiri"
+require "moxml"
 
 module Xmi
   class EaRoot
@@ -19,7 +19,7 @@ module Xmi
 
     class << self
       def load_extension(xml_path)
-        xmi_doc = Nokogiri::XML(File.read(xml_path))
+        xmi_doc = Moxml.parse(File.read(xml_path))
         extension_id = get_module_name(xmi_doc)
 
         if loaded_extensions.key?(extension_id)

@@ -96,7 +96,7 @@ module Xmi
 
         # Add apply type attributes
         apply_nodes.each do |n|
-          apply_types = n.attribute_nodes.map(&:value)
+          apply_types = n.attributes.map(&:value)
           apply_types.each do |apply_type|
             attr_name = Lutaml::Model::Utils.snake_case("base_#{apply_type}")
             klass.attribute attr_name.to_sym, :string
@@ -112,7 +112,7 @@ module Xmi
 
         apply_pairs = []
         apply_nodes.each do |n|
-          n.attribute_nodes.map(&:value).each do |apply_type|
+          n.attributes.map(&:value).each do |apply_type|
             apply_pairs << [
               "base_#{apply_type}",
               Lutaml::Model::Utils.snake_case("base_#{apply_type}").to_sym,

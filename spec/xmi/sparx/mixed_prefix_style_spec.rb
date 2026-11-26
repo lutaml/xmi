@@ -99,8 +99,8 @@ RSpec.describe "Sparx mixed-prefix serialization style" do
   describe "no xmlns=\"\" declarations on unprefixed children" do
     it "does not emit xmlns='' on any packagedElement" do
       parsed.xpath("//*[local-name()='packagedElement']").each do |pe|
-        expect(pe.attribute_with_ns("xmlns", nil)&.value).to be_nil | eq(""),
-                                                             "unexpected xmlns='' on <packagedElement> xmi:id=#{pe['xmi:id']}"
+        expect(pe["xmlns"]).to be_nil | eq(""),
+           "unexpected xmlns='' on <packagedElement> xmi:id=#{pe['xmi:id']}"
       end
     end
   end

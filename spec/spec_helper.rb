@@ -3,14 +3,14 @@
 require_relative "../lib/xmi"
 require_relative "fixtures"
 
-# The adapter under test is explicit: the suite must not silently
-# follow whatever the dev bundle happens to resolve. leptris is the
-# default engine; override with XMI_XML_ADAPTER=nokogiri to run the
-# suite against nokogiri for comparison. The performance-benchmark
-# thresholds are environment-tuned (see spec/performance) — adapter
-# parse-time deltas of ~10% through the model pipeline are known.
-Lutaml::Model::Config.xml_adapter_type =
-  (ENV["XMI_XML_ADAPTER"] || "leptris").to_sym
+# The adapter under test is explicit: nokogiri is the reference
+# implementation for EA-parity serialization and polymorphic type
+# dispatch (the leptris adapter differs: xmlns='' emission on
+# packagedElements and ValueSpecification dispatch resolving to the
+# base class - tracked upstream). The runtime library itself uses
+# moxml and never pins a global adapter. Override with
+# XMI_XML_ADAPTER=leptris to run the suite against leptris.
+Lutaml::Model::Config.xml_adapter_type = (ENV["XMI_XML_ADAPTER"] || "nokogiri").to_sym
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

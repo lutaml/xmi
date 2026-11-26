@@ -12,7 +12,7 @@ module Xmi
       def get_klass_name_from_node(node)
         return Lutaml::Model::Serializable.to_s unless node
 
-        node.attributes.find { |a| a.name == "name" }.value
+        node["name"]
       end
 
       def get_module_name(xmi_doc)
@@ -21,16 +21,16 @@ module Xmi
 
       def get_module_name_from_definition(xmi_doc)
         node = xmi_doc.at_xpath("//UMLProfile/Documentation")
-        node.attributes.find { |a| a.name == "name" }&.value
+        node["name"]
       end
 
       def get_module_uri(xmi_doc)
         node = xmi_doc.at_xpath("//UMLProfile/Documentation")
-        uri = node.attributes.find { |a| a.name == "URI" }&.value
+        uri = node["URI"]
         return uri if uri
 
         name = get_module_name_from_definition(xmi_doc)
-        ver = node.attributes.find { |a| a.name == "version" }&.value
+        ver = node["version"]
 
         "http://www.sparxsystems.com/profiles/#{name}/#{ver}"
       end
@@ -43,7 +43,7 @@ module Xmi
       end
 
       def get_tag_name(tag)
-        tag_name = tag.attributes.find { |a| a.name == "name" }.value
+        tag_name = tag["name"]
         tag_name == "xmlns" ? "altered_xmlns" : tag_name
       end
     end

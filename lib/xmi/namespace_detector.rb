@@ -70,8 +70,13 @@ module Xmi
     # @param xml_content [String] The XML content
     # @return [Hash<String, String>] A hash mapping prefixes to namespace URIs
     def self.extract_namespace_uris_full(xml_content)
-      doc = Moxml.parse(xml_content)
-      doc.root.namespaces
+      # Nokogiri tolerated invalid byte sequences; Moxml adapters are
+      # strict. Namespaces are ASCII, so replacement bytes are inert.
+      xml = xml_content.encode("UTF-8", invalid: :replace, undef: :replace)
+      doc = Moxml.parse(xml)
+      Array(doc.root.namespaces).each_with_object({}) do |ns, result|
+        result[ns.prefix.nil? ? "xmlns" : "xmlns:#{ns.prefix}"] = ns.uri
+      end
     rescue Moxml::ParseError
       {}
     end

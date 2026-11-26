@@ -37,4 +37,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "lutaml-model", "~> 0.8.159"
   spec.add_dependency "moxml", "~> 0.6"
 
+  # The EA-parity spec suite pins lutaml-model to the nokogiri adapter
+  # (the reference implementation; see spec/spec_helper.rb). Runtime
+  # code paths use moxml only - nokogiri is not a runtime dependency.
+  spec.add_development_dependency "nokogiri", "~> 1.19"
+
 end

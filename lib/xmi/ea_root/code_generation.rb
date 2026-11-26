@@ -29,13 +29,13 @@ module Xmi
         )
 
         # Without baseStereotypes
-        nodes.select { |n| n.attributes["baseStereotypes"].nil? }.each do |node|
+        nodes.select { |n| n["baseStereotypes"].nil? }.each do |node|
           build_stereotype_class(mod, node, abstract_klass, ns_class)
         end
 
         # With baseStereotypes
-        nodes.reject { |n| n.attributes["baseStereotypes"].nil? }.each do |node|
-          base_name = node.attributes["baseStereotypes"].value
+        nodes.reject { |n| n["baseStereotypes"].nil? }.each do |node|
+          base_name = node["baseStereotypes"]
           build_stereotype_class(mod, node, abstract_klass, ns_class,
                                  parent_name: base_name)
         end

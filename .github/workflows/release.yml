@@ -24,6 +24,8 @@ on:
 jobs:
   release:
     uses: lutaml/support/.github/workflows/release.yml@main
+    secrets:
+      pat_token: ${{ secrets.LUTAML_CI_PAT_TOKEN }}
     with:
       next_version: ${{ github.event.inputs.next_version }}
     secrets:
